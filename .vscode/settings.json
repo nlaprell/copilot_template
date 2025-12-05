@@ -1,0 +1,17 @@
+{
+    "chat.mcp.serverSampling": {},
+    "github.copilot.chat.codeGeneration.instructions": [
+        {
+            "file": "prompts/ProjectInit.prompt.md"
+        },
+        {
+            "file": "prompts/discoverEmail.prompt.md"
+        },
+        {
+            "file": "prompts/updateSummary.prompt.md"
+        },
+        {
+            "file": "prompts/quickStartProject.prompt.md"
+        }
+    ]
+}

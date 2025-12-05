@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+*.egg-info/
+dist/
+build/
+
+# Email content - IMPORTANT: Email files may contain sensitive information
+# Keep directory structure but ignore all email files
+email/raw/*.eml
+email/ai/*.md
+email/processed/*.eml
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# VS Code
+.vscode/mcp.json
+.vscode/*.log
+
+# Environment variables and secrets
+.env
+.env.local
+*.key
+*.pem
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
