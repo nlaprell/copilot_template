@@ -39,7 +39,7 @@ If `.eml` files were found in `email/raw/`, run the `/discoverEmail` workflow:
 Execute the email converter script from the **project root** directory:
 
 ```bash
-python3 "aiScripts/emailToMd/eml_to_md_converter.py"
+python3 ".template/aiScripts/emailToMd/eml_to_md_converter.py"
 ```
 
 The script will:
@@ -81,7 +81,7 @@ Run the `/updateSummary` workflow:
 **Optional: Run Task Dependency Detection**
 
 If tasks were created or updated during email processing:
-- Run: `python3 aiScripts/detectTaskDependencies/detectTaskDependencies.py aiDocs/TASKS.md`
+- Run: `python3 .template/aiScripts/detectTaskDependencies/detectTaskDependencies.py aiDocs/TASKS.md`
 - Review generated `TASK_DEPENDENCY_REPORT.md` for suggested relationships
 - Update task Blocks/Related fields based on high-confidence detections
 - Resolve any circular dependencies identified
@@ -153,4 +153,4 @@ After completing all steps, provide a comprehensive report:
 - If email processing fails, continue with remaining steps and report the error
 - **Direct user to SUMMARY.md at project root for complete project status**
 - Template files are preserved in `.template/templates/` directory
-- To reset project to clean state, use `./scripts/clean-reset.sh`
+- To reset project to clean state, use `./.template/scripts/clean-reset.sh`

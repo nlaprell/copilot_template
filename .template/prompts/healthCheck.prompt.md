@@ -50,7 +50,7 @@ Perform a deep, comprehensive analysis of the entire bootstrap system to identif
 - MCP server selection logic
 - Configuration file generation
 
-**`aiScripts/emailToMd/eml_to_md_converter.py`:**
+**`.template/aiScripts/emailToMd/eml_to_md_converter.py`:**
 - Python best practices and PEP 8
 - Error handling for malformed emails
 - File I/O safety (permissions, encoding)
@@ -58,7 +58,7 @@ Perform a deep, comprehensive analysis of the entire bootstrap system to identif
 - Email parsing edge cases
 - Character encoding issues
 
-**`aiScripts/detectTaskDependencies/detectTaskDependencies.py`:**
+**`.template/aiScripts/detectTaskDependencies/detectTaskDependencies.py`:**
 - Task parsing accuracy
 - Dependency detection algorithms (3-tier confidence)
 - Circular dependency detection correctness
@@ -66,7 +66,7 @@ Perform a deep, comprehensive analysis of the entire bootstrap system to identif
 - Error handling for malformed TASKS.md
 - Report generation accuracy
 
-**`scripts/clean-reset.sh`:**
+**`.template/scripts/clean-reset.sh`:**
 - Safe file operations
 - Proper backup or confirmation
 - Template copying logic
@@ -152,7 +152,7 @@ Walk through the experience of a MarkLogic consultant using this template:
    - Is README.md immediately helpful?
    - Are next steps obvious?
 
-2. **Run `./.template/init.sh`**
+2. **Run `./.template/scripts/init.sh`**
    - Are prompts clear?
    - Does error handling guide user correctly?
    - Is MCP server selection intuitive?

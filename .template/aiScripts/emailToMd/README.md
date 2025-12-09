@@ -8,7 +8,7 @@ Convert `.eml` email files to Markdown format for AI processing and analysis.
 **Run from project root directory:**
 
 ```bash
-python3 "aiScripts/emailToMd/eml_to_md_converter.py"
+python3 ".template/aiScripts/emailToMd/eml_to_md_converter.py"
 ```
 
 The script will:
@@ -34,7 +34,7 @@ Converted Markdown files include:
 
 ## Notes for AI Agents
 
-1. **Always run from project root**: Script must be executed from the project root directory, not from within `aiScripts/emailToMd/`
+1. **Always run from project root**: Script must be executed from the project root directory, not from within `.template/aiScripts/emailToMd/`
 2. **Auto-creates directories**: Script automatically creates `email/raw/`, `email/ai/`, and `email/processed/` in project root
 3. **After conversion**: Verify `.md` files are in `email/ai/` and original `.eml` files are moved to `email/processed/`
 4. **Error handling**: Check script output for any conversion errors

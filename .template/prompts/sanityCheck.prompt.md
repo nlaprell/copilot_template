@@ -33,12 +33,12 @@ Focus on these critical issues ONLY:
 **Check ALL scripts for syntax errors:**
 
 **Bash scripts:**
-- `bash -n .template/init.sh`
-- `bash -n scripts/clean-reset.sh`
+- `bash -n .template/scripts/init.sh`
+- `bash -n .template/scripts/clean-reset.sh`
 
 **Python scripts:**
-- Check `aiScripts/emailToMd/eml_to_md_converter.py`
-- Check `aiScripts/detectTaskDependencies/detectTaskDependencies.py`
+- Check `.template/aiScripts/emailToMd/eml_to_md_converter.py`
+- Check `.template/aiScripts/detectTaskDependencies/detectTaskDependencies.py`
 
 **Severity**: 🔴 Critical - Syntax errors prevent execution
 
@@ -48,8 +48,8 @@ Focus on these critical issues ONLY:
 
 **In prompts (`prompts/*.prompt.md`):**
 - References to `.template/templates/` files
-- References to scripts in `aiScripts/`
-- References to `.template/init.sh`
+- References to scripts in `.template/aiScripts/`
+- References to `.template/scripts/init.sh`
 
 **In scripts:**
 - File copy operations in `clean-reset.sh`

@@ -11,7 +11,7 @@
 # 3. Clears project-specific data from root SUMMARY.md
 # 4. Preserves configuration and scripts
 #
-# Usage: ./scripts/clean-reset.sh
+# Usage: ./.template/scripts/clean-reset.sh
 #############################################################################
 
 set -e  # Exit on error

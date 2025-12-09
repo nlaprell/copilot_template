@@ -10,23 +10,27 @@ This directory contains the infrastructure used to initialize and maintain the c
 
 ### Setup Infrastructure
 
-- **`init.sh`**: One-time setup script run when initializing a new project
+- **`scripts/init.sh`**: One-time setup script run when initializing a new project
   - Prompts for project name, customer name, and user name
   - Allows selection of MCP servers to enable
   - Generates `.vscode/mcp.json` configuration
-  - Run with: `./.template/init.sh`
+  - Run with: `./.template/scripts/init.sh`
 
 - **`templates/`**: Read-only template files for initializing `aiDocs/`
   - `SUMMARY.template.md` - Project summary template
   - `TASKS.template.md` - Task tracking template
   - `DISCOVERY.template.md` - Discovery questions template
   - `AI.template.md` - AI agent notes template
-  - Used by `scripts/clean-reset.sh` to reset project state
+  - Used by `.template/scripts/clean-reset.sh` to reset project state
 
 - **`mcpServers/`**: MCP server configuration options
   - Pre-configured JSON files for various MCP servers
-  - Users select which to enable during `init.sh`
+  - Users select which to enable during `scripts/init.sh`
   - Add new server configs here as `.json` files
+
+- **`scripts/`**: Template infrastructure scripts
+  - `init.sh` - One-time project setup script
+  - `clean-reset.sh` - Reset project to template state
 
 ### Bootstrap Maintenance
 
@@ -70,7 +74,7 @@ This directory contains the infrastructure used to initialize and maintain the c
 - **Scope**: The template itself, not individual projects
 
 **Contains**:
-- Setup scripts (`init.sh`)
+- Setup scripts (`scripts/`)
 - Template files
 - MCP server configs
 - Bootstrap maintenance prompts
@@ -85,9 +89,7 @@ This directory contains the infrastructure used to initialize and maintain the c
 
 **Contains**:
 - User workflows (`prompts/`)
-- Active tools (`aiScripts/`)
 - Project data (`aiDocs/`, `email/`)
-- User maintenance (`scripts/clean-reset.sh`)
 - Project tracking (`FUTURE.md`, `SUMMARY.md`)
 
 ---
@@ -139,15 +141,14 @@ This directory contains the infrastructure used to initialize and maintain the c
 ## Examples
 
 ### .template Items (in this directory)
-- `init.sh` - Only runs once during setup
+- `scripts/init.sh` - Only runs once during setup
+- `scripts/clean-reset.sh` - Reset project to template state
 - `templates/` - Read-only scaffolding
 - `mcpServers/` - Read once during init
 - Bootstrap maintenance prompts
 
 ### Root Items (outside this directory)
 - `prompts/` - Used continuously by project teams
-- `aiScripts/` - Run throughout project lifecycle
-- `scripts/clean-reset.sh` - User maintenance tool
 - Project data and documentation
 
 ---
@@ -196,7 +197,7 @@ When updating template files in `.template/templates/`:
 
 1. Edit the `.template.md` files
 2. Ensure placeholders use `[BRACKETS]` format
-3. Test with `./scripts/clean-reset.sh`
+3. Test with `./.template/scripts/clean-reset.sh`
 4. Run `/sanityCheck` for quick validation
 5. Run `/healthCheck` for comprehensive review
 6. Document changes in bootstrap tracking files

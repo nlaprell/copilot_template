@@ -17,7 +17,7 @@ All project communication and context from email should follow this workflow:
 
 ### Email Converter Tool
 
-Located at `aiScripts/emailToMd/eml_to_md_converter.py`, this tool converts `.eml` email files to Markdown format.
+Located at `.template/aiScripts/emailToMd/eml_to_md_converter.py`, this tool converts `.eml` email files to Markdown format.
 
 **Usage**:
 ```bash
@@ -128,7 +128,7 @@ Tasks must have sequential IDs when created:
 ### Task Dependency Detection
 
 Use the automated dependency detection script to find task relationships:
-- Run: `python3 aiScripts/detectTaskDependencies/detectTaskDependencies.py aiDocs/TASKS.md`
+- Run: `python3 .template/aiScripts/detectTaskDependencies/detectTaskDependencies.py aiDocs/TASKS.md`
 - Reviews generated report in `aiDocs/TASK_DEPENDENCY_REPORT.md`
 - Updates task Blocks/Related fields based on high-confidence detections
 - Resolves circular dependencies before proceeding
@@ -221,7 +221,7 @@ Always update working files in `aiDocs/` (without `.template` extension), NOT th
 
 To reset project to clean state:
 ```bash
-./scripts/clean-reset.sh
+./.template/scripts/clean-reset.sh
 ```
 
 This copies templates to working files, clearing all project-specific content.

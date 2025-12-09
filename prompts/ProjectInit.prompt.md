@@ -14,7 +14,7 @@ Follow these steps:
 - Project-specific context is in `aiDocs/AI.md`
 - These files explain:
   - How email data is organized (`email/raw/`, `email/ai/`, `email/processed/`)
-  - How to use the email converter tool at `aiScripts/emailToMd/eml_to_md_converter.py` to convert `.eml` files to Markdown
+  - How to use the email converter tool at `.template/aiScripts/emailToMd/eml_to_md_converter.py` to convert `.eml` files to Markdown
   - The expected workflow for processing raw emails into AI-readable Markdown files
   - Project-specific guidance, pitfalls, and lessons learned
 

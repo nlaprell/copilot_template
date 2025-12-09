@@ -17,7 +17,7 @@ First, you need to convert any `.eml` files in the `email/raw/` directory to Mar
 Execute the email converter script from the **project root** directory:
 
 ```bash
-python3 "aiScripts/emailToMd/eml_to_md_converter.py"
+python3 ".template/aiScripts/emailToMd/eml_to_md_converter.py"
 ```
 
 The script will automatically:
@@ -290,4 +290,4 @@ After completing ALL updates to `aiDocs/` files, provide a comprehensive summary
 - **DO provide complete summary**: Include all metrics for contacts, tasks, risks, blockers
 - Always run the email converter from the project root directory
 - If email content conflicts with existing documentation, update with the latest information from emails and note the conflict in your summary
-- **Optional**: After creating/updating tasks, run dependency detection: `python3 aiScripts/detectTaskDependencies/detectTaskDependencies.py aiDocs/TASKS.md`
+- **Optional**: After creating/updating tasks, run dependency detection: `python3 .template/aiScripts/detectTaskDependencies/detectTaskDependencies.py aiDocs/TASKS.md`

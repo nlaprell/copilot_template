@@ -239,8 +239,8 @@ Create QUICKREF.md with sections:
 ## Essential Commands
 
 ### Setup (One Time)
-- `./.template/init.sh` - Configure project and MCP servers
-- `./scripts/clean-reset.sh` - Reset to clean state
+- `./.template/scripts/init.sh` - Configure project and MCP servers
+- `./.template/scripts/clean-reset.sh` - Reset to clean state
 
 ### Email Processing
 - Place emails in: `email/raw/`
@@ -257,7 +257,7 @@ Create QUICKREF.md with sections:
 ## Decision Tree
 
 **First time using template?**
-→ Run `./.template/init.sh`
+→ Run `./.template/scripts/init.sh`
 → Add emails to `email/raw/`
 → Run `/quickStartProject`
 

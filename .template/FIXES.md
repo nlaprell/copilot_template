@@ -117,7 +117,7 @@ Add two entries to .vscode/settings.json:
 
 **Priority**: Critical  
 **Category**: Code Quality - Data Integrity  
-**Component**: aiScripts/emailToMd/eml_to_md_converter.py  
+**Component**: .template/aiScripts/emailToMd/eml_to_md_converter.py  
 **Effort**: Medium (1-2 hours)  
 **Impact**: High  
 
@@ -144,7 +144,7 @@ If email file cannot be moved to processed/ directory (due to permissions, disk 
 5. Exit with non-zero status if any moves failed
 
 **Location**:
-- File: `aiScripts/emailToMd/eml_to_md_converter.py`
+- File: `.template/aiScripts/emailToMd/eml_to_md_converter.py`
 - Lines: 207-211
 
 **Dependencies**:
@@ -219,7 +219,7 @@ Input is validated against safe character set with clear error messages for inva
 
 **Priority**: High  
 **Category**: Code Quality  
-**Component**: aiScripts/emailToMd/eml_to_md_converter.py  
+**Component**: .template/aiScripts/emailToMd/eml_to_md_converter.py  
 **Effort**: Medium (2-3 hours)  
 **Impact**: Medium  
 
@@ -243,7 +243,7 @@ Specific exception types caught with actionable error messages naming the proble
 5. Summary at end lists all failed files with reasons
 
 **Location**:
-- File: `aiScripts/emailToMd/eml_to_md_converter.py`
+- File: `.template/aiScripts/emailToMd/eml_to_md_converter.py`
 - Lines: 162-165
 
 **Dependencies**:
@@ -324,7 +324,7 @@ Run: /quickStartProject
 
 **Priority**: High  
 **Category**: User Experience - Feature  
-**Component**: aiScripts/detectTaskDependencies/detectTaskDependencies.py  
+**Component**: .template/aiScripts/detectTaskDependencies/detectTaskDependencies.py  
 **Effort**: High (4-6 hours)  
 **Impact**: High  
 
@@ -348,7 +348,7 @@ Optional --apply flag automatically updates TASKS.md with high-confidence detect
 6. Backup original TASKS.md before applying changes
 
 **Location**:
-- File: `aiScripts/detectTaskDependencies/detectTaskDependencies.py`
+- File: `.template/aiScripts/detectTaskDependencies/detectTaskDependencies.py`
 - Missing functionality
 
 **Dependencies**:
@@ -407,7 +407,7 @@ if sys.version_info < (3, 8):
 
 **Location**:
 - File: `init.sh` line 165
-- File: `aiScripts/emailToMd/eml_to_md_converter.py` main()
+- File: `.template/aiScripts/emailToMd/eml_to_md_converter.py` main()
 
 **Dependencies**:
 - Blocks: None
@@ -476,7 +476,7 @@ JSON validated before merge; clear error message naming the invalid file.
 
 **Priority**: High  
 **Category**: Code Quality  
-**Component**: aiScripts/detectTaskDependencies/detectTaskDependencies.py  
+**Component**: .template/aiScripts/detectTaskDependencies/detectTaskDependencies.py  
 **Effort**: Medium (3-4 hours)  
 **Impact**: Medium  
 
@@ -497,7 +497,7 @@ Only actual circular dependencies reported; equivalent cycles deduplicated.
 5. Only report unique cycles
 
 **Location**:
-- File: `aiScripts/detectTaskDependencies/detectTaskDependencies.py`
+- File: `.template/aiScripts/detectTaskDependencies/detectTaskDependencies.py`
 - Lines: 248-270
 
 **Dependencies**:
@@ -521,7 +521,7 @@ Only actual circular dependencies reported; equivalent cycles deduplicated.
 
 **Priority**: High  
 **Category**: User Experience - Feature  
-**Component**: aiScripts/emailToMd/eml_to_md_converter.py  
+**Component**: .template/aiScripts/emailToMd/eml_to_md_converter.py  
 **Effort**: Medium (2-3 hours)  
 **Impact**: Medium  
 
@@ -548,7 +548,7 @@ Converted Markdown lists all attachments that were present but not converted.
 5. Include attachment size and content type
 
 **Location**:
-- File: `aiScripts/emailToMd/eml_to_md_converter.py`
+- File: `.template/aiScripts/emailToMd/eml_to_md_converter.py`
 - Missing functionality in extract_email_content()
 
 **Dependencies**:
@@ -662,7 +662,7 @@ Consistent path format throughout all documentation.
 
 **Priority**: Medium  
 **Category**: Code Quality  
-**Component**: scripts/clean-reset.sh  
+**Component**: .template/scripts/clean-reset.sh  
 **Effort**: Low (1 hour)  
 **Impact**: Medium  
 
@@ -686,7 +686,7 @@ Pre-flight check verifies all templates exist before starting reset; fails early
 4. Only proceed with reset if all templates present
 
 **Location**:
-- File: `scripts/clean-reset.sh`
+- File: `.template/scripts/clean-reset.sh`
 - Lines: 79-108 (add check before this section)
 
 **Dependencies**:
@@ -710,7 +710,7 @@ Pre-flight check verifies all templates exist before starting reset; fails early
 
 **Priority**: Medium  
 **Category**: User Experience  
-**Component**: scripts/clean-reset.sh  
+**Component**: .template/scripts/clean-reset.sh  
 **Effort**: Low (< 1 hour)  
 **Impact**: Low  
 
@@ -740,7 +740,7 @@ read -p "Type 'yes' to continue or anything else to cancel: " CONFIRM
 ```
 
 **Location**:
-- File: `scripts/clean-reset.sh`
+- File: `.template/scripts/clean-reset.sh`
 - Lines: 34-43
 
 **Dependencies**:
@@ -904,7 +904,7 @@ Reorder bullets:
 
 **Priority**: Medium  
 **Category**: Documentation  
-**Component**: aiScripts/detectTaskDependencies/README.md  
+**Component**: .template/aiScripts/detectTaskDependencies/README.md  
 **Effort**: Low (1 hour)  
 **Impact**: Medium  
 
@@ -944,7 +944,7 @@ The detector assigns confidence scores to each detected dependency:
 ```
 
 **Location**:
-- File: `aiScripts/detectTaskDependencies/README.md`
+- File: `.template/aiScripts/detectTaskDependencies/README.md`
 
 **Dependencies**:
 - Blocks: None
@@ -1073,7 +1073,7 @@ All MCP config files use standardized "mcpServers" key.
 
 **Priority**: Low  
 **Category**: User Experience  
-**Component**: aiScripts/emailToMd/eml_to_md_converter.py  
+**Component**: .template/aiScripts/emailToMd/eml_to_md_converter.py  
 **Effort**: Low (< 1 hour)  
 **Impact**: Low  
 
@@ -1093,7 +1093,7 @@ print(f"\nConversion completed! {converted_count}/{len(eml_files)} files success
 ```
 
 **Location**:
-- File: `aiScripts/emailToMd/eml_to_md_converter.py`
+- File: `.template/aiScripts/emailToMd/eml_to_md_converter.py`
 - Line: 218
 
 **Dependencies**:

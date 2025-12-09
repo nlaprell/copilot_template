@@ -28,7 +28,7 @@ Create automated deduplication logic:
 
 **Implementation:**
 - Add deduplication step to email processing workflow
-- Create `aiScripts/deduplicateContacts.py` utility
+- Create `.template/aiScripts/deduplicateContacts.py` utility
 - Add validation report showing potential duplicates before merging
 
 **Benefits:**
@@ -122,7 +122,7 @@ Add search and query functionality:
 - Export search results
 
 **Implementation:**
-- Create `aiScripts/searchDocs.py` with query DSL
+- Create `.template/aiScripts/searchDocs.py` with query DSL
 - Add interactive CLI for search
 - Optional: Web-based search interface
 
@@ -153,7 +153,7 @@ Generate automated change reports:
 
 **Implementation:**
 - Add change tracking to workflow prompts
-- Create `aiScripts/generateChangeReport.py`
+- Create `.template/aiScripts/generateChangeReport.py`
 - Store snapshots for comparison
 - Generate Markdown change reports
 
