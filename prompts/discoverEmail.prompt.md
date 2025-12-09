@@ -71,10 +71,10 @@ When emails contain contradictions:
 **MANDATORY**: You MUST update ALL relevant `aiDocs/` files based on email content. Do not skip this step.
 
 **Note on Templates**: If `aiDocs/` files are in their default template state (containing placeholders like `[DATE]`, `[CUSTOMER]`, `[PROJECT]`, etc.), the templates are located at:
-- `aiDocs/templates/SUMMARY.template.md`
-- `aiDocs/templates/TASKS.template.md`
-- `aiDocs/templates/DISCOVERY.template.md`
-- `aiDocs/templates/AI.template.md`
+- `.template/templates/SUMMARY.template.md`
+- `.template/templates/TASKS.template.md`
+- `.template/templates/DISCOVERY.template.md`
+- `.template/templates/AI.template.md`
 
 The working files in `aiDocs/` (without the `.template` extension) are the ones you should update. Replace all placeholders with actual content from emails.
 

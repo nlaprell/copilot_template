@@ -152,5 +152,5 @@ After completing all steps, provide a comprehensive report:
 - Highlight any critical issues or urgent items discovered
 - If email processing fails, continue with remaining steps and report the error
 - **Direct user to SUMMARY.md at project root for complete project status**
-- Template files are preserved in `aiDocs/templates/` directory
+- Template files are preserved in `.template/templates/` directory
 - To reset project to clean state, use `./scripts/clean-reset.sh`

@@ -239,7 +239,7 @@ Create QUICKREF.md with sections:
 ## Essential Commands
 
 ### Setup (One Time)
-- `./init.sh` - Configure project and MCP servers
+- `./.template/init.sh` - Configure project and MCP servers
 - `./scripts/clean-reset.sh` - Reset to clean state
 
 ### Email Processing
@@ -257,7 +257,7 @@ Create QUICKREF.md with sections:
 ## Decision Tree
 
 **First time using template?**
-→ Run `./init.sh`
+→ Run `./.template/init.sh`
 → Add emails to `email/raw/`
 → Run `/quickStartProject`
 
@@ -270,9 +270,9 @@ Create QUICKREF.md with sections:
 → Run `/updateSummary`
 → Check `SUMMARY.md`
 
-**Want to analyze bootstrap health?**
+**Want to analyze template health?**
 → Run `/sanityCheck`
-→ Review `bootstrap/SANITY_CHECK_REPORT.md`
+→ Review `.template/SANITY_CHECK_REPORT.md`
 
 ## File Locations
 
@@ -280,7 +280,7 @@ Create QUICKREF.md with sections:
 - **Email context**: `email/ai/`
 - **Task list**: `aiDocs/TASKS.md`
 - **Project summary**: `SUMMARY.md` (root)
-- **Bootstrap tasks**: `bootstrap/FIXES.md`, `bootstrap/IMPROVEMENTS.md`
+- **Template tasks**: `.template/FIXES.md`, `.template/IMPROVEMENTS.md`
 ```
 
 **Location**:
@@ -309,29 +309,29 @@ Create QUICKREF.md with sections:
 
 **Priority**: Medium  
 **Category**: Project Structure  
-**Component**: bootstrap/  
+**Component**: .template/  
 **Effort**: Low (< 1 hour)  
 **Impact**: Low  
 
 **Problem**:
-Bootstrap prompts reference `bootstrap/analysis/` directory but it doesn't exist. Generated reports need a consistent location.
+Template prompts reference `.template/analysis/` directory but it doesn't exist. Generated reports need a consistent location.
 
 **Current Behavior**:
-Reports saved to bootstrap/ root, creating clutter.
+Reports saved to .template/ root, creating clutter.
 
 **Expected Behavior**:
 Dedicated analysis/ subdirectory for all generated reports.
 
 **Proposed Solution**:
-1. Create `bootstrap/analysis/` directory
+1. Create `.template/analysis/` directory
 2. Add .gitkeep to preserve in git
-3. Update sanityCheck prompt to save to `bootstrap/analysis/SANITY_CHECK_REPORT.md`
+3. Update sanityCheck prompt to save to `.template/analysis/SANITY_CHECK_REPORT.md`
 4. Move existing SANITY_CHECK_REPORT.md if present
 5. Add README explaining directory purpose
 
 **Location**:
-- New directory: `bootstrap/analysis/`
-- Update: `bootstrap/prompts/sanityCheck.prompt.md`
+- New directory: `.template/analysis/`
+- Update: `.template/prompts/sanityCheck.prompt.md`
 
 **Dependencies**:
 - Blocks: None
@@ -339,7 +339,7 @@ Dedicated analysis/ subdirectory for all generated reports.
 - Related: None
 
 **Acceptance Criteria**:
-- [ ] bootstrap/analysis/ directory created
+- [ ] .template/analysis/ directory created
 - [ ] .gitkeep added
 - [ ] README.md in analysis/ explains purpose
 - [ ] sanityCheck prompt updated to use new location
@@ -487,6 +487,6 @@ Add section to README before conclusion:
 
 - This file tracks improvements to the bootstrap template itself
 - For improvements to bootstrapped projects, see root `FUTURE.md`
-- For critical bugs, see `bootstrap/FIXES.md`
+- For critical bugs, see `.template/FIXES.md`
 - High impact improvements should be prioritized even if effort is higher
 - Many of these can be done in parallel (no blocking dependencies)

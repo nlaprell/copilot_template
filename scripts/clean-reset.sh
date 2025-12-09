@@ -74,32 +74,32 @@ echo ""
 # Step 2: Reset aiDocs files from templates
 echo -e "${BLUE}[2/4] Resetting aiDocs files to templates...${NC}"
 
-if [ -f "$PROJECT_ROOT/aiDocs/templates/SUMMARY.template.md" ]; then
-    cp "$PROJECT_ROOT/aiDocs/templates/SUMMARY.template.md" "$PROJECT_ROOT/aiDocs/SUMMARY.md"
+if [ -f "$PROJECT_ROOT/.template/templates/SUMMARY.template.md" ]; then
+    cp "$PROJECT_ROOT/.template/templates/SUMMARY.template.md" "$PROJECT_ROOT/aiDocs/SUMMARY.md"
     echo "  ✓ Reset aiDocs/SUMMARY.md"
 else
-    echo -e "  ${RED}✗ Template not found: aiDocs/templates/SUMMARY.template.md${NC}"
+    echo -e "  ${RED}✗ Template not found: .template/templates/SUMMARY.template.md${NC}"
 fi
 
-if [ -f "$PROJECT_ROOT/aiDocs/templates/TASKS.template.md" ]; then
-    cp "$PROJECT_ROOT/aiDocs/templates/TASKS.template.md" "$PROJECT_ROOT/aiDocs/TASKS.md"
+if [ -f "$PROJECT_ROOT/.template/templates/TASKS.template.md" ]; then
+    cp "$PROJECT_ROOT/.template/templates/TASKS.template.md" "$PROJECT_ROOT/aiDocs/TASKS.md"
     echo "  ✓ Reset aiDocs/TASKS.md"
 else
-    echo -e "  ${RED}✗ Template not found: aiDocs/templates/TASKS.template.md${NC}"
+    echo -e "  ${RED}✗ Template not found: .template/templates/TASKS.template.md${NC}"
 fi
 
-if [ -f "$PROJECT_ROOT/aiDocs/templates/DISCOVERY.template.md" ]; then
-    cp "$PROJECT_ROOT/aiDocs/templates/DISCOVERY.template.md" "$PROJECT_ROOT/aiDocs/DISCOVERY.md"
+if [ -f "$PROJECT_ROOT/.template/templates/DISCOVERY.template.md" ]; then
+    cp "$PROJECT_ROOT/.template/templates/DISCOVERY.template.md" "$PROJECT_ROOT/aiDocs/DISCOVERY.md"
     echo "  ✓ Reset aiDocs/DISCOVERY.md"
 else
-    echo -e "  ${RED}✗ Template not found: aiDocs/templates/DISCOVERY.template.md${NC}"
+    echo -e "  ${RED}✗ Template not found: .template/templates/DISCOVERY.template.md${NC}"
 fi
 
-if [ -f "$PROJECT_ROOT/aiDocs/templates/AI.template.md" ]; then
-    cp "$PROJECT_ROOT/aiDocs/templates/AI.template.md" "$PROJECT_ROOT/aiDocs/AI.md"
+if [ -f "$PROJECT_ROOT/.template/templates/AI.template.md" ]; then
+    cp "$PROJECT_ROOT/.template/templates/AI.template.md" "$PROJECT_ROOT/aiDocs/AI.md"
     echo "  ✓ Reset aiDocs/AI.md"
 else
-    echo -e "  ${RED}✗ Template not found: aiDocs/templates/AI.template.md${NC}"
+    echo -e "  ${RED}✗ Template not found: .template/templates/AI.template.md${NC}"
 fi
 
 echo ""
@@ -133,19 +133,19 @@ echo -e "${BLUE}[5/5] Verifying reset...${NC}"
 
 # Check that templates exist
 TEMPLATES_OK=true
-if [ ! -f "$PROJECT_ROOT/aiDocs/templates/SUMMARY.template.md" ]; then
+if [ ! -f "$PROJECT_ROOT/.template/templates/SUMMARY.template.md" ]; then
     echo -e "  ${RED}✗ Missing template: SUMMARY.template.md${NC}"
     TEMPLATES_OK=false
 fi
-if [ ! -f "$PROJECT_ROOT/aiDocs/templates/TASKS.template.md" ]; then
+if [ ! -f "$PROJECT_ROOT/.template/templates/TASKS.template.md" ]; then
     echo -e "  ${RED}✗ Missing template: TASKS.template.md${NC}"
     TEMPLATES_OK=false
 fi
-if [ ! -f "$PROJECT_ROOT/aiDocs/templates/DISCOVERY.template.md" ]; then
+if [ ! -f "$PROJECT_ROOT/.template/templates/DISCOVERY.template.md" ]; then
     echo -e "  ${RED}✗ Missing template: DISCOVERY.template.md${NC}"
     TEMPLATES_OK=false
 fi
-if [ ! -f "$PROJECT_ROOT/aiDocs/templates/AI.template.md" ]; then
+if [ ! -f "$PROJECT_ROOT/.template/templates/AI.template.md" ]; then
     echo -e "  ${RED}✗ Missing template: AI.template.md${NC}"
     TEMPLATES_OK=false
 fi

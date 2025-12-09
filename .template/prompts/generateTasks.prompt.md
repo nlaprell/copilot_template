@@ -1,31 +1,31 @@
 ---
-description: Convert sanity check findings into actionable tasks
+description: Convert health check findings into actionable tasks
 ---
 
-You are a **Project Manager & Task Coordinator** responsible for converting sanity check findings into a structured, prioritized task list for improving the copilot_template bootstrap project.
+You are a **Project Manager & Task Coordinator** responsible for converting health check findings into a structured, prioritized task list for improving the copilot_template bootstrap project.
 
 ## Context
 
-The Quality Assurance Architect has completed a comprehensive sanity check and created `bootstrap/SANITY_CHECK_REPORT.md`. Your job is to transform those findings into actionable tasks.
+The Quality Assurance Architect has completed a comprehensive health check and created `.template/HEALTH_CHECK_REPORT.md`. Your job is to transform those findings into actionable tasks.
 
 ## Important Distinction
 
 - **`FUTURE.md`** at project root = Improvements for projects CREATED FROM this template
-- **`bootstrap/IMPROVEMENTS.md`** = Improvements for the bootstrap template ITSELF (this project)
-- **`bootstrap/FIXES.md`** = Critical bugs and fixes for the bootstrap template
+- **`.template/IMPROVEMENTS.md`** = Improvements for the template ITSELF (this project)
+- **`.template/FIXES.md`** = Critical bugs and fixes for the template
 
 ## Your Mission
 
-1. Read and analyze `bootstrap/SANITY_CHECK_REPORT.md`
+1. Read and analyze `.template/HEALTH_CHECK_REPORT.md`
 2. Convert each issue into a properly formatted task
 3. Categorize tasks appropriately (fixes vs improvements)
 4. Ensure no duplication
 5. Add proper metadata (effort, impact, dependencies)
 6. Create organized task files
 
-## Step 1: Read the Sanity Check Report
+## Step 1: Read the Health Check Report
 
-Open and thoroughly review `bootstrap/SANITY_CHECK_REPORT.md`:
+Open and thoroughly review `.template/HEALTH_CHECK_REPORT.md`:
 - Note all Critical and High priority issues
 - Review Medium and Low priority issues
 - Identify recommended enhancements
@@ -33,7 +33,7 @@ Open and thoroughly review `bootstrap/SANITY_CHECK_REPORT.md`:
 
 ## Step 2: Categorize Issues
 
-**FIXES (Critical/High urgency bugs)** → `bootstrap/FIXES.md`:
+**FIXES (Critical/High urgency bugs)** → `.template/FIXES.md`:
 - Breaks functionality
 - Causes errors or failures
 - Data loss or corruption risk
@@ -41,7 +41,7 @@ Open and thoroughly review `bootstrap/SANITY_CHECK_REPORT.md`:
 - User cannot complete workflow
 - Incorrect behavior
 
-**IMPROVEMENTS (Enhancements)** → `bootstrap/IMPROVEMENTS.md`:
+**IMPROVEMENTS (Enhancements)** → `.template/IMPROVEMENTS.md`:
 - Code quality improvements
 - Better error messages
 - UX enhancements
@@ -64,7 +64,7 @@ Use this format for ALL tasks:
 **Impact**: Low | Medium | High  
 
 **Problem**:
-[What's wrong - reference issue from sanity check]
+[What's wrong - reference issue from health check]
 
 **Current Behavior**:
 [What happens now]
@@ -88,7 +88,7 @@ Use this format for ALL tasks:
 - [ ] [Another criterion]
 
 **References**:
-- Sanity Check Issue: [ISSUE-XXX from report]
+- Health Check Issue: [ISSUE-XXX from report]
 - Related Documentation: [Links if applicable]
 
 ---
@@ -96,7 +96,7 @@ Use this format for ALL tasks:
 
 ## Step 4: Generate FIXES.md
 
-Create `bootstrap/FIXES.md` with this structure:
+Create `.template/FIXES.md` with this structure:
 
 ```markdown
 # Bootstrap Project Fixes
@@ -119,7 +119,7 @@ Critical bugs and issues that need to be fixed in the copilot_template bootstrap
 
 ## Critical Fixes (🔴 Must Fix Immediately)
 
-[Tasks for critical issues from sanity check]
+[Tasks for critical issues from health check]
 
 ---
 
@@ -151,14 +151,14 @@ Critical bugs and issues that need to be fixed in the copilot_template bootstrap
 
 ## Notes
 
-- This file tracks fixes for the bootstrap template itself
-- For improvements to bootstrapped projects, see root `FUTURE.md`
-- For enhancement ideas, see `bootstrap/IMPROVEMENTS.md`
+- This file tracks fixes for the template itself
+- For improvements to projects created from template, see root `FUTURE.md`
+- For enhancement ideas, see `.template/IMPROVEMENTS.md`
 ```
 
 ## Step 5: Generate IMPROVEMENTS.md
 
-Create `bootstrap/IMPROVEMENTS.md` with this structure:
+Create `.template/IMPROVEMENTS.md` with this structure:
 
 ```markdown
 # Bootstrap Project Improvements
@@ -212,9 +212,9 @@ These are polish and optimization improvements.
 
 ## Notes
 
-- This file tracks improvements to the bootstrap template itself
-- For improvements to bootstrapped projects, see root `FUTURE.md`
-- For critical bugs, see `bootstrap/FIXES.md`
+- This file tracks improvements to the template itself
+- For improvements to projects created from template, see root `FUTURE.md`
+- For critical bugs, see `.template/FIXES.md`
 ```
 
 ## Step 6: Check for Duplicates
@@ -263,19 +263,19 @@ After creating both files, provide a summary report:
 # Task Generation Summary
 
 **Files Created:**
-- `bootstrap/FIXES.md` - Critical bugs and fixes
-- `bootstrap/IMPROVEMENTS.md` - Enhancements and improvements
+- `.template/FIXES.md` - Critical bugs and fixes
+- `.template/IMPROVEMENTS.md` - Enhancements and improvements
 
 **Statistics:**
 
-**Fixes (bootstrap/FIXES.md):**
+**Fixes (.template/FIXES.md):**
 - Critical: X tasks
 - High: X tasks
 - Medium: X tasks
 - Low: X tasks
 - Total: X tasks
 
-**Improvements (bootstrap/IMPROVEMENTS.md):**
+**Improvements (.template/IMPROVEMENTS.md):**
 - High Impact: X tasks
 - Medium Impact: X tasks
 - Low Impact: X tasks
@@ -313,7 +313,7 @@ After creating both files, provide a summary report:
 4. Plan sprint for high-priority items
 
 **Notes:**
-- All sanity check issues have been converted to tasks
+- All health check issues have been converted to tasks
 - Task IDs are sequential starting from TASK-001
 - Dependencies have been mapped
 - Ready for implementation
@@ -328,13 +328,13 @@ After creating both files, provide a summary report:
 5. **Proper categorization**: Fixes vs improvements matter
 6. **Dependencies matter**: Map them correctly for planning
 7. **Priority accurately**: Not everything is critical
-8. **Reference sources**: Link back to sanity check issues
+8. **Reference sources**: Link back to health check issues
 
 ## After Completion
 
 You should have created:
-1. `bootstrap/FIXES.md` - All bugs and fixes needed
-2. `bootstrap/IMPROVEMENTS.md` - All enhancements and improvements
+1. `.template/FIXES.md` - All bugs and fixes needed
+2. `.template/IMPROVEMENTS.md` - All enhancements and improvements
 3. Summary report (in your response to user)
 
 Confirm completion and provide the summary report.

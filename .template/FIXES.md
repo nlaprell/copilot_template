@@ -84,10 +84,10 @@ Users cannot invoke /sanityCheck or /generateTasks - prompts exist but are not r
 Add two entries to .vscode/settings.json:
 ```json
 {
-    "file": "bootstrap/prompts/sanityCheck.prompt.md"
+    "file": ".template/prompts/sanityCheck.prompt.md"
 },
 {
-    "file": "bootstrap/prompts/generateTasks.prompt.md"
+    "file": ".template/prompts/generateTasks.prompt.md"
 }
 ```
 
@@ -96,7 +96,7 @@ Add two entries to .vscode/settings.json:
 - Lines: 3-13
 
 **Dependencies**:
-- Blocks: None (but enables bootstrap workflow)
+- Blocks: None (but enables template workflow)
 - Requires: None
 - Related: None
 
@@ -109,7 +109,7 @@ Add two entries to .vscode/settings.json:
 
 **References**:
 - Sanity Check Issue: ISSUE-002
-- Related Files: bootstrap/prompts/sanityCheck.prompt.md, bootstrap/prompts/generateTasks.prompt.md
+- Related Files: .template/prompts/sanityCheck.prompt.md, .template/prompts/generateTasks.prompt.md
 
 ---
 
@@ -1167,9 +1167,9 @@ Tasks must have sequential IDs when created:
 
 ## Notes
 
-- This file tracks fixes for the bootstrap template itself
-- For improvements to bootstrapped projects, see root `FUTURE.md`
-- For enhancement ideas, see `bootstrap/IMPROVEMENTS.md`
+- This file tracks fixes for the template itself
+- For improvements to projects created from template, see root `FUTURE.md`
+- For enhancement ideas, see `.template/IMPROVEMENTS.md`
 - Critical issues (TASK-001 through TASK-003) should be addressed immediately
 - High priority issues should be completed within 1-2 weeks
 - Task IDs are permanent and sequential (no gaps)

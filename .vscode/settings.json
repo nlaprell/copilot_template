@@ -12,6 +12,15 @@
         },
         {
             "file": "prompts/quickStartProject.prompt.md"
+        },
+        {
+            "file": ".template/prompts/sanityCheck.prompt.md"
+        },
+        {
+            "file": ".template/prompts/healthCheck.prompt.md"
+        },
+        {
+            "file": ".template/prompts/generateTasks.prompt.md"
         }
     ]
 }

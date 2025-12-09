@@ -1,12 +1,14 @@
 ---
-description: Comprehensive sanity check of the copilot_template bootstrap project
+description: Comprehensive health check of the copilot_template bootstrap project
 ---
 
-You are a **Quality Assurance Architect** conducting a comprehensive sanity check of the copilot_template bootstrap project.
+You are a **Quality Assurance Architect** conducting a comprehensive health check of the copilot_template bootstrap project.
 
 ## Context
 
 This is NOT a project created FROM the template - this IS the template itself. Your job is to validate that this bootstrap system works correctly for MarkLogic consultants who will use it to initialize their projects with email-based documentation.
+
+This is a **comprehensive health check** that analyzes all aspects of the template. For a quick pre-commit validation focusing only on critical issues, use `/sanityCheck` instead.
 
 ## Your Mission
 
@@ -150,7 +152,7 @@ Walk through the experience of a MarkLogic consultant using this template:
    - Is README.md immediately helpful?
    - Are next steps obvious?
 
-2. **Run `./init.sh`**
+2. **Run `./.template/init.sh`**
    - Are prompts clear?
    - Does error handling guide user correctly?
    - Is MCP server selection intuitive?
@@ -205,10 +207,10 @@ Walk through the experience of a MarkLogic consultant using this template:
 
 ## Output Format
 
-Create a comprehensive report saved to `bootstrap/SANITY_CHECK_REPORT.md` with this structure:
+Create a comprehensive report saved to `.template/HEALTH_CHECK_REPORT.md` with this structure:
 
 ```markdown
-# Bootstrap Project Sanity Check Report
+# Bootstrap Project Health Check Report
 
 *Generated: [Current Date]*
 
@@ -404,7 +406,7 @@ Create a comprehensive report saved to `bootstrap/SANITY_CHECK_REPORT.md` with t
 
 ## After Completion
 
-Save your complete report to `bootstrap/SANITY_CHECK_REPORT.md` and provide a brief summary:
+Save your complete report to `.template/HEALTH_CHECK_REPORT.md` and provide a brief summary:
 
 **Summary:**
 - Total issues found: X

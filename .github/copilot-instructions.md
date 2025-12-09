@@ -207,7 +207,7 @@ Before completing work, verify:
 
 ### Template Files
 
-Templates are preserved in `aiDocs/templates/` for reference and reset:
+Templates are preserved in `.template/templates/` for reference and reset:
 - `SUMMARY.template.md`
 - `TASKS.template.md`
 - `DISCOVERY.template.md`

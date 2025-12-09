@@ -167,7 +167,7 @@ Look for and resolve:
 
 ## 5. Update AI Documentation Files
 
-**Note on Templates**: Template files are preserved in `aiDocs/templates/` for reference and reset purposes. Always update the working files in `aiDocs/` (without `.template` extension), not the template files themselves.
+**Note on Templates**: Template files are preserved in `.template/templates/` for reference and reset purposes. Always update the working files in `aiDocs/` (without `.template` extension), not the template files themselves.
 
 Update `aiDocs/` files as needed to ensure:
 - **Quick Context** in SUMMARY.md accurately reflects current state
