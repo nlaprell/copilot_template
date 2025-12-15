@@ -1,6 +1,6 @@
 # Bootstrap Project Improvements
 
-*Last Updated: December 9, 2025*
+*Last Updated: December 15, 2025*
 
 Enhancement ideas and improvements for the copilot_template bootstrap project.
 
@@ -8,8 +8,8 @@ Enhancement ideas and improvements for the copilot_template bootstrap project.
 
 ## Summary
 
-- Total Improvements: 16
-- High Impact: 2
+- Total Improvements: 17
+- High Impact: 3
 - Medium Impact: 3
 - Low Impact: 1
 - Future Enhancements: 10
@@ -19,6 +19,213 @@ Enhancement ideas and improvements for the copilot_template bootstrap project.
 ## High Impact Improvements
 
 These improvements would significantly enhance the bootstrap system.
+
+### TASK-027: Build Minimal VS Code Extension for Custom Slash Commands
+
+**Priority**: High  
+**Category**: Feature - VS Code Integration  
+**Component**: New directory: .vscode-extension/  
+**Effort**: Medium (4-6 hours)  
+**Impact**: High  
+
+**Problem**:
+Current `.prompt.md` files are configured in `settings.json` as `github.copilot.chat.codeGeneration.instructions`, but they don't create actual slash commands. Users cannot type `/` in Copilot Chat and see custom prompts in autocomplete. The only way to discover prompts is by reading documentation or remembering filenames.
+
+**Current Behavior**:
+- Prompts must be typed manually or copied from documentation
+- No autocomplete when typing `/` in chat
+- No native integration with VS Code Chat API
+- Prompts appear as context but not as commands
+
+**Expected Behavior**:
+- Type `@copilotTemplate /` in chat to see all available prompts
+- Autocomplete shows prompt names with descriptions
+- Commands execute by loading `.prompt.md` file content
+- Extension auto-discovers prompts from `prompts/` directory
+- Works locally without marketplace deployment
+
+**Proposed Solution**:
+
+Create a lightweight TypeScript VS Code extension with Chat Participant API:
+
+**Directory Structure**:
+```
+.vscode-extension/
+├── package.json              # Extension manifest
+├── tsconfig.json            # TypeScript config
+├── .vscodeignore            # Files to exclude from VSIX
+├── src/
+│   ├── extension.ts         # Main extension entry point
+│   └── promptLoader.ts      # Auto-discover and load prompts
+└── README.md                # Extension documentation
+```
+
+**package.json** (key parts):
+```json
+{
+  "name": "copilot-template-prompts",
+  "displayName": "Copilot Template - Project Prompts",
+  "version": "1.0.0",
+  "engines": { "vscode": "^1.85.0" },
+  "categories": ["AI", "Chat"],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./out/extension.js",
+  "contributes": {
+    "chatParticipants": [
+      {
+        "id": "copilotTemplate",
+        "name": "copilotTemplate",
+        "description": "Project documentation workflow prompts",
+        "isSticky": true
+      }
+    ]
+  }
+}
+```
+
+**src/extension.ts**:
+```typescript
+import * as vscode from 'vscode';
+import * as fs from 'fs/promises';
+import * as path from 'path';
+
+export function activate(context: vscode.ExtensionContext) {
+    const handler: vscode.ChatRequestHandler = async (
+        request: vscode.ChatRequest,
+        chatContext: vscode.ChatContext,
+        stream: vscode.ChatResponseStream,
+        token: vscode.CancellationToken
+    ) => {
+        const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+        if (!workspaceFolder) {
+            stream.markdown('No workspace folder open.');
+            return { metadata: { command: '' } };
+        }
+
+        // Load prompt file based on command
+        const promptFile = path.join(
+            workspaceFolder.uri.fsPath,
+            'prompts',
+            `${request.command}.prompt.md`
+        );
+
+        try {
+            const content = await fs.readFile(promptFile, 'utf8');
+            // Strip YAML frontmatter (---...---)
+            const markdown = content.replace(/^---[\s\S]*?---\n/, '');
+            stream.markdown(markdown);
+        } catch (error) {
+            stream.markdown(`Error: Could not load prompt "${request.command}"`);
+        }
+
+        return { metadata: { command: request.command || '' } };
+    };
+
+    const participant = vscode.chat.createChatParticipant('copilotTemplate', handler);
+    participant.iconPath = new vscode.ThemeIcon('file-directory');
+
+    // Auto-discover prompts from prompts/ directory
+    discoverPrompts(participant);
+
+    context.subscriptions.push(participant);
+}
+
+async function discoverPrompts(participant: vscode.ChatParticipant) {
+    const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+    if (!workspaceFolder) return;
+
+    const promptsDir = path.join(workspaceFolder.uri.fsPath, 'prompts');
+    
+    try {
+        const files = await fs.readdir(promptsDir);
+        const commands: vscode.ChatCommand[] = [];
+
+        for (const file of files) {
+            if (file.endsWith('.prompt.md')) {
+                const name = file.replace('.prompt.md', '');
+                const filePath = path.join(promptsDir, file);
+                const description = await extractDescription(filePath);
+                
+                commands.push({ name, description });
+            }
+        }
+
+        participant.commands = commands;
+    } catch (error) {
+        console.error('Failed to discover prompts:', error);
+    }
+}
+
+async function extractDescription(filePath: string): Promise<string> {
+    try {
+        const content = await fs.readFile(filePath, 'utf8');
+        const match = content.match(/^---\s*\ndescription:\s*(.+?)\s*\n/m);
+        return match ? match[1] : 'Project workflow prompt';
+    } catch {
+        return 'Project workflow prompt';
+    }
+}
+```
+
+**Installation & Usage**:
+
+1. Build extension:
+   ```bash
+   cd .vscode-extension
+   npm install
+   npm run compile
+   ```
+
+2. Install locally (no marketplace needed):
+   ```bash
+   # Package as VSIX
+   npx vsce package
+   
+   # Install in VS Code
+   code --install-extension copilot-template-prompts-1.0.0.vsix
+   ```
+
+   OR symlink for development:
+   ```bash
+   ln -s "$(pwd)/.vscode-extension" \
+     "$HOME/.vscode/extensions/copilot-template-prompts-1.0.0"
+   ```
+
+3. Usage in VS Code:
+   - Type `@copilotTemplate /` in Copilot Chat
+   - Autocomplete shows: `projectInit`, `discoverEmail`, `updateSummary`, etc.
+   - Select command and press Enter
+   - Prompt content loads into chat automatically
+
+**Location**:
+- New directory: `.vscode-extension/` at project root
+- Update `.gitignore` to exclude `node_modules/` and `out/`
+- Update `README.md` with extension installation instructions
+
+**Dependencies**:
+- Blocks: None (prompts continue working via settings.json during development)
+- Requires: Node.js, npm, VS Code 1.85+
+- Related: TASK-002 (can remove settings.json entries once extension is active)
+
+**Acceptance Criteria**:
+- [ ] Extension created in `.vscode-extension/` directory
+- [ ] TypeScript compiles without errors
+- [ ] Extension packages as VSIX successfully
+- [ ] Local installation works (symlink or VSIX install)
+- [ ] Chat participant `@copilotTemplate` appears in VS Code
+- [ ] Typing `@copilotTemplate /` shows all prompts in autocomplete
+- [ ] Selecting `/projectInit` loads prompt content correctly
+- [ ] All 11 prompts (8 user + 3 bootstrap) auto-discovered
+- [ ] YAML frontmatter stripped from loaded prompts
+- [ ] Works without marketplace deployment
+- [ ] Documentation added to README.md
+
+**References**:
+- Architecture Review Recommendation #1
+- VS Code Chat Participant API: https://code.visualstudio.com/api/extension-guides/chat
+- vsce packaging tool: https://github.com/microsoft/vscode-vsce
+
+---
 
 ### TASK-024: Add Terminal Color Support Detection
 

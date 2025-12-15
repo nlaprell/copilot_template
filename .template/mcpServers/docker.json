@@ -1,6 +1,7 @@
 {
-  "mcpServers": {
+  "servers": {
     "docker": {
+      "type": "stdio",
       "command": "npx",
       "args": ["-y", "mcp-server-docker"]
     }

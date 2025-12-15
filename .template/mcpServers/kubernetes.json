@@ -1,6 +1,7 @@
 {
-  "mcpServers": {
+  "servers": {
     "kubernetes": {
+      "type": "stdio",
       "command": "npx",
       "args": ["-y", "mcp-k8s-go"],
       "env": {

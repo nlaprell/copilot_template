@@ -1,6 +1,7 @@
 {
-  "mcpServers": {
+  "servers": {
     "azure": {
+      "type": "stdio",
       "command": "npx",
       "args": ["-y", "mcp-server-azure"],
       "env": {

@@ -1,6 +1,7 @@
 {
-  "mcpServers": {
+  "servers": {
     "npm": {
+      "type": "stdio",
       "command": "npx",
       "args": ["-y", "mcp-server-npm"]
     }

@@ -4,7 +4,7 @@
 # clean-reset.sh
 #
 # This script resets the copilot_template project to a clean, default state.
-# 
+#
 # What it does:
 # 1. Clears all email directories (raw, ai, processed)
 # 2. Resets aiDocs files to template defaults
@@ -55,17 +55,17 @@ echo ""
 echo -e "${BLUE}[1/4] Clearing email directories...${NC}"
 
 if [ -d "$PROJECT_ROOT/email/raw" ]; then
-    rm -f "$PROJECT_ROOT/email/raw"/*.eml
+    rm -f "$PROJECT_ROOT/email/raw/"*.eml
     echo "  ✓ Cleared email/raw/"
 fi
 
 if [ -d "$PROJECT_ROOT/email/ai" ]; then
-    rm -f "$PROJECT_ROOT/email/ai"/*.md
+    rm -f "$PROJECT_ROOT/email/ai/"*.md
     echo "  ✓ Cleared email/ai/"
 fi
 
 if [ -d "$PROJECT_ROOT/email/processed" ]; then
-    rm -f "$PROJECT_ROOT/email/processed"/*.eml
+    rm -f "$PROJECT_ROOT/email/processed/"*.eml
     echo "  ✓ Cleared email/processed/"
 fi
 
@@ -212,17 +212,17 @@ fi
 EMAIL_OK=true
 RAW_FILES=$(find "$PROJECT_ROOT/email/raw" -type f ! -name '.gitkeep' 2>/dev/null | wc -l | tr -d ' ')
 if [ "$RAW_FILES" -gt 0 ]; then
-    echo -e "  ${RED}✗ email/raw/ is not empty (found $RAW_FILES file(s))${NC}"
+    echo -e "  ${RED}✗ email/raw/ is not empty (found "$RAW_FILES" file(s))${NC}"
     EMAIL_OK=false
 fi
 AI_FILES=$(find "$PROJECT_ROOT/email/ai" -type f ! -name '.gitkeep' 2>/dev/null | wc -l | tr -d ' ')
 if [ "$AI_FILES" -gt 0 ]; then
-    echo -e "  ${RED}✗ email/ai/ is not empty (found $AI_FILES file(s))${NC}"
+    echo -e "  ${RED}✗ email/ai/ is not empty (found "$AI_FILES" file(s))${NC}"
     EMAIL_OK=false
 fi
 PROCESSED_FILES=$(find "$PROJECT_ROOT/email/processed" -type f ! -name '.gitkeep' 2>/dev/null | wc -l | tr -d ' ')
 if [ "$PROCESSED_FILES" -gt 0 ]; then
-    echo -e "  ${RED}✗ email/processed/ is not empty (found $PROCESSED_FILES file(s))${NC}"
+    echo -e "  ${RED}✗ email/processed/ is not empty (found "$PROCESSED_FILES" file(s))${NC}"
     EMAIL_OK=false
 fi
 
@@ -236,7 +236,7 @@ if [ -f "$PROJECT_ROOT/.vscode/mcp.json" ]; then
     fi
 fi
 
-if [ "$TEMPLATES_OK" = true ] && [ "$AIDOCS_OK" = true ] && [ "$EMAIL_OK" = true ] && [ "$MCP_OK" = true ]; then
+if [ "$TEMPLATES_OK" = "true" ] && [ "$AIDOCS_OK" = "true" ] && [ "$EMAIL_OK" = "true" ] && [ "$MCP_OK" = "true" ]; then
     echo -e "  ${GREEN}✓ All checks passed${NC}"
 else
     echo -e "  ${YELLOW}⚠ Some issues found (see above)${NC}"

@@ -1,6 +1,7 @@
 {
-  "mcpServers": {
+  "servers": {
     "postman": {
+      "type": "stdio",
       "command": "npx",
       "args": ["-y", "mcp-postman"],
       "env": {

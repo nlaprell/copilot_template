@@ -1,6 +1,7 @@
 {
-  "mcpServers": {
+  "servers": {
     "vscode": {
+      "type": "stdio",
       "command": "npx",
       "args": ["-y", "mcp-vscode"]
     }

@@ -1,6 +1,7 @@
 {
-  "mcpServers": {
+  "servers": {
     "terraform": {
+      "type": "stdio",
       "command": "npx",
       "args": ["-y", "terraform-cloud-mcp"],
       "env": {

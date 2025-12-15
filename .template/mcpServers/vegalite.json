@@ -1,6 +1,7 @@
 {
-  "mcpServers": {
+  "servers": {
     "vegalite": {
+      "type": "stdio",
       "command": "npx",
       "args": ["-y", "mcp-vegalite-server"]
     }

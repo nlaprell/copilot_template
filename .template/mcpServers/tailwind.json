@@ -1,6 +1,7 @@
 {
-  "mcpServers": {
+  "servers": {
     "tailwind": {
+      "type": "stdio",
       "command": "npx",
       "args": ["-y", "mcp-tailwind"]
     }

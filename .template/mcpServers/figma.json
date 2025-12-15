@@ -1,6 +1,7 @@
 {
-  "mcpServers": {
+  "servers": {
     "figma": {
+      "type": "stdio",
       "command": "npx",
       "args": ["-y", "mcp-figma"],
       "env": {

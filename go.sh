@@ -60,7 +60,7 @@ display_menu() {
     echo ""
     echo "Use arrow keys to navigate, Enter or Space to select:"
     echo ""
-    
+
     local index=0
     for option in "${MENU_OPTIONS[@]}"; do
         if [ $index -eq $CURRENT_INDEX ]; then
@@ -76,26 +76,26 @@ display_menu() {
 # Function to execute selected option
 execute_option() {
     local option="${MENU_OPTIONS[$CURRENT_INDEX]}"
-    
+
     clear
     echo -e "${BLUE}════════════════════════════════════════════════════${NC}"
     echo -e "${BLUE}    Executing: $option${NC}"
     echo -e "${BLUE}════════════════════════════════════════════════════${NC}"
     echo ""
-    
+
     case "$option" in
         "Initialize Project")
             if [ -f "$PROJECT_ROOT/.template/scripts/init.sh" ]; then
                 "$PROJECT_ROOT/.template/scripts/init.sh"
                 local exit_code=$?
                 echo ""
-                if [ $exit_code -ne 0 ]; then
-                    echo -e "${RED}Error: Initialize script failed with exit code $exit_code${NC}"
+                if [ "$exit_code" -ne 0 ]; then
+                    echo -e "${RED}Error: Initialize script failed with exit code "$exit_code"${NC}"
                 else
                     echo -e "${GREEN}Initialize completed successfully${NC}"
                 fi
             else
-                echo -e "${RED}Error: init.sh not found at $PROJECT_ROOT/.template/scripts/init.sh${NC}"
+                echo -e "${RED}Error: init.sh not found at "$PROJECT_ROOT"/.template/scripts/init.sh${NC}"
             fi
             echo ""
             read -p "Press any key to continue..." -n 1 -s
@@ -105,13 +105,13 @@ execute_option() {
                 "$PROJECT_ROOT/.template/scripts/clean-reset.sh"
                 local exit_code=$?
                 echo ""
-                if [ $exit_code -ne 0 ]; then
-                    echo -e "${RED}Error: Reset script failed with exit code $exit_code${NC}"
+                if [ "$exit_code" -ne 0 ]; then
+                    echo -e "${RED}Error: Reset script failed with exit code "$exit_code"${NC}"
                 else
                     echo -e "${GREEN}Reset completed successfully${NC}"
                 fi
             else
-                echo -e "${RED}Error: clean-reset.sh not found at $PROJECT_ROOT/.template/scripts/clean-reset.sh${NC}"
+                echo -e "${RED}Error: clean-reset.sh not found at "$PROJECT_ROOT"/.template/scripts/clean-reset.sh${NC}"
             fi
             echo ""
             read -p "Press any key to continue..." -n 1 -s
@@ -127,10 +127,10 @@ execute_option() {
 # Main loop
 while true; do
     display_menu
-    
+
     # Read input
     read -rsn1 key
-    
+
     # Handle escape sequences (arrow keys)
     if [[ $key == $'\x1b' ]]; then
         read -rsn2 key
