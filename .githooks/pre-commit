@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+#
+# Pre-commit hook for copilot_template
+# Validates syntax before allowing commits
+#
+
+set -e
+
+echo "Running pre-commit checks..."
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+FAILED=0
+
+# Get list of staged files
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM)
+
+# Check bash scripts
+echo -e "\n${YELLOW}Validating bash scripts...${NC}"
+for file in $STAGED_FILES; do
+    if [[ "$file" == *.sh ]]; then
+        if ! bash -n "$file" 2>/dev/null; then
+            echo -e "${RED}✗ Syntax error in: $file${NC}"
+            FAILED=1
+        else
+            echo -e "${GREEN}✓ $file${NC}"
+        fi
+    fi
+done
+
+# Check Python scripts
+echo -e "\n${YELLOW}Validating Python scripts...${NC}"
+for file in $STAGED_FILES; do
+    if [[ "$file" == *.py ]]; then
+        if ! python3 -m py_compile "$file" 2>/dev/null; then
+            echo -e "${RED}✗ Syntax error in: $file${NC}"
+            FAILED=1
+        else
+            echo -e "${GREEN}✓ $file${NC}"
+        fi
+    fi
+done
+
+# Summary
+if [ $FAILED -eq 1 ]; then
+    echo -e "\n${RED}========================================${NC}"
+    echo -e "${RED}Pre-commit checks FAILED${NC}"
+    echo -e "${RED}Fix syntax errors before committing${NC}"
+    echo -e "${RED}========================================${NC}"
+    exit 1
+else
+    echo -e "\n${GREEN}========================================${NC}"
+    echo -e "${GREEN}Pre-commit checks PASSED${NC}"
+    echo -e "${GREEN}========================================${NC}"
+fi
+
+exit 0

@@ -1,0 +1,142 @@
+name: PR Validation
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  validate:
+    name: Validate PR
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check PR has labels
+        run: |
+          LABELS="${{ toJson(github.event.pull_request.labels.*.name) }}"
+          if [ "$LABELS" = "[]" ]; then
+            echo "❌ ERROR: PR must have at least one label"
+            exit 1
+          fi
+          echo "✓ PR has labels: $LABELS"
+
+      - name: Check PR has type label
+        run: |
+          LABELS="${{ toJson(github.event.pull_request.labels.*.name) }}"
+          TYPE_LABELS=("bug" "critical" "enhancement" "documentation" "refactor")
+          HAS_TYPE=false
+
+          for label in "${TYPE_LABELS[@]}"; do
+            if echo "$LABELS" | grep -q "\"$label\""; then
+              HAS_TYPE=true
+              echo "✓ Found type label: $label"
+              break
+            fi
+          done
+
+          if [ "$HAS_TYPE" = false ]; then
+            echo "❌ ERROR: PR must have a type label (bug, critical, enhancement, documentation, or refactor)"
+            exit 1
+          fi
+
+      - name: Check branch naming convention
+        run: |
+          BRANCH="${{ github.head_ref }}"
+
+          if [[ ! "$BRANCH" =~ ^(defect|feature)/[0-9]+-[a-z0-9-]+$ ]]; then
+            echo "❌ ERROR: Branch name must follow pattern: defect/{number}-{description} or feature/{number}-{description}"
+            echo "   Current branch: $BRANCH"
+            echo "   Examples: defect/1-fix-mcp-config, feature/5-centralized-logging"
+            exit 1
+          fi
+
+          echo "✓ Branch name follows convention: $BRANCH"
+
+      - name: Check PR title format
+        run: |
+          TITLE="${{ github.event.pull_request.title }}"
+
+          if [[ ! "$TITLE" =~ ^\[Issue\ #[0-9]+\] ]]; then
+            echo "⚠️  WARNING: PR title should start with [Issue #N]"
+            echo "   Current title: $TITLE"
+            echo "   Expected format: [Issue #N] Brief description"
+          else
+            echo "✓ PR title follows format: $TITLE"
+          fi
+
+      - name: Check commits reference issue
+        run: |
+          COMMITS=$(git log --format=%B origin/${{ github.base_ref }}..${{ github.head_ref }})
+
+          if ! echo "$COMMITS" | grep -qE "(Fixes|Closes|Implements|Refs?) #[0-9]+"; then
+            echo "⚠️  WARNING: No commits reference an issue with 'Fixes #N', 'Closes #N', or 'Implements #N'"
+            echo "   Commits should reference the related issue"
+          else
+            echo "✓ Commits reference issue numbers"
+          fi
+
+      - name: Validate bash syntax
+        run: |
+          echo "Checking bash scripts for syntax errors..."
+          FAILED=0
+
+          for script in $(find . -name "*.sh" -not -path "./node_modules/*" -not -path "./.git/*"); do
+            if ! bash -n "$script"; then
+              echo "❌ Syntax error in: $script"
+              FAILED=1
+            else
+              echo "✓ $script"
+            fi
+          done
+
+          if [ $FAILED -eq 1 ]; then
+            exit 1
+          fi
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Validate Python syntax
+        run: |
+          echo "Checking Python scripts for syntax errors..."
+          FAILED=0
+
+          for script in $(find . -name "*.py" -not -path "./node_modules/*" -not -path "./.git/*" -not -path "./.venv/*"); do
+            if ! python3 -m py_compile "$script"; then
+              echo "❌ Syntax error in: $script"
+              FAILED=1
+            else
+              echo "✓ $script"
+            fi
+          done
+
+          if [ $FAILED -eq 1 ]; then
+            exit 1
+          fi
+
+      - name: Run smoke tests (if available)
+        run: |
+          if [ -f ".template/tests/test_suite.sh" ]; then
+            echo "Running smoke tests..."
+            bash .template/tests/test_suite.sh
+          else
+            echo "ℹ️  No smoke tests found (expected at .template/tests/test_suite.sh)"
+          fi
+        continue-on-error: true
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "========================================="
+          echo "PR Validation Summary"
+          echo "========================================="
+          echo "Branch: ${{ github.head_ref }}"
+          echo "PR: ${{ github.event.pull_request.title }}"
+          echo "Labels: ${{ toJson(github.event.pull_request.labels.*.name) }}"
+          echo "========================================="

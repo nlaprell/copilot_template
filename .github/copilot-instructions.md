@@ -1,408 +1,50 @@
 # GitHub Copilot Instructions
 
-This file contains universal instructions for AI agents working in this workspace. These rules apply to ALL projects using this template.
+This file contains critical universal instructions for AI agents working in this workspace.
+
+**For detailed workflows and guidelines, see:**
+- [CONTRIBUTING.md](../CONTRIBUTING.md) - Full development guidelines
+- [prompts/completeIssue.prompt.md](../prompts/completeIssue.prompt.md) - Issue-to-PR workflow
 
 ---
 
-## Project Structure
+## Quick Reference
 
-### Email Management Workflow
+### Email Workflow
 
-All project communication and context from email should follow this workflow:
+1. **Raw emails**: Place `.eml` files in `email/raw/`
+2. **Convert**: Run `python3 ".template/aiScripts/emailToMd/eml_to_md_converter.py"`
+3. **Read**: Converted emails in `email/ai/`, originals moved to `email/processed/`
 
-1. **Raw emails**: Place `.eml` files in `/email/raw/` for processing
-2. **Convert**: Run the email converter to transform emails into AI-readable format
-3. **AI-readable emails**: Converted emails stored in `/email/ai/` as Markdown files
-4. **Processed emails**: Original `.eml` files archived in `/email/processed/` after conversion
+### Git Branching
 
-### Email Converter Tool
+**Bug/Defect** (labels: `bug`, `critical`) → `defect/{number}-{description}`  
+**Feature** (labels: `enhancement`, `feature`) → `feature/{number}-{description}`
 
-Located at `.template/aiScripts/emailToMd/eml_to_md_converter.py`, this tool converts `.eml` email files to Markdown format.
+### Labels (See CONTRIBUTING.md for full details)
 
-**Usage**:
-```bash
-# Run from project root
-python3 ".template/aiScripts/emailToMd/eml_to_md_converter.py"
-```
+**Type** (required, one): `bug`, `critical`, `enhancement`, `documentation`, `refactor`  
+**Category** (optional, multiple): `quality`, `testing`, `mcp`, `scripts`, `python`, `workflow`, `security`  
+**Priority** (optional, one): `priority: high`, `priority: medium`, `priority: low`
 
-The converter automatically:
-- Creates required directories (`email/raw/`, `email/ai/`, `email/processed/`)
-- Converts all `.eml` files from `email/raw/` to Markdown
-- Saves converted files to `email/ai/`
-- Moves processed `.eml` files to `email/processed/`
+### Commits
+
+Format: `type(scope): description`  
+Types: `feat`, `fix`, `docs`, `test`, `refactor`, `chore`  
+Always reference issue: `Fixes #123` or `Implements #123`
 
 ---
 
-## GitHub Labels and Milestones
+## Critical Workflows
 
-### Standard Labels
+### Completing GitHub Issues
 
-Labels must be applied to ALL issues and PRs to enable proper categorization, filtering, and workflow automation.
+**When user requests an issue be completed:**
 
-#### Type Labels (Required - Choose ONE)
+1. **Use the `/completeIssue` prompt** - This automates the full workflow
+2. **Or manually follow**: Fetch issue → Create branch → Implement → Sanity check → Commit → PR
 
-Every issue/PR must have exactly one type label:
-
-- **`bug`** - Something is broken or not working as intended
-  - Use for: Runtime errors, incorrect behavior, crashes, data corruption
-  - Branch: `defect/{number}-...`
-  - Commit: `fix(scope):`
-
-- **`critical`** - Urgent bug that blocks major functionality or causes data loss
-  - Use for: Showstoppers, security vulnerabilities, data loss, broken core features
-  - Branch: `defect/{number}-...`
-  - Commit: `fix(scope):`
-  - **Always prioritize critical issues first**
-
-- **`enhancement`** - New feature or improvement to existing functionality
-  - Use for: New capabilities, feature additions, improvements
-  - Branch: `feature/{number}-...`
-  - Commit: `feat(scope):`
-
-- **`documentation`** - Changes to documentation only
-  - Use for: README updates, code comments, API docs, user guides
-  - Branch: `feature/{number}-...`
-  - Commit: `docs(scope):`
-
-- **`refactor`** - Code restructuring without changing behavior
-  - Use for: Code cleanup, reorganization, performance improvements
-  - Branch: `feature/{number}-...`
-  - Commit: `refactor(scope):`
-
-#### Category Labels (Optional - Choose MULTIPLE)
-
-Add category labels to provide additional context:
-
-- **`quality`** - Code quality improvements (testing, logging, error handling)
-- **`testing`** - Test-related changes (unit tests, integration tests, test infrastructure)
-- **`mcp`** - Model Context Protocol related (server configs, MCP functionality)
-- **`scripts`** - Bash/shell script changes
-- **`python`** - Python code changes
-- **`workflow`** - GitHub Actions, CI/CD, automation
-- **`dependencies`** - Dependency updates or changes
-- **`security`** - Security-related issues or improvements
-
-#### Priority Labels (Optional - Choose ONE)
-
-Use priority labels when needed for planning:
-
-- **`priority: high`** - Should be done soon (next sprint/week)
-- **`priority: medium`** - Should be done eventually (next month)
-- **`priority: low`** - Nice to have (backlog)
-
-#### Status Labels (Automatic/Manual)
-
-- **`wip`** - Work in progress (applied to PRs when not ready for review)
-- **`ready for review`** - PR is complete and ready for review
-- **`blocked`** - Cannot proceed due to external dependency
-- **`needs discussion`** - Requires team discussion before implementation
-
-### Label Combination Rules
-
-**For Bugs:**
-```
-Required: bug
-Optional: critical (if urgent), mcp, scripts, python, security
-Priority: high, medium, or low
-```
-
-**For Features:**
-```
-Required: enhancement
-Optional: quality, testing, mcp, scripts, python, workflow
-Priority: high, medium, or low
-```
-
-**For Documentation:**
-```
-Required: documentation
-Optional: (rarely needed)
-Priority: (rarely needed)
-```
-
-### Labeling Examples
-
-**Example 1: Critical Bug**
-```
-Labels: bug, critical, mcp
-Reason: MCP servers not loading - blocks all MCP functionality
-Branch: defect/1-fix-mcp-config-format
-```
-
-**Example 2: Quality Enhancement**
-```
-Labels: enhancement, quality, scripts
-Reason: Adding error handling to bash scripts
-Branch: feature/3-improve-error-handling
-```
-
-**Example 3: Testing Infrastructure**
-```
-Labels: enhancement, testing, quality
-Reason: Adding smoke test suite
-Branch: feature/4-add-smoke-tests
-```
-
-**Example 4: Security Bug**
-```
-Labels: bug, critical, security
-Reason: Exposed GitHub token in config
-Branch: defect/7-remove-exposed-token
-```
-
-### Milestones
-
-Milestones group related issues for release planning and progress tracking.
-
-#### Milestone Naming Convention
-
-Use semantic versioning or descriptive names:
-- **`v1.0.0`** - Initial release
-- **`v1.1.0`** - Feature release
-- **`v1.0.1`** - Patch release
-- **`Phase 1: Core Functionality`** - Functional grouping
-- **`Q1 2025`** - Time-based grouping
-
-#### When to Create Milestones
-
-Create milestones for:
-- **Releases**: Major versions (v1.0.0, v2.0.0)
-- **Phases**: Logical groupings of work (Phase 1: Foundation, Phase 2: Quality)
-- **Sprints**: Time-boxed iterations (Sprint 1, Sprint 2)
-- **Initiatives**: Major projects (Email Workflow, MCP Integration)
-
-#### Milestone Assignment Rules
-
-**Always assign issues to milestones when:**
-- Issue is part of a planned release
-- Issue belongs to a specific project phase
-- Issue is in current sprint/iteration
-
-**Don't assign to milestone when:**
-- Issue is exploratory or research
-- Issue is a small fix with no release target
-- Issue is in backlog with no timeline
-
-#### Milestone Examples
-
-**Release-based:**
-```
-Milestone: v1.0.0 - Bootstrap MVP
-Issues: #1, #2, #3, #4 (core functionality bugs and must-have features)
-Due Date: 2025-01-15
-```
-
-**Phase-based:**
-```
-Milestone: Phase 2: Quality Improvements
-Issues: #3, #4, #5, #6, #7 (error handling, testing, logging, etc.)
-Due Date: 2025-02-01
-```
-
-**Sprint-based:**
-```
-Milestone: Sprint 3
-Issues: Top priority items from backlog
-Due Date: End of sprint (2025-12-31)
-```
-
-### Workflow Integration
-
-When creating issues or PRs, apply labels based on this logic:
-
-1. **Determine type** (bug/critical/enhancement/documentation/refactor) → Add type label
-2. **Identify categories** (what areas does this touch?) → Add category labels
-3. **Assess priority** (when should this be done?) → Add priority label if needed
-4. **Check milestone** (is this part of planned work?) → Assign milestone if applicable
-5. **Branch name follows type** (bug/critical → defect/, others → feature/)
-
-### Label Management Commands
-
-When agent creates issues:
-```python
-# Bug example
-labels = ["bug", "critical", "mcp"]
-milestone = "v1.0.0"
-
-# Enhancement example  
-labels = ["enhancement", "quality", "scripts"]
-milestone = "Phase 2: Quality Improvements"
-```
-
-When agent creates PRs:
-```python
-# Match issue labels plus status
-labels = ["bug", "critical", "mcp", "ready for review"]
-milestone = "v1.0.0"  # Same as issue
-```
-
----
-
-## Issue-to-PR Workflow
-
-**CRITICAL**: When a user requests that a GitHub issue be completed, implemented, or worked on, you MUST follow this standardized workflow. Do NOT ask for confirmation or skip steps.
-
-### Workflow Steps
-
-1. **Fetch Issue Details**
-   - Use GitHub MCP tools to get the full issue details
-   - Read the issue body, acceptance criteria, implementation steps
-   - Understand the scope and requirements completely
-   - Note any dependencies or related issues
-
-2. **Create Branch Based on Issue Type**
-   
-   **Determine branch prefix from issue labels:**
-   - **Bug/Defect**: Issues with `bug`, `critical`, `defect`, or `fix` labels → `defect/{number}-{description}`
-   - **Feature/Enhancement**: Issues with `enhancement`, `feature`, or other labels → `feature/{number}-{description}`
-   
-   **Branch naming format**: `{prefix}/{issue_number}-{brief-description}`
-   - Examples:
-     - Bug: `defect/1-fix-mcp-config-format`
-     - Feature: `feature/5-centralized-logging`
-   - Use kebab-case for description (lowercase with hyphens)
-   - Keep branch name under 50 characters total
-   - Create branch from current default branch (usually `main`)
-   - Link branch to issue in commit messages
-
-3. **Implement the Changes**
-   - Follow the implementation steps from the issue
-   - Make incremental, logical commits (not one giant commit)
-   - Follow coding standards and patterns from the issue
-   - Update documentation if specified in acceptance criteria
-   - Add tests if specified in acceptance criteria
-
-4. **Sanity Check**
-   - Run syntax validation for all modified scripts
-   - For bash scripts: `bash -n script.sh`
-   - For Python scripts: `python3 -m py_compile script.py`
-   - Verify file paths are correct
-   - Check that no placeholders remain
-   - Ensure changes match acceptance criteria
-   - If tests exist, run them: `.template/tests/test_suite.sh`
-
-5. **Commit Changes**
-   - Use conventional commit format: `type(scope): description`
-   - Types: `feat`, `fix`, `docs`, `test`, `refactor`, `chore`
-   - Reference issue in commit: `Fixes #123` or `Implements #123`
-   - Example: `feat(logging): add centralized logging system\n\nImplements #5`
-   - Make commits atomic (one logical change per commit)
-   - Write clear, descriptive commit messages
-
-6. **Create Pull Request**
-   - Title format: `[Issue #{number}] Brief description`
-   - Example: `[Issue #5] Add centralized logging system`
-   - Include in PR description:
-     - Link to issue: `Closes #123`
-     - Summary of changes
-     - Acceptance criteria checklist (from issue)
-     - Testing performed
-     - Any breaking changes or notes
-   - Assign yourself as the PR author
-   - Add relevant labels (match issue labels)
-   - Request review if applicable
-
-### Example Flows
-
-**Example 1: Bug Fix - User says "Complete issue #1"**
-
-Issue #1 has labels: `bug`, `critical`, `mcp`
-
-```bash
-# 1. Fetch issue (using MCP GitHub tools)
-# Issue #1: "Fix MCP Configuration Format"
-# Labels: bug, critical, mcp
-
-# 2. Create defect branch (bug label detected)
-git checkout -b defect/1-fix-mcp-config-format
-
-# 3. Implement changes (multiple commits)
-git add .template/scripts/init.sh
-git commit -m "fix(mcp): correct configuration format in init.sh
-
-Fixes #1
-- Change 'mcpServers' to 'servers' on line 154
-- Update merge logic to output correct format"
-
-git add .template/scripts/clean-reset.sh
-git commit -m "fix(mcp): correct configuration format in clean-reset.sh
-
-Fixes #1
-- Change 'mcpServers' to 'servers' on line 162"
-
-# 4. Sanity check
-bash -n .template/scripts/init.sh
-bash -n .template/scripts/clean-reset.sh
-
-# 5. Already committed above
-
-# 6. Create PR
-# Title: [Issue #1] Fix MCP Configuration Format
-# Body: Closes #1, fixes critical MCP server loading bug
-```
-
-**Example 2: Feature - User says "Implement issue #5"**
-
-Issue #5 has labels: `enhancement`, `quality`
-
-```bash
-# 1. Fetch issue (using MCP GitHub tools)
-# Issue #5: "Add Centralized Logging System"
-# Labels: enhancement, quality
-
-# 2. Create feature branch (enhancement label detected)
-git checkout -b feature/5-centralized-logging
-
-# 3. Implement changes (multiple commits)
-git add .template/aiScripts/logger.py
-git commit -m "feat(logging): add Python logging helper module
-
-Implements #5
-- Creates centralized logger with file and console handlers
-- Supports log rotation (10MB max, 5 backups)
-- Configurable log levels"
-
-git add .template/aiScripts/emailToMd/eml_to_md_converter.py
-git commit -m "feat(logging): integrate logging into email converter
-
-Implements #5
-- Replace print statements with logger calls
-- Add DEBUG level for detailed email processing
-- Include stack traces in error logs"
-
-# 4. Sanity check
-python3 -m py_compile .template/aiScripts/logger.py
-python3 -m py_compile .template/aiScripts/emailToMd/eml_to_md_converter.py
-
-# 5. Already committed above
-
-# 6. Create PR
-# Title: [Issue #5] Add Centralized Logging System
-# Body: Closes #5, adds comprehensive logging infrastructure
-```
-
-### Mandatory Rules
-
-- ✅ **ALWAYS** create a feature branch (never commit directly to main)
-- ✅ **ALWAYS** link commits to the issue (`Fixes #123`, `Implements #123`)
-- ✅ **ALWAYS** run sanity checks before committing
-- ✅ **ALWAYS** create a PR (never merge directly)
-- ✅ **ALWAYS** include acceptance criteria checklist in PR
-- ❌ **NEVER** skip the sanity check step
-- ❌ **NEVER** make one giant commit (break into logical commits)
-- ❌ **NEVER** commit broken code (syntax errors, etc.)
-
-### When Things Go Wrong
-
-If sanity checks fail:
-1. Fix the issues identified
-2. Re-run sanity checks
-3. Commit fixes separately
-4. Continue with PR creation
-
-If implementation is unclear:
-1. Ask clarifying questions BEFORE creating the branch
-2. Do NOT proceed with partial understanding
+**See [prompts/completeIssue.prompt.md](../prompts/completeIssue.prompt.md) for complete details.**
 
 ---
 
