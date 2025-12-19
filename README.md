@@ -1,6 +1,72 @@
 # Copilot Template
 
-A project template designed to help AI agents (GitHub Copilot) quickly understand and work on your projects by maintaining structured documentation and email context.
+**Bootstrap system for MarkLogic consultants** to initialize projects with AI-driven documentation workflows.
+
+Turn email threads into structured project documentation automatically. Perfect for complex consulting projects with heavy email communication.
+
+---
+
+## ⚡ Quick Start (30 seconds)
+
+```bash
+# Clone the repository
+git clone <your-repo-url>
+cd copilot_template
+
+# Run the interactive setup
+./go.sh
+```
+
+**That's it!** The interactive menu will guide you through:
+1. Project configuration (name, customer, MCP servers)
+2. Git hooks installation (optional but recommended)
+3. Email processing setup
+
+Then in GitHub Copilot chat:
+```
+/quickStartProject
+```
+
+This single command will process all your emails and generate complete project documentation.
+
+---
+
+## 🎯 What This Does
+
+```
+┌─────────────────────┐
+│  Export .eml files  │ → Place in email/raw/
+│  from email client  │
+└─────────────────────┘
+          ↓
+┌─────────────────────┐
+│  ./go.sh            │ → Initialize: project name, customer, MCP servers
+└─────────────────────┘
+          ↓
+┌─────────────────────┐
+│ /quickStartProject  │ → AI processes everything automatically
+└─────────────────────┘
+          ↓
+┌──────────────────────────────────────────┐
+│ ✅ PROJECT.md     Complete project summary│
+│ ✅ aiDocs/        AI-readable context     │
+│ ✅ docs/          Quick reference files   │
+│ ✅ Task tracking  With dependencies       │
+│ ✅ Risk analysis  Automatically identified│
+│ ✅ Contact list   Extracted from emails   │
+└──────────────────────────────────────────┘
+```
+
+**Result:** Comprehensive project documentation ready for stakeholder handoff.
+
+---
+
+## 📋 Prerequisites
+
+- **Python 3.x** - For email converter script
+- **Git** - For version control
+- **GitHub Copilot** - With slash command support in VS Code
+- **VS Code** - Recommended editor (or any editor with Copilot support)
 
 ---
 
@@ -17,13 +83,51 @@ A project template designed to help AI agents (GitHub Copilot) quickly understan
 
 ---
 
-## 🚀 Quick Start (3 Steps)
+## � Available Commands
+
+### Setup Commands
+```bash
+./go.sh                                    # Interactive project menu (recommended entry point)
+./.template/scripts/install-hooks.sh       # Install git hooks for pre-commit validation
+```
+
+### AI Workflows (use in Copilot chat)
+
+**Primary Workflows:**
+- `/quickStartProject` - Complete setup: init + emails + summary (recommended)
+- `/projectInit` - Initialize AI context only (read-only)
+- `/discoverEmail` - Process emails and update aiDocs/
+- `/updateSummary` - Generate PROJECT.md and docs/ from aiDocs/
+
+**Maintenance:**
+- `/completeIssue` - Automate GitHub Issue→PR workflow
+- `/validateTasks` - Check task structure and dependencies
+- `/cleanupTasks` - Archive old tasks, optimize organization
+- `/syncFromProject` - Sync user edits from PROJECT.md back to aiDocs/
+- `/generateReport` - Create executive status report
+
+**See [Prompt Reference Guide](#prompt-reference-guide) below for detailed usage.**
+
+---
+
+## �🚀 Quick Start (3 Steps)
 
 ### Step 1: Run Project Manager
 ```bash
 ./go.sh
 ```
-Select "Initialize Project" to configure your project name, customer name, and MCP servers.
+**Select "Initialize Project"** to configure:
+- Your name (for task tracking)
+- Project name
+- Customer/client name  
+- MCP servers to enable (GitHub, AWS, etc.)
+
+**Optional but recommended:** Install git hooks for pre-commit validation
+```bash
+./.template/scripts/install-hooks.sh
+```
+
+This enables automatic syntax checking before commits.
 
 ### Step 2: Add Email Context
 Export project-related emails to `.eml` format and place them in:
@@ -49,6 +153,38 @@ In GitHub Copilot chat, run:
 
 ---
 
+## 📖 How It Works
+
+### 1. Email → Markdown Conversion
+- Export email threads to `.eml` format
+- Place in `email/raw/`
+- AI converts to structured Markdown
+- Extracts: contacts, decisions, tasks, risks, technical details
+
+### 2. AI Documentation Generation
+- Analyzes all emails for project context
+- Creates structured documentation in `aiDocs/`:
+  - `SUMMARY.md` - Single source of truth (contacts, background, risks, decisions)
+  - `TASKS.md` - Task tracking with dependencies
+  - `DISCOVERY.md` - Questions and information gaps
+  - `AI.md` - Project-specific AI agent notes
+
+### 3. Human-Readable Output
+- Generates `PROJECT.md` at root (executive summary)
+- Creates `docs/` folder with quick reference:
+  - `CONTACTS.md` - Key stakeholders
+  - `TASKS.md` - High-priority work and blockers
+  - `DECISIONS.md` - Decision log
+  - `QUESTIONS.md` - Outstanding questions
+
+### 4. Continuous Updates
+- Add new emails → Run `/discoverEmail` → Run `/updateSummary`
+- Documentation stays current throughout project lifecycle
+- Task dependencies automatically detected
+- Risks identified and tracked
+
+---
+
 ## Basic Workflow
 
  - Export any new/updated emails to `email/raw`
@@ -59,7 +195,69 @@ In GitHub Copilot chat, run:
 
 ---
 
+## 🏗️ Project Structure
+
+```
+copilot_template/
+│
+├── 📄 README.md                 ← You are here
+├── 📄 CONTRIBUTING.md           ← Developer guidelines (git workflow, labels, PRs)
+├── 🔧 go.sh                     ← Interactive project menu (main entry point)
+│
+├── 📁 .github/
+│   ├── copilot-instructions.md  ← Universal AI agent instructions
+│   └── workflows/
+│       └── pr-validation.yml    ← Automated PR validation
+│
+├── 📁 .githooks/
+│   └── pre-commit               ← Local pre-commit validation
+│
+├── 📁 prompts/                  ← AI workflow prompts (slash commands)
+│   ├── ProjectInit.prompt.md
+│   ├── discoverEmail.prompt.md
+│   ├── updateSummary.prompt.md
+│   ├── quickStartProject.prompt.md
+│   ├── completeIssue.prompt.md
+│   └── [and more...]
+│
+├── 📁 aiDocs/                   ← AI documentation (source of truth)
+│   ├── SUMMARY.md              ← Project state, contacts, risks, decisions
+│   ├── TASKS.md                ← Task tracking with dependencies
+│   ├── DISCOVERY.md            ← Questions and information gaps
+│   └── AI.md                   ← Project-specific AI agent notes
+│
+├── 📁 docs/                     ← Human-readable quick reference
+│   ├── CONTACTS.md
+│   ├── TASKS.md
+│   ├── DECISIONS.md
+│   └── QUESTIONS.md
+│
+├── 📁 email/                    ← Email processing
+│   ├── raw/                    ← Place .eml files here
+│   ├── ai/                     ← Converted Markdown emails
+│   └── processed/              ← Archived .eml files
+│
+├── 📁 .template/                ← Template infrastructure
+│   ├── scripts/                ← Setup and maintenance scripts
+│   ├── aiScripts/              ← Utility scripts (email converter, etc.)
+│   ├── prompts/                ← Bootstrap maintenance prompts
+│   ├── mcpServers/             ← MCP server configurations
+│   └── templates/              ← Template files for aiDocs
+│
+└── 📄 PROJECT.md                ← Generated: Human-readable project summary
+```
+
+**Key Files:**
+- **`PROJECT.md`** (root) - Executive summary for stakeholders (generated)
+- **`aiDocs/SUMMARY.md`** - Complete project context for AI agents (maintained)
+- **`docs/`** - Quick reference extracts (generated)
+- **`CONTRIBUTING.md`** - Developer workflow guide (git, commits, PRs, labels)
+
+---
+
 ## Detailed Setup Guide
+
+For complete details on the automated `/quickStartProject` workflow and individual manual steps, see sections below.
 
 ### 1. Copy This Repository
 
@@ -161,51 +359,7 @@ This will:
   - `docs/DECISIONS.md` - Decision log table
   - `docs/QUESTIONS.md` - Outstanding discovery questions
 
-## Project Structure
-
-```
-copilot_template/
-├── .github/
-│   └── copilot-instructions.md  # Universal AI agent instructions
-├── .vscode/
-│   ├── settings.json      # GitHub Copilot slash command mappings
-│   └── mcp.json           # MCP server configuration (generated by init.sh)
-├── docs/                  # Human-readable quick reference files
-│   ├── CONTACTS.md       # Key stakeholder contact information
-│   ├── TASKS.md          # High-priority tasks and blockers
-│   ├── DECISIONS.md      # Decision log table
-│   └── QUESTIONS.md      # Outstanding discovery questions
-├── aiDocs/                # AI agent documentation (continuously updated)
-│   ├── AI.md             # Project-specific AI agent notes
-│   ├── SUMMARY.md        # Single source of truth for project state
-│   ├── TASKS.md          # Task tracking
-│   └── DISCOVERY.md      # Discovery questions
-├── .template/            # Template infrastructure (used during setup)
-│   ├── scripts/          # Setup and reset scripts
-│   │   ├── init.sh       # One-time setup script
-│   │   └── clean-reset.sh # Reset to template state
-│   ├── aiScripts/        # Email conversion and dependency detection tools
-│   │   ├── emailToMd/    # Email to Markdown converter
-│   │   └── detectTaskDependencies/  # Task dependency detection
-│   ├── templates/        # Template files for aiDocs
-│   ├── mcpServers/       # MCP server configurations
-│   ├── prompts/          # Bootstrap maintenance workflows
-│   ├── FIXES.md         # Bootstrap bug tracking
-│   ├── IMPROVEMENTS.md  # Bootstrap enhancements
-│   └── SANITY_CHECK_REPORT.md  # Bootstrap analysis
-├── email/               # Email processing directories
-│   ├── raw/            # Place .eml files here
-│   ├── ai/             # Converted Markdown emails
-│   └── processed/      # Archived .eml files
-├── prompts/             # User workflow prompts (slash commands)
-│   ├── ProjectInit.prompt.md
-│   ├── discoverEmail.prompt.md
-│   ├── updateSummary.prompt.md
-│   └── quickStartProject.prompt.md
-├── go.sh                # Interactive project manager menu
-├── PROJECT.md           # Human-readable project summary
-└── GETTING_STARTED.md   # This file (template setup guide)
-```
+---
 
 ## Key Files Explained
 
@@ -610,10 +764,61 @@ This will:
 
 ## Requirements
 
-- **Python 3**: For email converter script
-- **Git**: For version control
-- **GitHub Copilot**: With prompt support
-- **VS Code**: Recommended editor
+- **Python 3.x** - For email converter script
+- **Git** - For version control
+- **GitHub Copilot** - With prompt support
+- **VS Code** - Recommended editor
 
 The email converter automatically installs required Python packages (`html2text`).
+
+---
+
+## 🤝 Contributing
+
+This project follows standardized contribution workflows. See [CONTRIBUTING.md](CONTRIBUTING.md) for:
+- Git branching strategy (`defect/` vs `feature/` prefixes)
+- Commit conventions (conventional commits format)
+- Label and milestone guidelines
+- Pull request process
+- Code quality standards
+
+**Quick reference:**
+```bash
+# Install git hooks for local validation
+./.template/scripts/install-hooks.sh
+
+# Use /completeIssue in Copilot to automate Issue→PR workflow
+```
+
+---
+
+## 🔗 Related Documentation
+
+- **[CONTRIBUTING.md](CONTRIBUTING.md)** - Complete developer guidelines
+- **[.github/copilot-instructions.md](.github/copilot-instructions.md)** - AI agent instructions
+- **[.template/README.md](.template/README.md)** - Template infrastructure docs
+- **Email Converter**: [.template/aiScripts/emailToMd/README.md](.template/aiScripts/emailToMd/README.md)
+- **Task Dependency Detector**: [.template/aiScripts/detectTaskDependencies/README.md](.template/aiScripts/detectTaskDependencies/README.md)
+
+---
+
+## 💡 Tips for Best Results
+
+1. **Email Quality**: Export complete email threads, not individual messages
+2. **Regular Updates**: Run `/updateSummary` regularly to track progress
+3. **Discovery Questions**: Keep `aiDocs/DISCOVERY.md` updated with unknowns
+4. **Task Tracking**: Update `aiDocs/TASKS.md` as work progresses
+5. **AI Context**: Re-run `/projectInit` if AI seems to lose context
+6. **Use Git Hooks**: Install pre-commit hooks to catch errors early
+7. **Follow Conventions**: Read CONTRIBUTING.md for workflow standards
+
+---
+
+## 📄 License
+
+[Your License Here]
+
+---
+
+**Created for MarkLogic consultants to streamline project documentation and knowledge transfer.**
 
