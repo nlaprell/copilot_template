@@ -4,7 +4,7 @@ This file contains critical universal instructions for AI agents working in this
 
 **For detailed workflows and guidelines, see:**
 - [CONTRIBUTING.md](../CONTRIBUTING.md) - Full development guidelines
-- [prompts/completeIssue.prompt.md](../prompts/completeIssue.prompt.md) - Issue-to-PR workflow
+- [.template/prompts/completeIssue.prompt.md](../.template/prompts/completeIssue.prompt.md) - Issue-to-PR workflow
 
 ---
 
@@ -44,7 +44,7 @@ Always reference issue: `Fixes #123` or `Implements #123`
 1. **Use the `/completeIssue` prompt** - This automates the full workflow
 2. **Or manually follow**: Fetch issue → Create branch → Implement → Sanity check → Commit → PR
 
-**See [prompts/completeIssue.prompt.md](../prompts/completeIssue.prompt.md) for complete details.**
+**See [.template/prompts/completeIssue.prompt.md](../.template/prompts/completeIssue.prompt.md) for complete details.**
 
 ---
 

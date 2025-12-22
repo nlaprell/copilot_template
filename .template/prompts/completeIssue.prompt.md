@@ -12,8 +12,24 @@ description: Complete a GitHub issue following standardized workflow from issue 
 - Read the issue body, acceptance criteria, implementation steps
 - Understand the scope and requirements completely
 - Note any dependencies or related issues
+- Document the issue number, labels, and milestone
 
-### 2. Create Branch Based on Issue Type
+### 2. Ask Critical Questions (If Needed)
+
+Before starting implementation, identify and ask about potential problems:
+
+**Ask the user IF:**
+- [ ] **Blockers exist**: Is this issue blocked by other open issues? Should those be completed first?
+- [ ] **Unclear requirements**: Are any acceptance criteria ambiguous or missing important details?
+- [ ] **Scope concerns**: Does the scope seem too large or too small? Should it be broken into smaller issues?
+- [ ] **Testing strategy**: How should this be tested? Should you run existing tests? Create new tests?
+- [ ] **Documentation updates**: Will this require updates to README, CONTRIBUTING, or other documentation?
+- [ ] **Breaking changes**: Could these changes affect other functionality or break existing workflows?
+- [ ] **Platform compatibility**: Does this need to work on both macOS and Linux?
+
+**Only ask questions if you identify actual concerns.** If the issue is clear and straightforward, proceed to Step 3 without asking.
+
+### 3. Create Branch Based on Issue Type
 
 **Determine branch prefix from issue labels:**
 - **Bug/Defect**: Issues with `bug`, `critical`, `defect`, or `fix` labels → `defect/{number}-{description}`
@@ -28,15 +44,7 @@ description: Complete a GitHub issue following standardized workflow from issue 
 - Create branch from current default branch (usually `main`)
 - Link branch to issue in commit messages
 
-### 3. Implement the Changes
-
-- Follow the implementation steps from the issue
-- Make incremental, logical commits (not one giant commit)
-- Follow coding standards and patterns from the issue
-- Update documentation if specified in acceptance criteria
-- Add tests if specified in acceptance criteria
-
-### 4. Sanity Check
+### 4. Implement the Changes
 
 - Run syntax validation for all modified scripts
 - For bash scripts: `bash -n script.sh`
@@ -55,14 +63,40 @@ description: Complete a GitHub issue following standardized workflow from issue 
 - Make commits atomic (one logical change per commit)
 - Write clear, descriptive commit messages
 
-### 6. Create Pull Request
+### 6. Verify Acceptance Criteria
+
+Before creating the PR, verify that all acceptance criteria from the issue are met:
+
+**Review each acceptance criterion:**
+- [ ] Read the acceptance criteria from the original issue
+- [ ] Verify your changes address each criterion
+- [ ] Check for completeness (nothing partially implemented)
+- [ ] Test manually if applicable
+- [ ] Run any automated tests
+
+**Verify no side effects:**
+- [ ] Changes don't break existing functionality
+- [ ] No new warnings or deprecations introduced
+- [ ] Documentation is updated if needed
+- [ ] Breaking changes are clearly documented (if any)
+
+**If criteria not fully met:**
+1. Implement missing pieces
+2. Add new commits
+3. Run sanity checks again
+4. Return to this verification step
+
+**If all criteria met:**
+Proceed to Step 7 (Create Pull Request)
+
+### 7. Create Pull Request
 
 - Title format: `[Issue #{number}] Brief description`
 - Example: `[Issue #5] Add centralized logging system`
 - Include in PR description:
   - Link to issue: `Closes #123`
   - Summary of changes
-  - Acceptance criteria checklist (from issue)
+  - Acceptance criteria checklist (from issue) - mark all as completed
   - Testing performed
   - Any breaking changes or notes
 - Assign yourself as the PR author
@@ -82,10 +116,16 @@ Issue #1 has labels: `bug`, `critical`, `mcp`
 # Issue #1: "Fix MCP Configuration Format"
 # Labels: bug, critical, mcp
 
-# 2. Create defect branch (bug label detected)
+# 2. Ask clarifying questions (if needed)
+# - No blockers: Issue is standalone
+# - Requirements clear: Configuration format is well-documented
+# - Scope appropriate: Just 2 files to fix
+# - Testing strategy: Bash syntax check sufficient
+
+# 3. Create defect branch (bug label detected)
 git checkout -b defect/1-fix-mcp-config-format
 
-# 3. Implement changes (multiple commits)
+# 4. Implement changes (multiple commits)
 git add .template/scripts/init.sh
 git commit -m "fix(mcp): correct configuration format in init.sh
 
@@ -99,13 +139,14 @@ git commit -m "fix(mcp): correct configuration format in clean-reset.sh
 Fixes #1
 - Change 'mcpServers' to 'servers' on line 162"
 
-# 4. Sanity check
-bash -n .template/scripts/init.sh
-bash -n .template/scripts/clean-reset.sh
-
 # 5. Already committed above
 
-# 6. Create PR
+# 6. Verify acceptance criteria
+# - [ ] Line 154 in init.sh: changed to 'servers'
+# - [ ] Line 162 in clean-reset.sh: changed to 'servers'
+# - [ ] Bash syntax checks pass
+
+# 7. Create PR
 # Title: [Issue #1] Fix MCP Configuration Format
 # Body: Closes #1, fixes critical MCP server loading bug
 ```
@@ -121,10 +162,17 @@ Issue #5 has labels: `enhancement`, `quality`
 # Issue #5: "Add Centralized Logging System"
 # Labels: enhancement, quality
 
-# 2. Create feature branch (enhancement label detected)
+# 2. Ask clarifying questions (if needed)
+# - No blockers: Logging is standalone feature
+# - Requirements clear: Detailed specification in issue
+# - Scope appropriate: Single cohesive feature
+# - Testing strategy: Run test suite, test with email converter
+# - Documentation: Will need to update usage examples
+
+# 3. Create feature branch (enhancement label detected)
 git checkout -b feature/5-centralized-logging
 
-# 3. Implement changes (multiple commits)
+# 4. Implement changes (multiple commits)
 git add .template/aiScripts/logger.py
 git commit -m "feat(logging): add Python logging helper module
 
@@ -141,27 +189,34 @@ Implements #5
 - Add DEBUG level for detailed email processing
 - Include stack traces in error logs"
 
-# 4. Sanity check
-python3 -m py_compile .template/aiScripts/logger.py
-python3 -m py_compile .template/aiScripts/emailToMd/eml_to_md_converter.py
-
 # 5. Already committed above
 
-# 6. Create PR
+# 6. Verify acceptance criteria
+# - [ ] Logger module created with rotation support
+# - [ ] Email converter uses new logger
+# - [ ] DEBUG level shows detailed processing
+# - [ ] All tests pass
+# - [ ] Error logs include stack traces
+
+# 7. Create PR
 # Title: [Issue #5] Add Centralized Logging System
 # Body: Closes #5, adds comprehensive logging infrastructure
 ```
 
 ## Mandatory Rules
 
+- ✅ **ALWAYS** ask clarifying questions if you identify concerns (Step 2)
 - ✅ **ALWAYS** create a feature branch (never commit directly to main)
 - ✅ **ALWAYS** link commits to the issue (`Fixes #123`, `Implements #123`)
 - ✅ **ALWAYS** run sanity checks before committing
+- ✅ **ALWAYS** verify acceptance criteria are met before creating PR (Step 6)
 - ✅ **ALWAYS** create a PR (never merge directly)
 - ✅ **ALWAYS** include acceptance criteria checklist in PR
 - ❌ **NEVER** skip the sanity check step
+- ❌ **NEVER** skip acceptance criteria verification
 - ❌ **NEVER** make one giant commit (break into logical commits)
 - ❌ **NEVER** commit broken code (syntax errors, etc.)
+- ❌ **NEVER** proceed with partial understanding of requirements
 
 ## When Things Go Wrong
 

@@ -217,7 +217,7 @@ lumina/
 │   ├── discoverEmail.prompt.md
 │   ├── updateSummary.prompt.md
 │   ├── quickStartProject.prompt.md
-│   ├── completeIssue.prompt.md
+│   ├── completeIssue.prompt.md (for Lumina maintenance)
 │   └── [and more...]
 │
 ├── 📁 aiDocs/                   ← AI documentation (source of truth)

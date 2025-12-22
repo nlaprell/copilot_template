@@ -84,7 +84,7 @@ This directory contains the infrastructure used to initialize and maintain the L
   - PR process template and code quality standards
   - **Created during**: `init.sh` setup (copied from template)
 
-- **`prompts/completeIssue.prompt.md`**: Issue-to-PR workflow (AI invokable)
+- **`.template/prompts/completeIssue.prompt.md`**: Issue-to-PR workflow (AI invokable)
   - Complete 6-step workflow: Fetch issue → Branch → Implement → Test → Commit → PR
   - Examples for both bug fixes and features
   - Automated via `/completeIssue` command for AI agents
