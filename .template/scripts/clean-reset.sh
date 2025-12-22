@@ -159,7 +159,7 @@ echo ""
 echo -e "${BLUE}[4/5] Resetting MCP configuration...${NC}"
 
 if [ -f "$PROJECT_ROOT/.vscode/mcp.json" ]; then
-    echo '{"mcpServers": {}}' > "$PROJECT_ROOT/.vscode/mcp.json"
+    echo '{"servers": {}}' > "$PROJECT_ROOT/.vscode/mcp.json"
     echo "  ✓ Reset .vscode/mcp.json to default state"
 else
     echo "  ℹ .vscode/mcp.json does not exist (nothing to reset)"
@@ -230,7 +230,7 @@ fi
 MCP_OK=true
 if [ -f "$PROJECT_ROOT/.vscode/mcp.json" ]; then
     MCP_CONTENT=$(cat "$PROJECT_ROOT/.vscode/mcp.json" | tr -d '[:space:]')
-    if [ "$MCP_CONTENT" != '{"mcpServers":{}}' ]; then
+    if [ "$MCP_CONTENT" != '{"servers":{}}' ]; then
         echo -e "  ${RED}✗ .vscode/mcp.json is not in default state${NC}"
         MCP_OK=false
     fi

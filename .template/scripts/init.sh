@@ -150,8 +150,8 @@ merge_configs() {
     # Create .vscode directory if it doesn't exist
     mkdir -p "$VSCODE_DIR"
 
-    # Start with empty mcpServers object
-    local merged_json='{"mcpServers":{}}'
+    # Start with empty servers object
+    local merged_json='{"servers":{}}'
 
     local configured_servers=()
 
@@ -173,12 +173,12 @@ with open('$file', 'r') as f:
     new_config = json.load(f)
 
 # Merge configurations
-if 'mcpServers' in new_config:
-    for key, value in new_config['mcpServers'].items():
-        merged['mcpServers'][key] = value
-elif 'servers' in new_config:
+if 'servers' in new_config:
     for key, value in new_config['servers'].items():
-        merged['mcpServers'][key] = value
+        merged['servers'][key] = value
+elif 'mcpServers' in new_config:
+    for key, value in new_config['mcpServers'].items():
+        merged['servers'][key] = value
 
 # Output merged config
 print(json.dumps(merged, indent=2))
