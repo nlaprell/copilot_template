@@ -52,8 +52,8 @@ This directory contains the infrastructure used to initialize and maintain the L
 - **`prompts/`**: Workflows for maintaining the bootstrap template itself
   - `sanityCheck.prompt.md` - Fast pre-commit validation (critical issues only)
   - `healthCheck.prompt.md` - Comprehensive QA analysis of bootstrap
-  - `generateTasks.prompt.md` - Convert findings to actionable tasks
-  - Use `/sanityCheck`, `/healthCheck`, and `/generateTasks` slash commands
+  - `reportToGitHub.prompt.md` - Automated GitHub issue creation from findings
+  - Use `/sanityCheck`, `/healthCheck`, and `/reportToGitHub` slash commands
 
 - **`SANITY_CHECK_REPORT.md`**: Latest validation results
   - Quick validation for pre-commit checks
@@ -171,11 +171,11 @@ This directory contains the infrastructure used to initialize and maintain the L
 - Need detailed component-by-component review
 - Analyzing all severity levels (not just critical)
 
-### Run `/generateTasks` when:
-- Health check identifies issues
+### Run `/reportToGitHub` when:
+- Health check or sanity check identifies issues
+- Need to convert findings to GitHub issues
 - Planning bootstrap improvements
-- Creating actionable fix lists
-- Prioritizing maintenance work
+- Creating actionable fix tracking
 
 ### Edit bootstrap files when:
 - Adding new MCP server configs

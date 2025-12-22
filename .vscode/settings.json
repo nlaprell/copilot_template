@@ -31,8 +31,6 @@
         {
             "file": ".template/prompts/healthCheck.prompt.md"
         },
-        {
-            "file": ".template/prompts/generateTasks.prompt.md"
-        }
+
     ]
 }

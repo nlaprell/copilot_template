@@ -625,7 +625,7 @@ These prompts are in `.template/prompts/` and are **only for maintaining the tem
 
 - **`/sanityCheck`**: Fast pre-commit validation (critical issues only)
 - **`/healthCheck`**: Comprehensive template analysis
-- **`/generateTasks`**: Convert health check findings to tasks
+- **`/reportToGitHub`**: Automated GitHub issue creation from findings
 
 **When to run:** Before committing changes to the template repository
 

@@ -200,9 +200,8 @@ After creating all issues, provide summary:
 4. Work from GitHub issues (assign, update, close)
 5. Don't create FIXES.md or IMPROVEMENTS.md (removed)
 
-**Old workflow (deprecated):**
-- ❌ `/healthCheck` → `.template/HEALTH_CHECK_REPORT.md`
-- ❌ `/generateTasks` → (removed workflow; use `/reportToGitHub`)
+**Old workflows (deprecated):**
+- ❌ FIXES.md and IMPROVEMENTS.md files removed
 - ✅ Use GitHub issues instead
 
 ## Validation Checklist

@@ -6,7 +6,6 @@
 - .template/FIXES.md (deleted)
 - .template/IMPROVEMENTS.md (deleted)
 - .template/README.md
-- .template/prompts/generateTasks.prompt.md
 - .template/prompts/healthCheck.prompt.md
 - .template/prompts/sanityCheck.prompt.md
 - .template/prompts/reportToGitHub.prompt.md

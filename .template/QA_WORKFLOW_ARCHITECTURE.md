@@ -148,7 +148,6 @@ All issues created via `/reportToGitHub` are assigned to one of two milestones:
 
 - `.template/FIXES.md` - Removed (GitHub issues are source of truth)
 - `.template/IMPROVEMENTS.md` - Removed (GitHub issues are source of truth)
-- `/generateTasks` prompt - Deprecated; use `/reportToGitHub` instead
 
 ### Why?
 
@@ -398,12 +397,11 @@ Track and close as work progresses
 
 ---
 
-## Archive: Deprecated Prompts/Files
+## Archive: Deprecated Files
 
-- ❌ `/generateTasks` - Use `/reportToGitHub` instead
 - ❌ Legacy markdown trackers removed (`.template/FIXES.md`, `.template/IMPROVEMENTS.md`)
 
-All work is tracked in GitHub issues.
+All template work is tracked in GitHub issues.
 
 ---
 
