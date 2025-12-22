@@ -30,7 +30,6 @@
         },
         {
             "file": ".template/prompts/healthCheck.prompt.md"
-        },
-
+        }
     ]
 }
