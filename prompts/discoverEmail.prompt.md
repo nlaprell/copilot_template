@@ -17,7 +17,7 @@ First, you need to convert any `.eml` files in the `email/raw/` directory to Mar
 Execute the email converter script from the **project root** directory:
 
 ```bash
-python3 ".template/aiScripts/emailToMd/eml_to_md_converter.py"
+python3 "core/aiScripts/emailToMd/eml_to_md_converter.py"
 ```
 
 The script will automatically:
@@ -71,10 +71,10 @@ When emails contain contradictions:
 **MANDATORY**: You MUST update ALL relevant `aiDocs/` files based on email content. Do not skip this step.
 
 **Note on Templates**: If `aiDocs/` files are in their default template state (containing placeholders like `[DATE]`, `[CUSTOMER]`, `[PROJECT]`, etc.), the templates are located at:
-- `.template/templates/SUMMARY.template.md`
-- `.template/templates/TASKS.template.md`
-- `.template/templates/DISCOVERY.template.md`
-- `.template/templates/AI.template.md`
+- `core/templates/SUMMARY.template.md`
+- `core/templates/TASKS.template.md`
+- `core/templates/DISCOVERY.template.md`
+- `core/templates/AI.template.md`
 
 The working files in `aiDocs/` (without the `.template` extension) are the ones you should update. Replace all placeholders with actual content from emails.
 
@@ -290,4 +290,4 @@ After completing ALL updates to `aiDocs/` files, provide a comprehensive summary
 - **DO provide complete summary**: Include all metrics for contacts, tasks, risks, blockers
 - Always run the email converter from the project root directory
 - If email content conflicts with existing documentation, update with the latest information from emails and note the conflict in your summary
-- **Optional**: After creating/updating tasks, run dependency detection: `python3 .template/aiScripts/detectTaskDependencies/detectTaskDependencies.py aiDocs/TASKS.md`
+- **Optional**: After creating/updating tasks, run dependency detection: `python3 core/aiScripts/detectTaskDependencies/detectTaskDependencies.py aiDocs/TASKS.md`

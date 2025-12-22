@@ -16,7 +16,7 @@ This script analyzes tasks in `TASKS.md` to automatically detect dependencies an
 ### Command Line
 
 ```bash
-python3 .template/aiScripts/detectTaskDependencies/detectTaskDependencies.py aiDocs/TASKS.md
+python3 core/aiScripts/detectTaskDependencies/detectTaskDependencies.py aiDocs/TASKS.md
 ```
 
 ### Output Files
@@ -103,7 +103,7 @@ Add to `prompts/discoverEmail.prompt.md` or `prompts/updateSummary.prompt.md`:
 
 ```bash
 # After updating TASKS.md
-python3 .template/aiScripts/detectTaskDependencies/detectTaskDependencies.py aiDocs/TASKS.md
+python3 core/aiScripts/detectTaskDependencies/detectTaskDependencies.py aiDocs/TASKS.md
 
 # Review the report
 cat aiDocs/TASK_DEPENDENCY_REPORT.md

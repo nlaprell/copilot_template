@@ -11,7 +11,7 @@
 # 3. Removes root PROJECT.md and docs/ folder
 # 4. Preserves configuration and scripts
 #
-# Usage: ./.template/scripts/clean-reset.sh
+# Usage: ./core/scripts/clean-reset.sh
 #############################################################################
 
 set -e  # Exit on error
@@ -79,32 +79,32 @@ echo ""
 # Step 2: Reset aiDocs files from templates
 echo -e "${BLUE}[2/5] Resetting aiDocs files to templates...${NC}"
 
-if [ -f "$PROJECT_ROOT/.template/templates/SUMMARY.template.md" ]; then
-    cp "$PROJECT_ROOT/.template/templates/SUMMARY.template.md" "$PROJECT_ROOT/aiDocs/SUMMARY.md"
+if [ -f "$PROJECT_ROOT/core/templates/SUMMARY.template.md" ]; then
+    cp "$PROJECT_ROOT/core/templates/SUMMARY.template.md" "$PROJECT_ROOT/aiDocs/SUMMARY.md"
     echo "  ✓ Reset aiDocs/SUMMARY.md"
 else
-    echo -e "  ${RED}✗ Template not found: .template/templates/SUMMARY.template.md${NC}"
+    echo -e "  ${RED}✗ Template not found: core/templates/SUMMARY.template.md${NC}"
 fi
 
-if [ -f "$PROJECT_ROOT/.template/templates/TASKS.template.md" ]; then
-    cp "$PROJECT_ROOT/.template/templates/TASKS.template.md" "$PROJECT_ROOT/aiDocs/TASKS.md"
+if [ -f "$PROJECT_ROOT/core/templates/TASKS.template.md" ]; then
+    cp "$PROJECT_ROOT/core/templates/TASKS.template.md" "$PROJECT_ROOT/aiDocs/TASKS.md"
     echo "  ✓ Reset aiDocs/TASKS.md"
 else
-    echo -e "  ${RED}✗ Template not found: .template/templates/TASKS.template.md${NC}"
+    echo -e "  ${RED}✗ Template not found: core/templates/TASKS.template.md${NC}"
 fi
 
-if [ -f "$PROJECT_ROOT/.template/templates/DISCOVERY.template.md" ]; then
-    cp "$PROJECT_ROOT/.template/templates/DISCOVERY.template.md" "$PROJECT_ROOT/aiDocs/DISCOVERY.md"
+if [ -f "$PROJECT_ROOT/core/templates/DISCOVERY.template.md" ]; then
+    cp "$PROJECT_ROOT/core/templates/DISCOVERY.template.md" "$PROJECT_ROOT/aiDocs/DISCOVERY.md"
     echo "  ✓ Reset aiDocs/DISCOVERY.md"
 else
-    echo -e "  ${RED}✗ Template not found: .template/templates/DISCOVERY.template.md${NC}"
+    echo -e "  ${RED}✗ Template not found: core/templates/DISCOVERY.template.md${NC}"
 fi
 
-if [ -f "$PROJECT_ROOT/.template/templates/AI.template.md" ]; then
-    cp "$PROJECT_ROOT/.template/templates/AI.template.md" "$PROJECT_ROOT/aiDocs/AI.md"
+if [ -f "$PROJECT_ROOT/core/templates/AI.template.md" ]; then
+    cp "$PROJECT_ROOT/core/templates/AI.template.md" "$PROJECT_ROOT/aiDocs/AI.md"
     echo "  ✓ Reset aiDocs/AI.md"
 else
-    echo -e "  ${RED}✗ Template not found: .template/templates/AI.template.md${NC}"
+    echo -e "  ${RED}✗ Template not found: core/templates/AI.template.md${NC}"
 fi
 
 echo ""
@@ -130,32 +130,32 @@ mkdir -p "$PROJECT_ROOT/docs"
 echo "  ✓ Created docs/ folder"
 
 # Copy docs templates
-if [ -f "$PROJECT_ROOT/.template/templates/CONTACTS.template.md" ]; then
-    cp "$PROJECT_ROOT/.template/templates/CONTACTS.template.md" "$PROJECT_ROOT/docs/CONTACTS.md"
+if [ -f "$PROJECT_ROOT/core/templates/CONTACTS.template.md" ]; then
+    cp "$PROJECT_ROOT/core/templates/CONTACTS.template.md" "$PROJECT_ROOT/docs/CONTACTS.md"
     echo "  ✓ Reset docs/CONTACTS.md"
 else
-    echo -e "  ${RED}✗ Template not found: .template/templates/CONTACTS.template.md${NC}"
+    echo -e "  ${RED}✗ Template not found: core/templates/CONTACTS.template.md${NC}"
 fi
 
-if [ -f "$PROJECT_ROOT/.template/templates/docs_TASKS.template.md" ]; then
-    cp "$PROJECT_ROOT/.template/templates/docs_TASKS.template.md" "$PROJECT_ROOT/docs/TASKS.md"
+if [ -f "$PROJECT_ROOT/core/templates/docs_TASKS.template.md" ]; then
+    cp "$PROJECT_ROOT/core/templates/docs_TASKS.template.md" "$PROJECT_ROOT/docs/TASKS.md"
     echo "  ✓ Reset docs/TASKS.md"
 else
-    echo -e "  ${RED}✗ Template not found: .template/templates/docs_TASKS.template.md${NC}"
+    echo -e "  ${RED}✗ Template not found: core/templates/docs_TASKS.template.md${NC}"
 fi
 
-if [ -f "$PROJECT_ROOT/.template/templates/DECISIONS.template.md" ]; then
-    cp "$PROJECT_ROOT/.template/templates/DECISIONS.template.md" "$PROJECT_ROOT/docs/DECISIONS.md"
+if [ -f "$PROJECT_ROOT/core/templates/DECISIONS.template.md" ]; then
+    cp "$PROJECT_ROOT/core/templates/DECISIONS.template.md" "$PROJECT_ROOT/docs/DECISIONS.md"
     echo "  ✓ Reset docs/DECISIONS.md"
 else
-    echo -e "  ${RED}✗ Template not found: .template/templates/DECISIONS.template.md${NC}"
+    echo -e "  ${RED}✗ Template not found: core/templates/DECISIONS.template.md${NC}"
 fi
 
-if [ -f "$PROJECT_ROOT/.template/templates/QUESTIONS.template.md" ]; then
-    cp "$PROJECT_ROOT/.template/templates/QUESTIONS.template.md" "$PROJECT_ROOT/docs/QUESTIONS.md"
+if [ -f "$PROJECT_ROOT/core/templates/QUESTIONS.template.md" ]; then
+    cp "$PROJECT_ROOT/core/templates/QUESTIONS.template.md" "$PROJECT_ROOT/docs/QUESTIONS.md"
     echo "  ✓ Reset docs/QUESTIONS.md"
 else
-    echo -e "  ${RED}✗ Template not found: .template/templates/QUESTIONS.template.md${NC}"
+    echo -e "  ${RED}✗ Template not found: core/templates/QUESTIONS.template.md${NC}"
 fi
 
 echo ""
@@ -177,19 +177,19 @@ echo -e "${BLUE}[5/5] Verifying reset...${NC}"
 
 # Check that templates exist
 TEMPLATES_OK=true
-if [ ! -f "$PROJECT_ROOT/.template/templates/SUMMARY.template.md" ]; then
+if [ ! -f "$PROJECT_ROOT/core/templates/SUMMARY.template.md" ]; then
     echo -e "  ${RED}✗ Missing template: SUMMARY.template.md${NC}"
     TEMPLATES_OK=false
 fi
-if [ ! -f "$PROJECT_ROOT/.template/templates/TASKS.template.md" ]; then
+if [ ! -f "$PROJECT_ROOT/core/templates/TASKS.template.md" ]; then
     echo -e "  ${RED}✗ Missing template: TASKS.template.md${NC}"
     TEMPLATES_OK=false
 fi
-if [ ! -f "$PROJECT_ROOT/.template/templates/DISCOVERY.template.md" ]; then
+if [ ! -f "$PROJECT_ROOT/core/templates/DISCOVERY.template.md" ]; then
     echo -e "  ${RED}✗ Missing template: DISCOVERY.template.md${NC}"
     TEMPLATES_OK=false
 fi
-if [ ! -f "$PROJECT_ROOT/.template/templates/AI.template.md" ]; then
+if [ ! -f "$PROJECT_ROOT/core/templates/AI.template.md" ]; then
     echo -e "  ${RED}✗ Missing template: AI.template.md${NC}"
     TEMPLATES_OK=false
 fi
@@ -255,7 +255,7 @@ echo ""
 echo "The project has been reset to a clean template state."
 echo ""
 echo "Next steps:"
-echo "  1. Run ./init.sh to configure your project"
+echo "  1. Run ./core/scripts/init.sh to configure your project"
 echo "  2. Add email files to email/raw/ (if needed)"
 echo "  3. Run /quickStartProject in GitHub Copilot"
 echo ""

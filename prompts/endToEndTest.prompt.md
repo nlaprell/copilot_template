@@ -7,11 +7,11 @@ You are an AI agent running a full end-to-end validation of the bootstrap workfl
 Follow these steps exactly:
 
 ## Step 1: Prepare Sample Emails
-- From project root, copy all `.eml` files in `./.template/testData/email/` **except** `.gitkeep` into `./email/raw/` (create the folder if missing).
+- From project root, copy all `.eml` files in `./core/testData/email/` **except** `.gitkeep` into `./email/raw/` (create the folder if missing).
 - Confirm the four sample files exist in `email/raw/` after copy.
 
 ## Step 2: Initialize Project Context
-- Run `./.template/scripts/init.sh` and provide:
+- Run `./core/scripts/init.sh` and provide:
   - Name: `John Doe`
   - Project: `My Project`
   - Client: `Customer X`
@@ -32,4 +32,4 @@ Follow these steps exactly:
 - Summarize results to the user: highlight any issues, mismatches, or missing data; call out if outputs remain template defaults (e.g., aiDocs or docs placeholders) and whether PROJECT.md was generated.
 
 ## Step 6: Reset Environment
-- Run the reset script `./.template/scripts/clean-reset.sh` to return the repository to a clean baseline after reporting.
+- Run the reset script `./core/scripts/clean-reset.sh` to return the repository to a clean baseline after reporting.

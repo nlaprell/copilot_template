@@ -122,11 +122,11 @@ jobs:
 
       - name: Run smoke tests (if available)
         run: |
-          if [ -f ".template/tests/test_suite.sh" ]; then
+          if [ -f "core/tests/test_suite.sh" ]; then
             echo "Running smoke tests..."
-            bash .template/tests/test_suite.sh
+            bash core/tests/test_suite.sh
           else
-            echo "ℹ️  No smoke tests found (expected at .template/tests/test_suite.sh)"
+            echo "ℹ️  No smoke tests found (expected at core/tests/test_suite.sh)"
           fi
         continue-on-error: true
 

@@ -85,8 +85,8 @@ execute_option() {
 
     case "$option" in
         "Initialize Project")
-            if [ -f "$PROJECT_ROOT/.template/scripts/init.sh" ]; then
-                "$PROJECT_ROOT/.template/scripts/init.sh"
+            if [ -f "$PROJECT_ROOT/core/scripts/init.sh" ]; then
+                "$PROJECT_ROOT/core/scripts/init.sh"
                 local exit_code=$?
                 echo ""
                 if [ "$exit_code" -ne 0 ]; then
@@ -95,14 +95,14 @@ execute_option() {
                     echo -e "${GREEN}Initialize completed successfully${NC}"
                 fi
             else
-                echo -e "${RED}Error: init.sh not found at "$PROJECT_ROOT"/.template/scripts/init.sh${NC}"
+                echo -e "${RED}Error: init.sh not found at "$PROJECT_ROOT"/core/scripts/init.sh${NC}"
             fi
             echo ""
             read -p "Press any key to continue..." -n 1 -s
             ;;
         "Reset Project")
-            if [ -f "$PROJECT_ROOT/.template/scripts/clean-reset.sh" ]; then
-                "$PROJECT_ROOT/.template/scripts/clean-reset.sh"
+            if [ -f "$PROJECT_ROOT/core/scripts/clean-reset.sh" ]; then
+                "$PROJECT_ROOT/core/scripts/clean-reset.sh"
                 local exit_code=$?
                 echo ""
                 if [ "$exit_code" -ne 0 ]; then
@@ -111,7 +111,7 @@ execute_option() {
                     echo -e "${GREEN}Reset completed successfully${NC}"
                 fi
             else
-                echo -e "${RED}Error: clean-reset.sh not found at "$PROJECT_ROOT"/.template/scripts/clean-reset.sh${NC}"
+                echo -e "${RED}Error: clean-reset.sh not found at "$PROJECT_ROOT"/core/scripts/clean-reset.sh${NC}"
             fi
             echo ""
             read -p "Press any key to continue..." -n 1 -s

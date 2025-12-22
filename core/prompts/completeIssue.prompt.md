@@ -52,7 +52,7 @@ Before starting implementation, identify and ask about potential problems:
 - Verify file paths are correct
 - Check that no placeholders remain
 - Ensure changes match acceptance criteria
-- If tests exist, run them: `.template/tests/test_suite.sh`
+- If tests exist, run them: `core/tests/test_suite.sh`
 
 ### 5. Commit Changes
 
@@ -126,14 +126,14 @@ Issue #1 has labels: `bug`, `critical`, `mcp`
 git checkout -b defect/1-fix-mcp-config-format
 
 # 4. Implement changes (multiple commits)
-git add .template/scripts/init.sh
+git add core/scripts/init.sh
 git commit -m "fix(mcp): correct configuration format in init.sh
 
 Fixes #1
 - Change 'mcpServers' to 'servers' on line 154
 - Update merge logic to output correct format"
 
-git add .template/scripts/clean-reset.sh
+git add core/scripts/clean-reset.sh
 git commit -m "fix(mcp): correct configuration format in clean-reset.sh
 
 Fixes #1
@@ -173,7 +173,7 @@ Issue #5 has labels: `enhancement`, `quality`
 git checkout -b feature/5-centralized-logging
 
 # 4. Implement changes (multiple commits)
-git add .template/aiScripts/logger.py
+git add core/aiScripts/logger.py
 git commit -m "feat(logging): add Python logging helper module
 
 Implements #5
@@ -181,7 +181,7 @@ Implements #5
 - Supports log rotation (10MB max, 5 backups)
 - Configurable log levels"
 
-git add .template/aiScripts/emailToMd/eml_to_md_converter.py
+git add core/aiScripts/emailToMd/eml_to_md_converter.py
 git commit -m "feat(logging): integrate logging into email converter
 
 Implements #5

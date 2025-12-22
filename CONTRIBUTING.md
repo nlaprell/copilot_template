@@ -20,7 +20,7 @@ Thank you for contributing! This document provides guidelines for contributing t
 
 1. Fork the repository
 2. Clone your fork: `git clone https://github.com/YOUR_USERNAME/lumina.git`
-3. Install git hooks for local validation: `./.template/scripts/install-hooks.sh`
+3. Install git hooks for local validation: `./core/scripts/install-hooks.sh`
 4. Create a branch for your work (see [Git Branching Strategy](#git-branching-strategy))
 
 ---

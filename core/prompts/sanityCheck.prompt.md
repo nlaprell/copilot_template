@@ -78,7 +78,7 @@ python3 -m py_compile path/to/script.py
 ### Prompt Files (.prompt.md)
 
 **Check for:**
-- All referenced files exist (`.template/templates/`, `.template/scripts/`, `.template/aiScripts/`)
+- All referenced files exist (`core/templates/`, `core/scripts/`, `core/aiScripts/`)
 - Script invocations match actual script locations
 - No broken links to other prompts
 - Proper markdown formatting
@@ -107,8 +107,8 @@ For each modified file, verify file path references are correct:
 - Do imports reference available modules?
 
 **In changed prompts:**
-- Do `.template/templates/` references exist?
-- Do script invocations exist in `.template/scripts/` or `.template/aiScripts/`?
+- Do `core/templates/` references exist?
+- Do script invocations exist in `core/scripts/` or `core/aiScripts/`?
 - Are prompt cross-references correct?
 
 **In changed documentation:**
@@ -120,7 +120,7 @@ For each modified file, verify file path references are correct:
 
 ## Step 4: Create Report
 
-Create `.template/SANITY_CHECK_REPORT.md`:
+Create `core/SANITY_CHECK_REPORT.md`:
 
 ```markdown
 # Pre-Commit Sanity Check Report
@@ -222,7 +222,7 @@ Files affected: [List files]
 
 **Option B: Automated Creation**
 
-Once `.template/SANITY_CHECK_REPORT.md` is created:
+Once `core/SANITY_CHECK_REPORT.md` is created:
 
 1. Run `/reportToGitHub`
 2. It will:
@@ -249,7 +249,7 @@ Once `.template/SANITY_CHECK_REPORT.md` is created:
 
 ```bash
 # Make changes to code
-vim .template/scripts/init.sh
+vim core/scripts/init.sh
 
 # Run sanity check (this prompt)
 # - Check git status

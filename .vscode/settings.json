@@ -26,10 +26,10 @@
             "file": "prompts/generateReport.prompt.md"
         },
         {
-            "file": ".template/prompts/sanityCheck.prompt.md"
+            "file": "core/prompts/sanityCheck.prompt.md"
         },
         {
-            "file": ".template/prompts/healthCheck.prompt.md"
+            "file": "core/prompts/healthCheck.prompt.md"
         }
     ]
 }

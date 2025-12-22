@@ -4,7 +4,7 @@ This file contains critical universal instructions for AI agents working in this
 
 **For detailed workflows and guidelines, see:**
 - [CONTRIBUTING.md](../CONTRIBUTING.md) - Full development guidelines
-- [.template/prompts/completeIssue.prompt.md](../.template/prompts/completeIssue.prompt.md) - Issue-to-PR workflow
+- [core/prompts/completeIssue.prompt.md](../core/prompts/completeIssue.prompt.md) - Issue-to-PR workflow
 
 ---
 
@@ -13,7 +13,7 @@ This file contains critical universal instructions for AI agents working in this
 ### Email Workflow
 
 1. **Raw emails**: Place `.eml` files in `email/raw/`
-2. **Convert**: Run `python3 ".template/aiScripts/emailToMd/eml_to_md_converter.py"`
+2. **Convert**: Run `python3 "core/aiScripts/emailToMd/eml_to_md_converter.py"`
 3. **Read**: Converted emails in `email/ai/`, originals moved to `email/processed/`
 
 ### Git Branching
@@ -44,7 +44,7 @@ Always reference issue: `Fixes #123` or `Implements #123`
 1. **Use the `/completeIssue` prompt** - This automates the full workflow
 2. **Or manually follow**: Fetch issue → Create branch → Implement → Sanity check → Commit → PR
 
-**See [.template/prompts/completeIssue.prompt.md](../.template/prompts/completeIssue.prompt.md) for complete details.**
+**See [core/prompts/completeIssue.prompt.md](../core/prompts/completeIssue.prompt.md) for complete details.**
 
 ---
 
@@ -150,7 +150,7 @@ Tasks must have sequential IDs when created:
 ### Task Dependency Detection
 
 Use the automated dependency detection script to find task relationships:
-- Run: `python3 .template/aiScripts/detectTaskDependencies/detectTaskDependencies.py aiDocs/TASKS.md`
+- Run: `python3 core/aiScripts/detectTaskDependencies/detectTaskDependencies.py aiDocs/TASKS.md`
 - Reviews generated report in `aiDocs/TASK_DEPENDENCY_REPORT.md`
 - Updates task Blocks/Related fields based on high-confidence detections
 - Resolves circular dependencies before proceeding
@@ -229,7 +229,7 @@ Before completing work, verify:
 
 ### Template Files
 
-Templates are preserved in `.template/templates/` for reference and reset:
+Templates are preserved in `core/templates/` for reference and reset:
 - `SUMMARY.template.md`
 - `TASKS.template.md`
 - `DISCOVERY.template.md`

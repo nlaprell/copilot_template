@@ -1,8 +1,8 @@
-# .template Directory
+# core Directory
 
-This directory contains the infrastructure used to initialize and maintain the Lumina project itself. 
+This directory contains the infrastructure used to initialize and maintain the Lumina project itself.
 
-**Important Distinction**: This .template/ directory is for the TEMPLATE infrastructure, not for projects created FROM the template.
+**Important Distinction**: This core/ directory is for the bootstrap infrastructure, not for projects created FROM the template.
 
 ---
 
@@ -14,14 +14,14 @@ This directory contains the infrastructure used to initialize and maintain the L
   - Prompts for project name, customer name, and user name
   - Allows selection of MCP servers to enable
   - Generates `.vscode/mcp.json` configuration
-  - Run with: `./.template/scripts/init.sh`
+  - Run with: `./core/scripts/init.sh`
 
 - **`templates/`**: Read-only template files for initializing `aiDocs/`
   - `SUMMARY.template.md` - Project summary template
   - `TASKS.template.md` - Task tracking template
   - `DISCOVERY.template.md` - Discovery questions template
   - `AI.template.md` - AI agent notes template
-  - Used by `.template/scripts/clean-reset.sh` to reset project state
+  - Used by `core/scripts/clean-reset.sh` to reset project state
 
 - **`mcpServers/`**: MCP server configuration options
   - Pre-configured JSON files for various MCP servers
@@ -45,7 +45,7 @@ This directory contains the infrastructure used to initialize and maintain the L
   - Validates bash and Python syntax before commits
   - Checks commit message format
   - Ensures issue references in commits
-  - Install with: `.template/scripts/install-hooks.sh`
+  - Install with: `core/scripts/install-hooks.sh`
 
 ### Bootstrap Maintenance
 
@@ -75,7 +75,7 @@ This directory contains the infrastructure used to initialize and maintain the L
 
 **Purpose**: Standard workflows and automated quality enforcement for the template
 
-**Files created in root (not .template):**
+**Files created in root (not core/):**
 
 - **`CONTRIBUTING.md`**: Comprehensive developer guidelines (human-readable)
   - Git branching strategy (`defect/` vs `feature/` prefixes)
@@ -84,7 +84,7 @@ This directory contains the infrastructure used to initialize and maintain the L
   - PR process template and code quality standards
   - **Created during**: `init.sh` setup (copied from template)
 
-- **`.template/prompts/completeIssue.prompt.md`**: Issue-to-PR workflow (AI invokable)
+- **`prompts/completeIssue.prompt.md`**: Issue-to-PR workflow (AI invokable)
   - Complete 6-step workflow: Fetch issue → Branch → Implement → Test → Commit → PR
   - Examples for both bug fixes and features
   - Automated via `/completeIssue` command for AI agents
@@ -111,12 +111,12 @@ This directory contains the infrastructure used to initialize and maintain the L
   - Checks commit message format (type(scope): description)
   - Ensures issue references in commits (Fixes #N, Refs #N)
   - Color-coded output (red errors, green success, yellow warnings)
-  - **Install with**: `.template/scripts/install-hooks.sh`
+  - **Install with**: `core/scripts/install-hooks.sh`
 
 **Installation**:
 ```bash
 # Install git hooks for local validation
-./.template/scripts/install-hooks.sh
+./core/scripts/install-hooks.sh
 ```
 
 **Usage**:
@@ -126,9 +126,9 @@ This directory contains the infrastructure used to initialize and maintain the L
 
 ---
 
-## .template vs. Project
+## core vs. Project
 
-### .template Directory (this directory)
+### core Directory (this directory)
 
 - **Purpose**: Infrastructure for creating and maintaining the template
 - **Users**: Template maintainers and developers
@@ -187,9 +187,9 @@ This directory contains the infrastructure used to initialize and maintain the L
 
 ## Decision Criteria
 
-**Does it belong in .template/?**
+**Does it belong in core/?**
 
-| Question | Yes → .template | No → Root |
+| Question | Yes → core | No → Root |
 |----------|----------------|-----------|
 | Used only during initial setup? | ✅ | ❌ |
 | Read-only after setup? | ✅ | ❌ |
@@ -202,7 +202,7 @@ This directory contains the infrastructure used to initialize and maintain the L
 
 ## Examples
 
-### .template Items (in this directory)
+### core Items (in this directory)
 - `scripts/init.sh` - Only runs once during setup
 - `scripts/clean-reset.sh` - Reset project to template state
 - `templates/` - Read-only scaffolding
@@ -234,7 +234,7 @@ To maintain the template infrastructure itself:
 
 To add a new MCP server configuration:
 
-1. Create `.json` file in `.template/mcpServers/`
+1. Create `.json` file in `core/mcpServers/`
 2. Follow existing config format:
    ```json
    {
@@ -249,17 +249,17 @@ To add a new MCP server configuration:
      }
    }
    ```
-3. Users can select it during `./.template/init.sh`
+3. Users can select it during `./core/scripts/init.sh`
 
 ---
 
 ## Template Updates
 
-When updating template files in `.template/templates/`:
+When updating template files in `core/templates/`:
 
 1. Edit the `.template.md` files
 2. Ensure placeholders use `[BRACKETS]` format
-3. Test with `./.template/scripts/clean-reset.sh`
+3. Test with `./core/scripts/clean-reset.sh`
 4. Run `/sanityCheck` for quick validation
 5. Run `/healthCheck` for comprehensive review
 6. Document changes in bootstrap tracking files

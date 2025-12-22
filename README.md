@@ -88,7 +88,7 @@ This single command will process all your emails and generate complete project d
 ### Setup Commands
 ```bash
 ./go.sh                                    # Interactive project menu (recommended entry point)
-./.template/scripts/install-hooks.sh       # Install git hooks for pre-commit validation
+./core/scripts/install-hooks.sh       # Install git hooks for pre-commit validation
 ```
 
 ### AI Workflows (use in Copilot chat)
@@ -124,7 +124,7 @@ This single command will process all your emails and generate complete project d
 
 **Optional but recommended:** Install git hooks for pre-commit validation
 ```bash
-./.template/scripts/install-hooks.sh
+./core/scripts/install-hooks.sh
 ```
 
 This enables automatic syntax checking before commits.
@@ -237,7 +237,7 @@ lumina/
 │   ├── ai/                     ← Converted Markdown emails
 │   └── processed/              ← Archived .eml files
 │
-├── 📁 .template/                ← Template infrastructure
+├── 📁 core/                ← Template infrastructure
 │   ├── scripts/                ← Setup and maintenance scripts
 │   ├── aiScripts/              ← Utility scripts (email converter, etc.)
 │   ├── prompts/                ← Bootstrap maintenance prompts
@@ -280,7 +280,7 @@ Select "Initialize Project" from the menu. This will:
 - Prompt you to enter your name (for task tracking)
 - Prompt you to enter your project name
 - Prompt you to enter your customer/client name
-- Display available MCP server configurations from `.template/mcpServers/`
+- Display available MCP server configurations from `core/mcpServers/`
 - Let you select which servers to enable using arrow keys and spacebar
 - Generate `.vscode/mcp.json` with your selected configurations
 
@@ -332,7 +332,7 @@ If you have project-related emails:
 ```
 
 This will:
-- Convert `.eml` files to Markdown using `.template/aiScripts/emailToMd/eml_to_md_converter.py`
+- Convert `.eml` files to Markdown using `core/aiScripts/emailToMd/eml_to_md_converter.py`
 - Save converted emails to `email/ai/`
 - Update all documentation in `aiDocs/` based on email content
 - Extract contacts, tasks, technical details, and discovery questions
@@ -365,7 +365,7 @@ This will:
 
 ### AI Documentation (`aiDocs/`)
 
-- **Template files**: Template files stored in `.template/templates/`
+- **Template files**: Template files stored in `core/templates/`
   - `SUMMARY.template.md`: Template for project summary
   - `TASKS.template.md`: Template for task tracking
   - `DISCOVERY.template.md`: Template for discovery questions
@@ -621,7 +621,7 @@ Complete guide to all available prompts and when to use them.
 
 ### Bootstrap Maintenance (Template Only)
 
-These prompts are in `.template/prompts/` and are **only for maintaining the template itself**, not for projects using the template:
+These prompts are in `core/prompts/` and are **only for maintaining the template itself**, not for projects using the template:
 
 - **`/sanityCheck`**: Fast pre-commit validation (critical issues only)
 - **`/healthCheck`**: Comprehensive template analysis
@@ -633,21 +633,21 @@ These prompts are in `.template/prompts/` and are **only for maintaining the tem
 
 ## Using Email-Based Context
 
-### Scripts (`.template/aiScripts/`)
+### Scripts (`core/aiScripts/`)
 
 - **`emailToMd/`**: Email to Markdown converter
   - Converts `.eml` files to readable Markdown
   - Automatically organizes files in `email/` directories
-  - See `.template/aiScripts/emailToMd/README.md` for details
+  - See `core/aiScripts/emailToMd/README.md` for details
 
-### Utility Scripts (`scripts/`)
+### Utility Scripts (`core/scripts/`)
 
 - **`clean-reset.sh`**: Reset project to clean template state
   - Clears all email directories (raw, ai, processed)
   - Resets all `aiDocs/` files to template defaults
   - Removes project-specific data from root `SUMMARY.md`
   - Preserves configuration files and scripts
-  - Run with: `./scripts/clean-reset.sh`
+  - Run with: `./core/scripts/clean-reset.sh`
 
 ## Workflow
 
@@ -695,7 +695,7 @@ Email threads often contain crucial project context:
 
 ## MCP Server Configuration
 
-The template includes configurations for several MCP servers in `.template/mcpServers/`:
+The template includes configurations for several MCP servers in `core/mcpServers/`:
 
 - **github.json**: GitHub API integration
 - **awsCore.json**: AWS Labs core MCP server
@@ -705,7 +705,7 @@ Run `./go.sh` and select "Initialize Project" to choose which servers to enable 
 
 ### Adding New MCP Servers
 
-1. Create a new `.json` file in `.template/mcpServers/`
+1. Create a new `.json` file in `core/mcpServers/`
 2. Follow the MCP server configuration format
 3. Run `./go.sh` and select "Initialize Project" to regenerate `.vscode/mcp.json`
 
@@ -717,7 +717,7 @@ When using this template for a new project, you have two options:
 
 **Option 1: Clean Reset (Recommended)**
 ```bash
-./scripts/clean-reset.sh
+./core/scripts/clean-reset.sh
 ```
 This will reset all `aiDocs/` files to template defaults and clear email directories, giving you a fresh start.
 
@@ -745,7 +745,7 @@ Let the AI agent maintain documentation by:
 If you want to reuse the template for another project or clear out all project-specific data:
 
 ```bash
-./scripts/clean-reset.sh
+./core/scripts/clean-reset.sh
 ```
 
 This will:
@@ -785,7 +785,7 @@ This project follows standardized contribution workflows. See [CONTRIBUTING.md](
 **Quick reference:**
 ```bash
 # Install git hooks for local validation
-./.template/scripts/install-hooks.sh
+./core/scripts/install-hooks.sh
 
 # Use /completeIssue in Copilot to automate Issue→PR workflow
 ```
@@ -796,9 +796,9 @@ This project follows standardized contribution workflows. See [CONTRIBUTING.md](
 
 - **[CONTRIBUTING.md](CONTRIBUTING.md)** - Complete developer guidelines
 - **[.github/copilot-instructions.md](.github/copilot-instructions.md)** - AI agent instructions
-- **[.template/README.md](.template/README.md)** - Template infrastructure docs
-- **Email Converter**: [.template/aiScripts/emailToMd/README.md](.template/aiScripts/emailToMd/README.md)
-- **Task Dependency Detector**: [.template/aiScripts/detectTaskDependencies/README.md](.template/aiScripts/detectTaskDependencies/README.md)
+- **[core/README.md](core/README.md)** - Template infrastructure docs
+- **Email Converter**: [core/aiScripts/emailToMd/README.md](core/aiScripts/emailToMd/README.md)
+- **Task Dependency Detector**: [core/aiScripts/detectTaskDependencies/README.md](core/aiScripts/detectTaskDependencies/README.md)
 
 ---
 

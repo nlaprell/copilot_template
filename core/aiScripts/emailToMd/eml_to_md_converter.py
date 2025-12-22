@@ -16,7 +16,7 @@ from email.header import decode_header
 def check_dependencies():
     """Check if required packages are installed and install if missing"""
     required_packages = ['html2text']
-    
+
     for package in required_packages:
         try:
             __import__(package)
@@ -63,7 +63,7 @@ def extract_email_content(msg):
         for part in msg.walk():
             content_type = part.get_content_type()
             content_disposition = str(part.get('Content-Disposition'))
-            
+
             if content_type == 'text/plain' and 'attachment' not in content_disposition:
                 charset = part.get_content_charset() or 'utf-8'
                 content = part.get_payload(decode=True)
@@ -73,7 +73,7 @@ def extract_email_content(msg):
                     except:
                         body_text = str(content)
                     break  # Use first plain text part
-                        
+
             elif content_type == 'text/html' and 'attachment' not in content_disposition and not body_text:
                 charset = part.get_content_charset() or 'utf-8'
                 content = part.get_payload(decode=True)
@@ -108,36 +108,36 @@ def clean_email_body(body_text):
     """Clean up the email body text"""
     if not body_text:
         return ""
-    
+
     # Remove excessive newlines
     body_text = re.sub(r'\n{3,}', '\n\n', body_text)
-    
+
     # Remove leading/trailing whitespace
     body_text = body_text.strip()
-    
+
     return body_text
 
 def sanitize_filename(filename):
     """Sanitize filename to be safe for filesystem"""
     if not filename:
         return "unnamed_attachment"
-    
+
     # Remove path separators and other dangerous characters
     filename = re.sub(r'[<>:"/\\|?*]', '_', filename)
-    
+
     # Remove leading/trailing dots and spaces
     filename = filename.strip('. ')
-    
+
     # Limit length to 200 characters
     if len(filename) > 200:
         name, ext = os.path.splitext(filename)
         filename = name[:200-len(ext)] + ext
-    
+
     return filename if filename else "unnamed_attachment"
 
 def extract_attachments(msg, attachments_dir, email_name):
     """Extract attachments from email and save to disk
-    
+
     Returns list of attachment metadata dicts with keys:
     - original_name: Original filename from email
     - saved_name: Sanitized filename saved to disk
@@ -146,14 +146,14 @@ def extract_attachments(msg, attachments_dir, email_name):
     - content_type: MIME type
     """
     attachments = []
-    
+
     # Create email-specific subdirectory
     email_attachments_dir = attachments_dir / email_name
     email_attachments_dir.mkdir(parents=True, exist_ok=True)
-    
+
     for part in msg.walk():
         content_disposition = str(part.get('Content-Disposition', ''))
-        
+
         # Check if this part is an attachment
         if 'attachment' in content_disposition:
             # Get filename
@@ -164,17 +164,17 @@ def extract_attachments(msg, attachments_dir, email_name):
                 # Generate filename from content type
                 ext = part.get_content_type().split('/')[-1]
                 filename = f"attachment_{len(attachments) + 1}.{ext}"
-            
+
             # Sanitize filename
             safe_filename = sanitize_filename(filename)
-            
+
             # Get attachment data
             try:
                 payload = part.get_payload(decode=True)
                 if payload:
                     # Save to disk
                     attachment_path = email_attachments_dir / safe_filename
-                    
+
                     # Handle duplicate filenames
                     counter = 1
                     while attachment_path.exists():
@@ -182,10 +182,10 @@ def extract_attachments(msg, attachments_dir, email_name):
                         safe_filename = f"{name}_{counter}{ext}"
                         attachment_path = email_attachments_dir / safe_filename
                         counter += 1
-                    
+
                     with open(attachment_path, 'wb') as f:
                         f.write(payload)
-                    
+
                     # Store metadata
                     attachments.append({
                         'original_name': filename,
@@ -194,21 +194,21 @@ def extract_attachments(msg, attachments_dir, email_name):
                         'size': len(payload),
                         'content_type': part.get_content_type()
                     })
-                    
+
                     print(f"  Extracted attachment: {filename} ({len(payload)} bytes)")
-                    
+
             except Exception as e:
                 print(f"  Warning: Could not extract attachment {filename}: {str(e)}")
-    
+
     return attachments
 
 def format_attachment_section(attachments):
     """Format attachments metadata for Markdown output"""
     if not attachments:
         return ""
-    
+
     section = "\n\n---\n\n## Attachments\n\n"
-    
+
     for att in attachments:
         # Format size
         size_bytes = att['size']
@@ -218,13 +218,13 @@ def format_attachment_section(attachments):
             size_str = f"{size_bytes / 1024:.1f} KB"
         else:
             size_str = f"{size_bytes / (1024 * 1024):.1f} MB"
-        
+
         # Add attachment entry
         section += f"- **{att['original_name']}**\n"
         section += f"  - Type: `{att['content_type']}`\n"
         section += f"  - Size: {size_str}\n"
         section += f"  - Location: `{att['saved_path']}`\n\n"
-    
+
     return section
 
 
@@ -248,7 +248,7 @@ def convert_eml_to_md(eml_file_path, output_dir, attachments_dir=None):
         # Extract body
         body_text = extract_email_content(msg)
         body_text = clean_email_body(body_text)
-        
+
         # Extract attachments if directory provided
         attachments = []
         if attachments_dir:
@@ -258,18 +258,18 @@ def convert_eml_to_md(eml_file_path, output_dir, attachments_dir=None):
         # Create Markdown content
         md_content = f"""# {subject}
 
-**From:** {from_addr}  
-**To:** {to_addr}  
+**From:** {from_addr}
+**To:** {to_addr}
 """
-        
+
         if cc_addr:
             md_content += f"**CC:** {cc_addr}  \n"
-        
+
         md_content += f"**Date:** {date}  \n\n"
-        
+
         md_content += "---\n\n"
         md_content += body_text
-        
+
         # Add attachments section if any
         if attachments:
             md_content += format_attachment_section(attachments)
@@ -294,15 +294,15 @@ def main():
     """Main function to convert all .eml files from email/raw to email/ai"""
     # Get the script directory and project root
     script_dir = Path(__file__).parent.resolve()
-    # Script is in .template/aiScripts/emailToMd/, so go up 3 levels to project root
+    # Script lives in core/aiScripts/emailToMd/, so go up 3 levels to project root
     project_root = script_dir.parent.parent.parent
-    
+
     # Define directory structure relative to project root
     raw_dir = project_root / "email" / "raw"
     ai_dir = project_root / "email" / "ai"
     processed_dir = project_root / "email" / "processed"
     attachments_dir = project_root / "email" / "attachments"
-    
+
     # Create directories if they don't exist
     raw_dir.mkdir(parents=True, exist_ok=True)
     ai_dir.mkdir(parents=True, exist_ok=True)
@@ -313,7 +313,7 @@ def main():
     print(f"  AI: {ai_dir}")
     print(f"  Processed: {processed_dir}")
     print(f"  Attachments: {attachments_dir}")
-    
+
     # Find all .eml files in raw directory
     eml_files = list(raw_dir.glob("*.eml"))
 

@@ -485,8 +485,8 @@ Agent:
 1. Fetches PR #19 details (MCP tool)
 2. Gets changed files (MCP tool)
 3. Reviews each file:
-   - .template/scripts/init.sh - syntax OK, logic checked
-   - .template/scripts/clean-reset.sh - syntax OK, logic checked
+   - core/scripts/init.sh - syntax OK, logic checked
+   - core/scripts/clean-reset.sh - syntax OK, logic checked
 4. Checks acceptance criteria - all 6 met ✅
 5. Runs validation:
    - bash -n init.sh ✅

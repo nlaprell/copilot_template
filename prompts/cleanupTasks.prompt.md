@@ -54,7 +54,7 @@ Review Completed Tasks section in `aiDocs/TASKS.md`:
 Execute the automated dependency detector:
 
 ```bash
-python3 .template/aiScripts/detectTaskDependencies/detectTaskDependencies.py aiDocs/TASKS.md
+python3 core/aiScripts/detectTaskDependencies/detectTaskDependencies.py aiDocs/TASKS.md
 ```
 
 Review `aiDocs/TASK_DEPENDENCY_REPORT.md` and:

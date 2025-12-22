@@ -11,21 +11,21 @@ This workflow automates issue creation from comprehensive health checks, storing
 ## When to Use This Prompt
 
 **Use `/reportToGitHub` when:**
-- You've completed a `/healthCheck` and have a `.template/HEALTH_CHECK_REPORT.md`
+- You've completed a `/healthCheck` and have a `core/HEALTH_CHECK_REPORT.md`
 - You want to convert findings directly to GitHub issues
 - You want to consolidate template work in a single system (GitHub)
 - You're preparing issues for a development sprint
 
 **Prerequisites:**
 - GitHub repository configured (nlaprell/lumina)
-- `.template/HEALTH_CHECK_REPORT.md` exists with findings
+- `core/HEALTH_CHECK_REPORT.md` exists with findings
 - You have write access to create issues
 
 ## Workflow
 
 ### 1. Read Health Check Report
 
-Open `.template/HEALTH_CHECK_REPORT.md` and extract:
+Open `core/HEALTH_CHECK_REPORT.md` and extract:
 
 **From each issue section, collect:**
 - Issue title and description
@@ -149,10 +149,10 @@ Milestone: [v1.0.0 or v1.1.0]
 
 ```bash
 # Remove health check report after conversion to issues
-rm -f .template/HEALTH_CHECK_REPORT.md
+rm -f core/HEALTH_CHECK_REPORT.md
 
 # Remove any other temporary report files
-rm -f .template/SANITY_CHECK_REPORT.md  # (if created)
+rm -f core/SANITY_CHECK_REPORT.md  # (if created)
 ```
 
 **Rationale**: 
@@ -190,7 +190,7 @@ After creating all issues, provide summary:
 # GitHub Issues Created from Health Check
 
 **Report Date**: [Current date]
-**Source**: .template/HEALTH_CHECK_REPORT.md
+**Source**: core/HEALTH_CHECK_REPORT.md
 
 ## Issues Created
 
@@ -237,7 +237,7 @@ After creating all issues, provide summary:
 
 **Preferred workflow:**
 1. Run `/healthCheck` to analyze template
-2. Review `.template/HEALTH_CHECK_REPORT.md`
+2. Review `core/HEALTH_CHECK_REPORT.md`
 3. Run `/reportToGitHub` to create GitHub issues
 4. Work from GitHub issues (assign, update, close)
 
