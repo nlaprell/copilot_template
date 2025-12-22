@@ -58,7 +58,32 @@ Map severity to GitHub labels:
 - Milestone: v1.1.0 (Post-MVP)
 - Priority: Backlog
 
-### 3. Add Category Labels
+### 3. Check for Duplicates
+
+**CRITICAL**: Before creating any issues, check if they already exist in GitHub:
+
+For each finding in the health check report:
+1. Search existing open issues for similar title or problem
+2. If exact or very similar issue already exists:
+   - Skip creation (don't create duplicate)
+   - Comment on existing issue with new findings if different from what's documented
+   - Reference the health check report date in comment
+3. Only create if truly new issue
+
+**Use GitHub search:**
+```bash
+# Search for existing issues related to finding
+mcp_github_list_issues(owner=nlaprell, repo=lumina, state=open)
+# Check titles match before creating
+```
+
+**Example - Skip if exists:**
+- Finding: "Add requirements.txt for Python dependencies"
+- Search existing issues: "requirements"
+- Found: Issue #17 "Add requirements.txt for Python dependencies"
+- Action: Skip (don't create duplicate)
+
+### 4. Add Category Labels
 
 Based on component/type, add additional labels:
 
@@ -71,7 +96,7 @@ Based on component/type, add additional labels:
 | Error handling/robustness | `quality` |
 | MCP configuration | `mcp` |
 
-### 4. Create GitHub Issues
+### 5. Create GitHub Issues
 
 For **EACH issue** in the health check report, create a GitHub issue using:
 
@@ -103,7 +128,8 @@ Milestone: [v1.0.0 or v1.1.0]
 **Implementation Steps:**
 
 1. Extract issue data from health check report
-2. For each issue, use GitHub MCP tool to create issue:
+2. **Check for duplicates first** - Search existing GitHub issues for similar problems
+3. For each new issue (not a duplicate), use GitHub MCP tool to create issue:
    ```
    mcp_github_create_issue(
      owner: "nlaprell",
@@ -115,30 +141,48 @@ Milestone: [v1.0.0 or v1.1.0]
    )
    ```
 
-3. Document created issue number for cross-reference
+4. Document created issue number for cross-reference
 
-### 5. Group Related Issues
+### 6. Clean Up Report Files
+
+**After successfully creating all issues**, delete the report files that were processed:
+
+```bash
+# Remove health check report after conversion to issues
+rm -f .template/HEALTH_CHECK_REPORT.md
+
+# Remove any other temporary report files
+rm -f .template/SANITY_CHECK_REPORT.md  # (if created)
+```
+
+**Rationale**: 
+- Reports were temporary working documents to generate issues
+- GitHub issues are now the authoritative record
+- Avoid duplication and maintenance burden of markdown task files
+- Keep repository clean
+
+### 7. Group Related Issues
 
 If issues are related (e.g., multiple parts of same feature):
 - Create first issue
 - In subsequent related issues, mention the first issue number
 - Example: "Related to #1 (Fix MCP Configuration Format)"
 
-### 6. Map to Existing Issues (If Any)
+### 8. Map to Existing Issues (If Any)
 
 Compare with existing open issues on GitHub:
 - If health check finds same issue already reported, skip creation
 - Comment on existing issue with updated information instead
 - Link related issues together
 
-### 7. Handle Dependencies
+### 9. Handle Dependencies
 
 If issues have dependencies (one must be fixed before another):
 - Create blocking issue first
 - In dependent issue, mention: "Blocked by #X"
 - Use GitHub's issue linking syntax
 
-### 8. Provide Summary Report
+### 10. Provide Summary Report
 
 After creating all issues, provide summary:
 
@@ -177,7 +221,7 @@ After creating all issues, provide summary:
 1. Review created issues in GitHub
 2. Assign owners to critical/high priority issues
 3. Plan sprint from v1.0.0 milestone issues
-4. Archive `.template/HEALTH_CHECK_REPORT.md` (keep for reference)
+4. ✅ Health check report automatically deleted after processing (GitHub is authoritative)
 5. Do NOT create `.template/FIXES.md` or `.template/IMPROVEMENTS.md` (files removed; use GitHub only)
 ```
 
