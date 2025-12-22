@@ -222,13 +222,11 @@ After creating all issues, provide summary:
 2. Assign owners to critical/high priority issues
 3. Plan sprint from v1.0.0 milestone issues
 4. ✅ Health check report automatically deleted after processing (GitHub is authoritative)
-5. Do NOT create `.template/FIXES.md` or `.template/IMPROVEMENTS.md` (files removed; use GitHub only)
 ```
 
 ## Important Notes
 
 - **GitHub is source of truth**: All template work tracked in GitHub issues, not markdown files
-- **No FIXES.md/IMPROVEMENTS.md**: These files were removed; use GitHub issues instead
 - **Prefer GitHub for all tracking**: Markdown files create duplication and maintenance burden
 - **Keep health check reports**: Archive reports as reference but don't create task files
 - **One issue per problem**: Don't combine unrelated issues
@@ -242,11 +240,7 @@ After creating all issues, provide summary:
 2. Review `.template/HEALTH_CHECK_REPORT.md`
 3. Run `/reportToGitHub` to create GitHub issues
 4. Work from GitHub issues (assign, update, close)
-5. Don't create FIXES.md or IMPROVEMENTS.md (removed)
 
-**Old workflows (deprecated):**
-- ❌ FIXES.md and IMPROVEMENTS.md files removed
-- ✅ Use GitHub issues instead
 
 ## Validation Checklist
 
@@ -276,7 +270,6 @@ Before completing this workflow, verify:
 - Issues properly labeled and categorized
 - Clear, actionable descriptions for each issue
 - Acceptance criteria defined for all issues
-- No markdown task files created (FIXES.md/IMPROVEMENTS.md removed)
 - Summary report shows what was created
 
 ❌ **Failure when:**

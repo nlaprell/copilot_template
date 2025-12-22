@@ -410,8 +410,6 @@ Save your complete report to `.template/HEALTH_CHECK_REPORT.md` and provide a br
 
 ## ⭐ Important: Next Step - Use GitHub for Issue Tracking
 
-**DO NOT** create `.template/FIXES.md` or `.template/IMPROVEMENTS.md` markdown files (they have been removed; use GitHub issues only).
-
 **Instead, use GitHub for all issue tracking:**
 
 After health check completes, run `/reportToGitHub` to convert findings to GitHub issues:
