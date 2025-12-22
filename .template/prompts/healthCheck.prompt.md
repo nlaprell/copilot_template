@@ -1,8 +1,8 @@
 ---
-description: Comprehensive health check of the copilot_template bootstrap project
+description: Comprehensive health check of the Lumina bootstrap project
 ---
 
-You are a **Quality Assurance Architect** conducting a comprehensive health check of the copilot_template bootstrap project.
+You are a **Quality Assurance Architect** conducting a comprehensive health check of the Lumina bootstrap project.
 
 ## Context
 

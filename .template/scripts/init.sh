@@ -39,12 +39,12 @@ prompt_project_name() {
     echo -e "${BLUE}    Project Setup${NC}"
     echo -e "${BLUE}════════════════════════════════════════════════════${NC}"
     echo ""
-    echo "Welcome to the Copilot Template setup!"
+    echo "Welcome to Lumina setup!"
     echo ""
     echo -e "${YELLOW}What is your name?${NC}"
     echo ""
     read -p "Your name: " USER_NAME
-    
+
     # Validate user name
     if [ -z "$USER_NAME" ]; then
         echo -e "${RED}Error: User name cannot be empty${NC}"
@@ -52,12 +52,12 @@ prompt_project_name() {
         prompt_project_name
         return
     fi
-    
+
     echo ""
     echo -e "${YELLOW}What is the name of your project?${NC}"
     echo ""
     read -p "Project name: " PROJECT_NAME
-    
+
     # Validate project name
     if [ -z "$PROJECT_NAME" ]; then
         echo -e "${RED}Error: Project name cannot be empty${NC}"
@@ -65,12 +65,12 @@ prompt_project_name() {
         prompt_project_name
         return
     fi
-    
+
     echo ""
     echo -e "${YELLOW}What is the customer/client name?${NC}"
     echo ""
     read -p "Customer name: " CUSTOMER_NAME
-    
+
     # Validate customer name
     if [ -z "$CUSTOMER_NAME" ]; then
         echo -e "${RED}Error: Customer name cannot be empty${NC}"
@@ -78,7 +78,7 @@ prompt_project_name() {
         prompt_project_name
         return
     fi
-    
+
     # Confirm settings
     echo ""
     echo -e "Your name: ${GREEN}$USER_NAME${NC}"
@@ -91,12 +91,12 @@ prompt_project_name() {
 # Load MCP server configurations
 load_mcp_configs() {
     local index=0
-    
+
     if [ ! -d "$MCP_SERVERS_DIR" ]; then
         echo "Error: mcpServers directory not found at $MCP_SERVERS_DIR"
         exit 1
     fi
-    
+
     for file in "$MCP_SERVERS_DIR"/*.json; do
         if [ -f "$file" ]; then
             MCP_FILES[$index]="$file"
@@ -105,7 +105,7 @@ load_mcp_configs() {
             ((index++))
         fi
     done
-    
+
     if [ ${#MCP_FILES[@]} -eq 0 ]; then
         echo "Error: No MCP server configurations found in $MCP_SERVERS_DIR"
         exit 1
@@ -123,20 +123,20 @@ display_menu() {
     echo ""
     echo "Use ↑/↓ arrow keys to navigate, SPACE to toggle, ENTER to confirm"
     echo ""
-    
+
     for i in "${!MCP_FILES[@]}"; do
         local checkbox="[ ]"
         if [ ${MCP_SELECTED[$i]} -eq 1 ]; then
             checkbox="[✓]"
         fi
-        
+
         if [ $i -eq $CURRENT_INDEX ]; then
             echo -e "${GREEN}→ $checkbox ${MCP_NAMES[$i]}${NC}"
         else
             echo "  $checkbox ${MCP_NAMES[$i]}"
         fi
     done
-    
+
     echo ""
     if [ $CURRENT_INDEX -eq ${#MCP_FILES[@]} ]; then
         echo -e "${GREEN}→ [Confirm Selection]${NC}"
@@ -149,17 +149,17 @@ display_menu() {
 merge_configs() {
     # Create .vscode directory if it doesn't exist
     mkdir -p "$VSCODE_DIR"
-    
+
     # Start with empty mcpServers object
     local merged_json='{"mcpServers":{}}'
-    
+
     local configured_servers=()
-    
+
     for i in "${!MCP_FILES[@]}"; do
         if [ ${MCP_SELECTED[$i]} -eq 1 ]; then
             local file="${MCP_FILES[$i]}"
             local server_name="${MCP_NAMES[$i]}"
-            
+
             # Use Python to merge JSON - pass current state via stdin to avoid quoting issues
             merged_json=$(echo "$merged_json" | python3 -c "
 import json
@@ -183,14 +183,14 @@ elif 'servers' in new_config:
 # Output merged config
 print(json.dumps(merged, indent=2))
 ")
-            
+
             configured_servers+=("$server_name")
         fi
     done
-    
+
     # Write the merged configuration to mcp.json
     echo "$merged_json" > "$MCP_CONFIG"
-    
+
     # Display results
     clear
     echo -e "${GREEN}════════════════════════════════════════════════════${NC}"
@@ -198,7 +198,7 @@ print(json.dumps(merged, indent=2))
     echo -e "${GREEN}    Project: $PROJECT_NAME${NC}"
     echo -e "${GREEN}════════════════════════════════════════════════════${NC}"
     echo ""
-    
+
     if [ ${#configured_servers[@]} -eq 0 ]; then
         echo -e "${YELLOW}No MCP servers were selected.${NC}"
         echo "The .vscode/mcp.json file has been created with an empty configuration."
@@ -209,7 +209,7 @@ print(json.dumps(merged, indent=2))
             echo -e "  ${GREEN}✓${NC} $server"
         done
     fi
-    
+
     echo ""
     echo -e "${BLUE}════════════════════════════════════════════════════${NC}"
     echo -e "${BLUE}    Next Steps${NC}"
@@ -236,24 +236,24 @@ print(json.dumps(merged, indent=2))
 interactive_menu() {
     # First, prompt for project name
     prompt_project_name
-    
+
     # Then load MCP configs
     load_mcp_configs
-    
+
     # Add one more item for "Confirm Selection"
     local max_index=${#MCP_FILES[@]}
-    
+
     while true; do
         display_menu
-        
+
         # Read a single key
         read -rsn1 key
-        
+
         # Handle special keys (arrow keys are multi-byte)
         if [[ $key == $'\x1b' ]]; then
             read -rsn2 key  # Read the rest of the escape sequence
         fi
-        
+
         case $key in
             '[A')  # Up arrow
                 if [ $CURRENT_INDEX -gt 0 ]; then

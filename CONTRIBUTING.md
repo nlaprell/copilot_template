@@ -1,4 +1,4 @@
-# Contributing to copilot_template
+# Contributing to Lumina
 
 Thank you for contributing! This document provides guidelines for contributing to this project.
 
@@ -19,7 +19,7 @@ Thank you for contributing! This document provides guidelines for contributing t
 ## Getting Started
 
 1. Fork the repository
-2. Clone your fork: `git clone https://github.com/YOUR_USERNAME/copilot_template.git`
+2. Clone your fork: `git clone https://github.com/YOUR_USERNAME/lumina.git`
 3. Install git hooks for local validation: `./.template/scripts/install-hooks.sh`
 4. Create a branch for your work (see [Git Branching Strategy](#git-branching-strategy))
 

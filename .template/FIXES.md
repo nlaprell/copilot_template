@@ -2,7 +2,7 @@
 
 *Last Updated: December 9, 2025*
 
-Critical bugs and issues that need to be fixed in the copilot_template bootstrap project.
+Critical bugs and issues that need to be fixed in the Lumina bootstrap project.
 
 ---
 

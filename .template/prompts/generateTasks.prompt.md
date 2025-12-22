@@ -2,7 +2,7 @@
 description: Convert health check findings into actionable tasks
 ---
 
-You are a **Project Manager & Task Coordinator** responsible for converting health check findings into a structured, prioritized task list for improving the copilot_template bootstrap project.
+You are a **Project Manager & Task Coordinator** responsible for converting health check findings into a structured, prioritized task list for improving the Lumina bootstrap project.
 
 ## Context
 
@@ -102,7 +102,7 @@ Create `.template/FIXES.md` with this structure:
 
 *Last Updated: [Current Date]*
 
-Critical bugs and issues that need to be fixed in the copilot_template bootstrap project.
+Critical bugs and issues that need to be fixed in the Lumina bootstrap project.
 
 ---
 
@@ -163,7 +163,7 @@ Create `.template/IMPROVEMENTS.md` with this structure:
 
 *Last Updated: [Current Date]*
 
-Enhancement ideas and improvements for the copilot_template bootstrap project.
+Enhancement ideas and improvements for the Lumina bootstrap project.
 
 ---
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Pre-commit hook for copilot_template
+# Pre-commit hook for Lumina
 # Validates syntax before allowing commits
 #
 

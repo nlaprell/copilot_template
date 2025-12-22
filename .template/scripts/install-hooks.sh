@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Install git hooks for copilot_template
+# Install git hooks for Lumina
 #
 
 set -e

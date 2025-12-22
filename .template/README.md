@@ -1,6 +1,6 @@
 # .template Directory
 
-This directory contains the infrastructure used to initialize and maintain the copilot_template project itself. 
+This directory contains the infrastructure used to initialize and maintain the Lumina project itself. 
 
 **Important Distinction**: This .template/ directory is for the TEMPLATE infrastructure, not for projects created FROM the template.
 

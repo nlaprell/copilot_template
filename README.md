@@ -1,4 +1,4 @@
-# Copilot Template
+# Lumina
 
 **Bootstrap system for MarkLogic consultants** to initialize projects with AI-driven documentation workflows.
 
@@ -11,7 +11,7 @@ Turn email threads into structured project documentation automatically. Perfect 
 ```bash
 # Clone the repository
 git clone <your-repo-url>
-cd copilot_template
+cd lumina
 
 # Run the interactive setup
 ./go.sh
@@ -198,7 +198,7 @@ In GitHub Copilot chat, run:
 ## 🏗️ Project Structure
 
 ```
-copilot_template/
+lumina/
 │
 ├── 📄 README.md                 ← You are here
 ├── 📄 CONTRIBUTING.md           ← Developer guidelines (git workflow, labels, PRs)
@@ -263,7 +263,7 @@ For complete details on the automated `/quickStartProject` workflow and individu
 
 ```bash
 git clone <your-repo-url>
-cd copilot_template
+cd lumina
 ```
 
 Or simply copy/fork this repository to start your new project.

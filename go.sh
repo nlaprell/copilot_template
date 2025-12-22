@@ -55,7 +55,7 @@ tput civis 2>/dev/null || true
 display_menu() {
     clear
     echo -e "${BLUE}════════════════════════════════════════════════════${NC}"
-    echo -e "${BLUE}    Copilot Template - Project Manager${NC}"
+    echo -e "${BLUE}    Lumina - Project Manager${NC}"
     echo -e "${BLUE}════════════════════════════════════════════════════${NC}"
     echo ""
     echo "Use arrow keys to navigate, Enter or Space to select:"

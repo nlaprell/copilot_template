@@ -2,7 +2,7 @@
 
 *Last Updated: December 15, 2025*
 
-Enhancement ideas and improvements for the copilot_template bootstrap project.
+Enhancement ideas and improvements for the Lumina bootstrap project.
 
 ---
 
@@ -63,8 +63,8 @@ Create a lightweight TypeScript VS Code extension with Chat Participant API:
 **package.json** (key parts):
 ```json
 {
-  "name": "copilot-template-prompts",
-  "displayName": "Copilot Template - Project Prompts",
+  "name": "lumina-prompts",
+  "displayName": "Lumina - Project Prompts",
   "version": "1.0.0",
   "engines": { "vscode": "^1.85.0" },
   "categories": ["AI", "Chat"],
@@ -182,13 +182,13 @@ async function extractDescription(filePath: string): Promise<string> {
    npx vsce package
    
    # Install in VS Code
-   code --install-extension copilot-template-prompts-1.0.0.vsix
+   code --install-extension lumina-prompts-1.0.0.vsix
    ```
 
    OR symlink for development:
    ```bash
    ln -s "$(pwd)/.vscode-extension" \
-     "$HOME/.vscode/extensions/copilot-template-prompts-1.0.0"
+     "$HOME/.vscode/extensions/lumina-prompts-1.0.0"
    ```
 
 3. Usage in VS Code:
@@ -304,7 +304,7 @@ No automated formatting enforcement.
 **Proposed Solution**:
 Create .editorconfig in project root:
 ```ini
-# EditorConfig for copilot_template
+# EditorConfig for Lumina
 root = true
 
 [*]
@@ -442,7 +442,7 @@ Single-page quick reference with essential commands and decision tree.
 **Proposed Solution**:
 Create QUICKREF.md with sections:
 ```markdown
-# Copilot Template Quick Reference
+# Lumina Quick Reference
 
 ## Essential Commands
 

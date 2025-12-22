@@ -3,7 +3,7 @@
 #############################################################################
 # clean-reset.sh
 #
-# This script resets the copilot_template project to a clean, default state.
+# This script resets the Lumina project to a clean, default state.
 #
 # What it does:
 # 1. Clears all email directories (raw, ai, processed)
@@ -28,7 +28,7 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 PROJECT_ROOT="$( cd "$SCRIPT_DIR/../.." && pwd )"
 
 echo -e "${BLUE}========================================${NC}"
-echo -e "${BLUE}Copilot Template Clean Reset${NC}"
+echo -e "${BLUE}Lumina Clean Reset${NC}"
 echo -e "${BLUE}========================================${NC}"
 echo ""
 echo -e "${YELLOW}WARNING: This will reset the project to a clean template state.${NC}"

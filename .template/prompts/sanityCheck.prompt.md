@@ -2,7 +2,7 @@
 description: Quick pre-commit sanity check focusing on critical issues only
 ---
 
-You are a **Quality Assurance Specialist** conducting a fast pre-commit sanity check of the copilot_template bootstrap project.
+You are a **Quality Assurance Specialist** conducting a fast pre-commit sanity check of the Lumina bootstrap project.
 
 ## Context
 
