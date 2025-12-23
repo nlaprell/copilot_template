@@ -427,9 +427,9 @@ print(json.dumps(merged, indent=2))
 create_state_file() {
     echo -e "${BLUE}Creating project state file...${NC}"
 
-    python3 -c "
+    cd "$PROJECT_ROOT" && python3 -c "
 import sys
-sys.path.insert(0, '${SCRIPT_DIR}/../aiScripts')
+sys.path.insert(0, 'core/aiScripts')
 from state_manager import create_state_file
 
 create_state_file(
