@@ -14,7 +14,7 @@
 # Usage: ./core/scripts/clean-reset.sh
 #############################################################################
 
-set -e  # Exit on error
+set -euo pipefail  # Exit on error, undefined vars, pipe failures
 
 # Colors for output
 RED='\033[0;31m'
@@ -22,6 +22,34 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
+
+# Error handling functions
+handle_error() {
+    local exit_code=$1
+    local line_number=$2
+    
+    echo -e "${RED}========================================${NC}" >&2
+    echo -e "${RED}ERROR on line $line_number${NC}" >&2
+    echo -e "${RED}Exit code: $exit_code${NC}" >&2
+    echo -e "${RED}========================================${NC}" >&2
+    
+    # Show recent commands for debugging
+    if [ "${BASH_VERSION:-}" ]; then
+        echo -e "${YELLOW}Last command: ${BASH_COMMAND}${NC}" >&2
+    fi
+    
+    cleanup
+    exit "$exit_code"
+}
+
+cleanup() {
+    # Restore cursor visibility
+    tput cnorm 2>/dev/null || true
+}
+
+# Trap errors and cleanup
+trap 'handle_error $? $LINENO' ERR
+trap 'cleanup' EXIT
 
 # Get script directory and project root
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"

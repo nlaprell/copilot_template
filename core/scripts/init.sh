@@ -3,7 +3,7 @@
 # init.sh - Interactive MCP Server Configuration and Project Setup
 # This script allows users to configure their project name and select MCP servers
 
-set -e
+set -euo pipefail  # Exit on error, undefined vars, pipe failures
 
 # Color codes for better UI
 GREEN='\033[0;32m'
@@ -11,6 +11,39 @@ BLUE='\033[0;34m'
 YELLOW='\033[1;33m'
 RED='\033[0;31m'
 NC='\033[0m' # No Color
+
+# Error handling functions
+handle_error() {
+    local exit_code=$1
+    local line_number=$2
+    
+    echo -e "${RED}========================================${NC}" >&2
+    echo -e "${RED}ERROR on line $line_number${NC}" >&2
+    echo -e "${RED}Exit code: $exit_code${NC}" >&2
+    echo -e "${RED}========================================${NC}" >&2
+    
+    # Show recent commands for debugging
+    if [ "${BASH_VERSION:-}" ]; then
+        echo -e "${YELLOW}Last command: ${BASH_COMMAND}${NC}" >&2
+    fi
+    
+    cleanup
+    exit "$exit_code"
+}
+
+cleanup() {
+    # Restore cursor visibility
+    tput cnorm 2>/dev/null || true
+    
+    # Clear any temp files if needed
+    if [ -n "${TEMP_FILE:-}" ] && [ -f "$TEMP_FILE" ]; then
+        rm -f "$TEMP_FILE"
+    fi
+}
+
+# Trap errors and cleanup
+trap 'handle_error $? $LINENO' ERR
+trap 'cleanup' EXIT
 
 # Get the script directory and project root
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -31,6 +64,15 @@ declare -a MCP_NAMES
 
 # Current selection index
 CURRENT_INDEX=0
+
+# Validate required commands
+for cmd in python3 tput; do
+    if ! command -v "$cmd" &> /dev/null; then
+        echo -e "${RED}Error: Required command '$cmd' not found${NC}" >&2
+        echo -e "${YELLOW}Please install $cmd and try again${NC}" >&2
+        exit 1
+    fi
+done
 
 # Prompt for project name, customer name, and user name
 prompt_project_name() {
@@ -149,13 +191,13 @@ display_menu() {
 validate_mcp_config() {
     local file="$1"
     local filename=$(basename "$file")
-    
+
     # Check if valid JSON
     if ! python3 -c "import json; json.load(open('$file'))" 2>/dev/null; then
         echo -e "${RED}ERROR: Invalid JSON in $filename${NC}" >&2
         return 1
     fi
-    
+
     # Check for required "servers" key (or legacy "mcpServers")
     if ! python3 -c "
 import json
@@ -168,7 +210,7 @@ if 'servers' not in config and 'mcpServers' not in config:
         echo -e "${YELLOW}WARNING: $filename missing 'servers' or 'mcpServers' key - skipping${NC}" >&2
         return 1
     fi
-    
+
     # Check that servers object is not empty
     local server_count=$(python3 -c "
 import json
@@ -177,12 +219,12 @@ with open('$file') as f:
 servers = config.get('servers', config.get('mcpServers', {}))
 print(len(servers))
 " 2>/dev/null)
-    
+
     if [ "$server_count" -eq 0 ]; then
         echo -e "${YELLOW}WARNING: $filename has empty servers object - skipping${NC}" >&2
         return 1
     fi
-    
+
     return 0
 }
 
@@ -202,15 +244,15 @@ merge_configs() {
         if [ ${MCP_SELECTED[$i]} -eq 1 ]; then
             local file="${MCP_FILES[$i]}"
             local server_name="${MCP_NAMES[$i]}"
-            
+
             configured_servers+=("$server_name")
-            
+
             # Validate before merging
             if ! validate_mcp_config "$file"; then
                 skipped_servers+=("$server_name")
                 continue
             fi
-            
+
             validated_servers+=("$server_name")
 
             # Use Python to merge JSON - pass current state via stdin to avoid quoting issues
