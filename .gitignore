@@ -27,6 +27,9 @@ Thumbs.db
 .vscode/mcp.json
 .vscode/*.log
 
+# State tracking (project-specific, not committed)
+.lumina.state
+
 # Environment variables and secrets
 .env
 .env.local

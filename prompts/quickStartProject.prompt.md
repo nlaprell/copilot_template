@@ -62,6 +62,16 @@ Then:
   - `aiDocs/AI.md` - workflows, procedures, AI Agent Notes with project-specific guidance
 - Update "Last Updated" dates to current date in all modified `aiDocs/` files
 
+**Update State File**: After email processing completes:
+```python
+python3 -c "
+import sys
+sys.path.insert(0, 'core/aiScripts')
+from state_manager import increment_email_count
+increment_email_count()
+"
+```
+
 ## Step 4: Generate Project Summary and Documentation
 
 Run the `/updateSummary` workflow:
@@ -82,6 +92,16 @@ Run the `/updateSummary` workflow:
   - `docs/TASKS.md` - High-priority tasks and blockers
   - `docs/DECISIONS.md` - Decision log table
   - `docs/QUESTIONS.md` - Unanswered questions
+
+**Update State File**: After summary generation completes:
+```python
+python3 -c "
+import sys
+sys.path.insert(0, 'core/aiScripts')
+from state_manager import update_summary_timestamp
+update_summary_timestamp()
+"
+```
 
 **Optional: Run Task Dependency Detection**
 
