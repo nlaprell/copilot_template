@@ -429,13 +429,13 @@ create_state_file() {
 
     python3 -c "
 import sys
-sys.path.insert(0, '$SCRIPT_DIR/../aiScripts')
+sys.path.insert(0, '${SCRIPT_DIR}/../aiScripts')
 from state_manager import create_state_file
 
 create_state_file(
-    project_name='$PROJECT_NAME',
-    customer_name='$CUSTOMER_NAME',
-    your_name='$USER_NAME',
+    project_name='${PROJECT_NAME}',
+    customer_name='${CUSTOMER_NAME}',
+    your_name='${USER_NAME}',
     git_hooks_installed=False,
     dependencies_installed=False,
     directories_created=True,
