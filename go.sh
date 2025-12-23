@@ -177,10 +177,10 @@ display_menu() {
     echo -e "${BLUE}    Lumina - Project Manager${NC}"
     echo -e "${BLUE}════════════════════════════════════════════════════${NC}"
     echo ""
-    
+
     # Display project state
     display_state
-    
+
     echo "Use arrow keys to navigate, Enter or Space to select:"
     echo ""
 
