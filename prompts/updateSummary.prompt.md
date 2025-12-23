@@ -308,6 +308,16 @@ After updating `PROJECT.md`, generate simplified, human-readable extracts in the
 - Add "Last Updated" date
 - Note: "*For complete question details including who to ask and where to check, see [aiDocs/DISCOVERY.md](aiDocs/DISCOVERY.md)*"
 
+**Update State File**: After summary generation completes:
+```python
+python3 -c "
+import sys
+sys.path.insert(0, 'core/aiScripts')
+from state_manager import update_summary_timestamp
+update_summary_timestamp()
+"
+```
+
 ## 7. Formatting Guidelines
 
 When creating the summary:

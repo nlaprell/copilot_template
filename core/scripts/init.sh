@@ -418,6 +418,31 @@ print(json.dumps(merged, indent=2))
     echo -e "${BLUE}Or run steps individually if preferred:${NC}"
     echo -e "   ${YELLOW}/projectInit${NC} → ${YELLOW}/discoverEmail${NC} → ${YELLOW}/updateSummary${NC}"
     echo ""
+
+    # Create state file
+    create_state_file
+}
+
+# Create the .lumina.state file
+create_state_file() {
+    echo -e "${BLUE}Creating project state file...${NC}"
+    
+    python3 "$SCRIPT_DIR/../aiScripts/state_manager.py" <<EOF
+import sys
+sys.path.insert(0, "$SCRIPT_DIR/../aiScripts")
+from state_manager import create_state_file
+
+create_state_file(
+    project_name="$PROJECT_NAME",
+    customer_name="$CUSTOMER_NAME",
+    your_name="$USER_NAME",
+    git_hooks_installed=False,
+    dependencies_installed=False,
+    directories_created=True,
+    mcp_configured=True
+)
+print("✓ State file created")
+EOF
 }
 
 # Main interactive loop

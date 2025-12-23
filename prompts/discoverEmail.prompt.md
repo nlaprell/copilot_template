@@ -226,6 +226,16 @@ Before providing your summary, verify:
 - [ ] All section headings from templates are present
 - [ ] Risk entries include Severity, Impact, Mitigation, Owner, Status
 
+**Update State File**: After email processing completes:
+```python
+python3 -c "
+import sys
+sys.path.insert(0, 'core/aiScripts')
+from state_manager import increment_email_count
+increment_email_count()
+"
+```
+
 ## 6. Mandatory Summary Report
 
 After completing ALL updates to `aiDocs/` files, provide a comprehensive summary:
