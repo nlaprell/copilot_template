@@ -37,6 +37,7 @@ PROJECT_ROOT="$SCRIPT_DIR"
 declare -a MENU_OPTIONS=(
     "Initialize Project"
     "Health Check"
+    "Validate Project"
     "Reset Project"
     "Quit"
 )
@@ -221,6 +222,22 @@ execute_option() {
             ;;
         "Health Check")
             health_check
+            echo ""
+            read -p "Press any key to continue..." -n 1 -s
+            ;;
+        "Validate Project")
+            if [ -f "$PROJECT_ROOT/core/scripts/validate-output.sh" ]; then
+                bash "$PROJECT_ROOT/core/scripts/validate-output.sh"
+                local exit_code=$?
+                echo ""
+                if [ "$exit_code" -ne 0 ]; then
+                    echo -e "${YELLOW}Validation completed with issues (see above)${NC}"
+                else
+                    echo -e "${GREEN}Validation completed successfully${NC}"
+                fi
+            else
+                echo -e "${RED}Error: validate-output.sh not found at "$PROJECT_ROOT"/core/scripts/validate-output.sh${NC}"
+            fi
             echo ""
             read -p "Press any key to continue..." -n 1 -s
             ;;

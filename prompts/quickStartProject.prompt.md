@@ -159,6 +159,67 @@ If tasks were created during email processing:
 
 ---
 
+## Step 6: Output Success Validation Checklist
+
+After completing all steps, validate the output and provide this checklist:
+
+```
+# ✅ Project Initialization Complete
+
+## Validation Checklist
+
+### Required Files
+- [✓] PROJECT.md exists at project root
+- [✓] aiDocs/SUMMARY.md exists and populated
+- [✓] aiDocs/TASKS.md exists and populated
+- [✓] aiDocs/DISCOVERY.md exists and populated
+- [✓] aiDocs/AI.md exists and populated
+- [✓] docs/CONTACTS.md exists
+- [✓] docs/TASKS.md exists
+- [✓] docs/DECISIONS.md exists
+- [✓] docs/QUESTIONS.md exists
+
+### Email Processing (if emails present)
+- [✓] email/ai/ contains .md files (X files converted)
+- [✓] email/processed/ contains .eml files (X files archived)
+- [✓] email/raw/ is empty
+
+### Content Quality
+- [✓] PROJECT.md contains AI model tagline
+- [✓] PROJECT.md has sections: Overview, Status, Contacts, Tasks, Risks
+- [✓] SUMMARY.md Quick Context populated (What/Who/Status)
+- [✓] SUMMARY.md has at least 1 contact listed
+- [✓] TASKS.md has tasks with sequential IDs (TASK-001, TASK-002, etc.)
+- [✓] All task cross-references (Blocks, Related) are valid
+- [✓] "Last Updated" dates are current
+
+### Structure Validation
+- [✓] No placeholder text remains ([CUSTOMER], [PROJECT], [DATE])
+- [✓] All required metadata fields populated
+- [✓] Markdown formatting is valid
+- [✓] File paths and links are correct
+
+## Success! 🎉
+
+Your project documentation is ready.
+
+**Next Steps:**
+1. Review PROJECT.md for project overview
+2. Check docs/ folder for quick reference
+3. Review aiDocs/TASKS.md for outstanding work
+4. Add more emails to email/raw/ as project progresses
+5. Run /updateSummary when you need to refresh documentation
+
+**If any items are unchecked:**
+- Review error messages above
+- Check that email files were in correct format
+- Verify prerequisites (Python 3.x installed)
+- Run /projectInit to reload context
+- Try /quickStartProject again
+```
+
+---
+
 ## Important Notes
 
 - Always run the email converter from the project root directory
