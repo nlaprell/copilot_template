@@ -426,23 +426,26 @@ print(json.dumps(merged, indent=2))
 # Create the .lumina.state file
 create_state_file() {
     echo -e "${BLUE}Creating project state file...${NC}"
-    
-    python3 "$SCRIPT_DIR/../aiScripts/state_manager.py" <<EOF
+
+    python3 -c "
 import sys
-sys.path.insert(0, "$SCRIPT_DIR/../aiScripts")
+sys.path.insert(0, '$SCRIPT_DIR/../aiScripts')
 from state_manager import create_state_file
 
 create_state_file(
-    project_name="$PROJECT_NAME",
-    customer_name="$CUSTOMER_NAME",
-    your_name="$USER_NAME",
+    project_name='$PROJECT_NAME',
+    customer_name='$CUSTOMER_NAME',
+    your_name='$USER_NAME',
     git_hooks_installed=False,
     dependencies_installed=False,
     directories_created=True,
     mcp_configured=True
 )
-print("✓ State file created")
-EOF
+print('✓ State file created')
+" || {
+        echo -e "${YELLOW}⚠ Warning: Could not create state file${NC}"
+        return 1
+    }
 }
 
 # Main interactive loop
