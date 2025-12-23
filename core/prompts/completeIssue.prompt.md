@@ -103,6 +103,8 @@ Proceed to Step 7 (Create Pull Request)
 - Add relevant labels (match issue labels)
 - Request review if applicable
 
+**STOP HERE** - Do NOT merge the PR automatically. The workflow ends after creating the PR. The user will review and merge manually.
+
 ## Example Flows
 
 ### Example 1: Bug Fix
@@ -210,13 +212,14 @@ Implements #5
 - ✅ **ALWAYS** link commits to the issue (`Fixes #123`, `Implements #123`)
 - ✅ **ALWAYS** run sanity checks before committing
 - ✅ **ALWAYS** verify acceptance criteria are met before creating PR (Step 6)
-- ✅ **ALWAYS** create a PR (never merge directly)
+- ✅ **ALWAYS** create a PR and STOP (let user review and merge)
 - ✅ **ALWAYS** include acceptance criteria checklist in PR
 - ❌ **NEVER** skip the sanity check step
 - ❌ **NEVER** skip acceptance criteria verification
 - ❌ **NEVER** make one giant commit (break into logical commits)
 - ❌ **NEVER** commit broken code (syntax errors, etc.)
 - ❌ **NEVER** proceed with partial understanding of requirements
+- ❌ **NEVER** automatically merge PRs (user reviews and merges manually)
 
 ## When Things Go Wrong
 
