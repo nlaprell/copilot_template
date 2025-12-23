@@ -3,7 +3,7 @@
 # init.sh - Interactive MCP Server Configuration and Project Setup
 # This script allows users to configure their project name and select MCP servers
 
-set -e
+set -euo pipefail  # Exit on error, undefined vars, pipe failures
 
 # Color codes for better UI
 GREEN='\033[0;32m'
@@ -11,6 +11,39 @@ BLUE='\033[0;34m'
 YELLOW='\033[1;33m'
 RED='\033[0;31m'
 NC='\033[0m' # No Color
+
+# Error handling functions
+handle_error() {
+    local exit_code=$1
+    local line_number=$2
+    
+    echo -e "${RED}========================================${NC}" >&2
+    echo -e "${RED}ERROR on line $line_number${NC}" >&2
+    echo -e "${RED}Exit code: $exit_code${NC}" >&2
+    echo -e "${RED}========================================${NC}" >&2
+    
+    # Show recent commands for debugging
+    if [ "${BASH_VERSION:-}" ]; then
+        echo -e "${YELLOW}Last command: ${BASH_COMMAND}${NC}" >&2
+    fi
+    
+    cleanup
+    exit "$exit_code"
+}
+
+cleanup() {
+    # Restore cursor visibility
+    tput cnorm 2>/dev/null || true
+    
+    # Clear any temp files if needed
+    if [ -n "${TEMP_FILE:-}" ] && [ -f "$TEMP_FILE" ]; then
+        rm -f "$TEMP_FILE"
+    fi
+}
+
+# Trap errors and cleanup
+trap 'handle_error $? $LINENO' ERR
+trap 'cleanup' EXIT
 
 # Get the script directory and project root
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -31,6 +64,15 @@ declare -a MCP_NAMES
 
 # Current selection index
 CURRENT_INDEX=0
+
+# Validate required commands
+for cmd in python3 tput; do
+    if ! command -v "$cmd" &> /dev/null; then
+        echo -e "${RED}Error: Required command '$cmd' not found${NC}" >&2
+        echo -e "${YELLOW}Please install $cmd and try again${NC}" >&2
+        exit 1
+    fi
+done
 
 # Prompt for project name, customer name, and user name
 prompt_project_name() {

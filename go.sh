@@ -3,6 +3,8 @@
 # go.sh - Interactive project management menu
 # Provides easy access to common project operations
 
+set -euo pipefail  # Exit on error, undefined vars, pipe failures
+
 # Check if terminal supports colors
 if [ -t 1 ] && command -v tput &> /dev/null; then
     NUM_COLORS=$(tput colors 2>/dev/null || echo 0)
@@ -41,11 +43,33 @@ declare -a MENU_OPTIONS=(
 # Current selection index
 CURRENT_INDEX=0
 
+# Error handling function
+handle_error() {
+    local exit_code=$1
+    local line_number=$2
+    
+    echo -e "${RED}========================================${NC}" >&2
+    echo -e "${RED}ERROR on line $line_number${NC}" >&2
+    echo -e "${RED}Exit code: $exit_code${NC}" >&2
+    echo -e "${RED}========================================${NC}" >&2
+    
+    # Show recent commands for debugging
+    if [ "${BASH_VERSION:-}" ]; then
+        echo -e "${YELLOW}Last command: ${BASH_COMMAND}${NC}" >&2
+    fi
+    
+    cleanup
+    exit "$exit_code"
+}
+
 # Cleanup function to restore cursor
 cleanup() {
     tput cnorm 2>/dev/null || true
     clear
 }
+
+# Trap errors and cleanup
+trap 'handle_error $? $LINENO' ERR
 trap cleanup EXIT
 
 # Hide cursor
