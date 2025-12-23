@@ -27,17 +27,17 @@ NC='\033[0m' # No Color
 handle_error() {
     local exit_code=$1
     local line_number=$2
-    
+
     echo -e "${RED}========================================${NC}" >&2
     echo -e "${RED}ERROR on line $line_number${NC}" >&2
     echo -e "${RED}Exit code: $exit_code${NC}" >&2
     echo -e "${RED}========================================${NC}" >&2
-    
+
     # Show recent commands for debugging
     if [ "${BASH_VERSION:-}" ]; then
         echo -e "${YELLOW}Last command: ${BASH_COMMAND}${NC}" >&2
     fi
-    
+
     cleanup
     exit "$exit_code"
 }
