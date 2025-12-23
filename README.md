@@ -114,6 +114,8 @@ Use /projectInit
 | I Want To... | Use This Command | What It Does |
 |-------------|------------------|--------------|
 | **Set up new project** | `./go.sh` | Initialize project, select MCP servers |
+| **Check system health** | `./go.sh` → Health Check | Validate Python, Git, directories, files |
+| **Validate project output** | `./go.sh` → Validate Project | Check documentation structure and content |
 | **Process emails for first time** | `/quickStartProject` | Complete workflow: init → process → generate docs |
 | **Add new emails to existing project** | `/discoverEmail` then `/updateSummary` | Process new emails and regenerate summary |
 | **Update documentation after changes** | `/updateSummary` | Regenerate PROJECT.md and docs/ from aiDocs/ |

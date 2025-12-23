@@ -382,6 +382,58 @@ After completing the review and summary update, provide:
 - Duplicate entities merged: [number merged]
 - Stakeholder decision authority documented: [Yes/No]
 
+## 8. Output Success Validation Checklist
+
+After completing all updates, provide this validation checklist:
+
+```
+# ✅ Documentation Update Complete
+
+## Validation Checklist
+
+### Required Files
+- [✓] PROJECT.md exists at project root
+- [✓] aiDocs/SUMMARY.md exists and populated
+- [✓] aiDocs/TASKS.md exists and populated
+- [✓] aiDocs/DISCOVERY.md exists and populated
+- [✓] aiDocs/AI.md exists and populated
+- [✓] docs/CONTACTS.md exists
+- [✓] docs/TASKS.md exists
+- [✓] docs/DECISIONS.md exists
+- [✓] docs/QUESTIONS.md exists
+
+### Content Quality
+- [✓] PROJECT.md contains AI model tagline
+- [✓] PROJECT.md has sections: Overview, Status, Contacts, Tasks, Risks
+- [✓] SUMMARY.md Quick Context populated (What/Who/Status)
+- [✓] SUMMARY.md has at least 1 contact listed
+- [✓] TASKS.md has tasks with sequential IDs (TASK-001, TASK-002, etc.)
+- [✓] All task cross-references (Blocks, Related) are valid
+- [✓] "Last Updated" dates are current
+
+### Structure Validation
+- [✓] No placeholder text remains ([CUSTOMER], [PROJECT], [DATE])
+- [✓] All required metadata fields populated
+- [✓] Markdown formatting is valid
+- [✓] File paths and links are correct
+
+## Success! 🎉
+
+Your project documentation has been updated and validated.
+
+**Next Steps:**
+1. Review PROJECT.md for updated project overview
+2. Check docs/ folder for refreshed quick reference materials
+3. Review aiDocs/ for complete source-of-truth context
+4. Validate with: `./core/scripts/validate-output.sh`
+
+**If any items are unchecked:**
+- Review error messages above
+- Check that all required files exist
+- Verify metadata is complete
+- Run /updateSummary again after fixing issues
+```
+
 ## Important Notes
 
 - The `PROJECT.md` at project root is for **human stakeholders** (main project summary)

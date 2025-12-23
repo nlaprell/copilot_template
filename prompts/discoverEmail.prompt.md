@@ -279,6 +279,58 @@ After completing ALL updates to `aiDocs/` files, provide a comprehensive summary
 - Pending decisions: [list decisions blocked on stakeholder input]
 - Incomplete metadata: [list items needing additional detail]
 
+## 7. Output Success Validation Checklist
+
+After providing the mandatory summary report, validate the output with this checklist:
+
+```
+# ✅ Email Processing Complete
+
+## Validation Checklist
+
+### Email Processing
+- [✓] email/ai/ contains .md files (X files converted)
+- [✓] email/processed/ contains .eml files (X files archived)
+- [✓] email/raw/ is empty
+
+### Required Files Updated
+- [✓] aiDocs/SUMMARY.md updated
+- [✓] aiDocs/TASKS.md updated
+- [✓] aiDocs/DISCOVERY.md updated
+- [✓] aiDocs/AI.md updated (if applicable)
+
+### Content Quality
+- [✓] SUMMARY.md Quick Context populated (What/Who/Status)
+- [✓] SUMMARY.md has contacts with complete information
+- [✓] TASKS.md has tasks with sequential IDs (TASK-001, TASK-002, etc.)
+- [✓] All task cross-references (Blocks, Related) are valid
+- [✓] "Last Updated" dates set to current date
+- [✓] Decision Log updated with new decisions
+- [✓] Risks documented with all 8 required fields
+
+### Structure Validation
+- [✓] No placeholder text remains ([CUSTOMER], [PROJECT], [DATE])
+- [✓] All required metadata fields populated
+- [✓] Task IDs are sequential (gaps allowed for completed tasks)
+- [✓] Every task has Owner or "TBD" (never blank)
+
+## Success! 🎉
+
+Your email processing is complete and documentation updated.
+
+**Next Steps:**
+1. Run /updateSummary to regenerate PROJECT.md and docs/
+2. Review aiDocs/ for extracted information
+3. Validate with: `./core/scripts/validate-output.sh`
+4. Add more emails to email/raw/ as project progresses
+
+**If any items are unchecked:**
+- Check email converter output for errors
+- Verify .eml files were valid email format
+- Ensure Python 3.x installed
+- Re-run /discoverEmail after fixing issues
+```
+
 ## Critical Reminders
 
 - **DO NOT skip updates**: You MUST update `aiDocs/` files based on email content
