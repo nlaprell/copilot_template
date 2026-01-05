@@ -251,3 +251,65 @@ Your project documentation is ready.
 - **Direct user to docs/ folder for quick reference materials**
 - Template files are preserved in `core/templates/` directory
 - To reset project to clean state, use `./go.sh` and select "Reset Project"
+
+---
+
+## Common Scenarios
+
+### Scenario 1: Brand New Project Setup
+**Situation**: Just cloned Lumina, have 10 emails from new MarkLogic consulting engagement
+**Input**: 10 .eml files exported from email client
+**Steps**:
+1. Place all .eml files in email/raw/
+2. Run `/quickStartProject`
+3. Workflow runs all steps automatically
+
+**Expected Result**:
+- ProjectInit: Context loaded successfully
+- Email processing: 10 emails converted and processed
+- aiDocs/ populated: 15 contacts, 20 tasks (TASK-001 to TASK-020), 5 risks
+- PROJECT.md created with AI tagline
+- docs/ created with all 4 quick reference files
+- Ready to work on project immediately
+
+**Next Steps**: Review PROJECT.md for project overview, check outstanding tasks
+
+---
+
+### Scenario 2: Project Already Initialized
+**Situation**: Coming back to project after week off, 3 new emails to process
+**Input**: 3 .eml files from last week
+**Steps**:
+1. Add 3 new .eml files to email/raw/
+2. Run `/quickStartProject`
+3. Workflow processes new emails, updates existing docs
+
+**Expected Result**:
+- ProjectInit: Shows existing project state (50 tasks, 12 contacts)
+- Email processing: 3 new emails processed
+- aiDocs/ updated: 2 new contacts, 4 new tasks (TASK-051 to TASK-054), 2 tasks completed
+- PROJECT.md regenerated with updates
+- docs/ refreshed with current state
+- Existing data preserved, only additions made
+
+**Summary Shows**: 3 emails processed, 2 contacts added, 4 tasks created, 2 completed
+
+---
+
+### Scenario 3: No Emails Yet (Documentation Only)
+**Situation**: Want to set up project structure before emails arrive
+**Input**: No .eml files
+**Steps**:
+1. Run `/quickStartProject`
+2. Workflow detects empty email/raw/
+3. Continues with context loading and template setup
+
+**Expected Result**:
+- ProjectInit: Context loaded from templates
+- Email processing: Skipped with message "No emails found"
+- aiDocs/ in template state (placeholders present)
+- PROJECT.md not created yet (no content)
+- docs/ in template state
+- Ready to add emails when they arrive
+
+**Message**: "No email files found. Add emails to email/raw/ then run /discoverEmail"

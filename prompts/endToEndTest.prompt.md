@@ -33,3 +33,67 @@ Follow these steps exactly:
 
 ## Step 6: Reset Environment
 - Run the reset script `./core/scripts/clean-reset.sh` to return the repository to a clean baseline after reporting.
+
+---
+
+## Common Scenarios
+
+### Scenario 1: Full Successful End-to-End Test
+**Situation**: Testing complete workflow with bundled sample data
+**Steps**:
+1. Copy 4 sample .eml files from core/testData/email/ to email/raw/
+2. Run init.sh with test data (Name: John Doe, Project: My Project, Client: Customer X)
+3. Run /quickStartProject
+4. Verify all outputs
+5. Reset with clean-reset.sh
+
+**Expected Result**:
+- Email processing: 4 emails converted and moved
+- aiDocs/: All 4 files populated with actual data (no placeholders)
+- PROJECT.md: Created at root with AI tagline
+- docs/: All 4 extract files generated
+- Task IDs sequential (TASK-001, TASK-002, etc.)
+- Quick Context within character limits
+- Clean reset successful
+
+**Report Shows**: ✅ All checks passed, workflow functioning correctly
+
+---
+
+### Scenario 2: Empty Email Directory Test
+**Situation**: Testing workflow without email data
+**Steps**:
+1. Ensure email/raw/ is empty
+2. Run init.sh with test data
+3. Run /quickStartProject
+4. Verify template state preserved
+5. Reset
+
+**Expected Result**:
+- Email processing: Skipped with "No emails found" message
+- aiDocs/: Remain in template state with placeholders
+- PROJECT.md: Not created (no content to generate)
+- docs/: Remain in template state
+- Warning shown: Add emails to continue
+
+**Report Shows**: ⚠️ Partial success - workflow handles empty state gracefully
+
+---
+
+### Scenario 3: Error Recovery Test
+**Situation**: Testing with malformed email file
+**Steps**:
+1. Copy 3 valid + 1 invalid .eml file to email/raw/
+2. Run init.sh
+3. Run /quickStartProject
+4. Observe error handling
+5. Reset
+
+**Expected Result**:
+- Email processing: 3 valid emails processed, 1 failed with error message
+- aiDocs/: Updated with data from 3 valid emails
+- PROJECT.md: Generated (partial data)
+- Error logged but workflow continued
+- Clean reset successful
+
+**Report Shows**: ⚠️ Partial success - error handling works, 3/4 emails processed
