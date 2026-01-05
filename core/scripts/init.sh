@@ -213,7 +213,7 @@ check_dependencies() {
             if python3 -m pip install -r "$PROJECT_ROOT/core/aiScripts/requirements.txt" 2>&1 | tee /tmp/pip_install.log; then
                 echo ""
                 echo -e "${GREEN}✓${NC} Python dependencies installed successfully"
-                
+
                 # Verify installation
                 if python3 -c "import html2text" 2>/dev/null; then
                     deps_installed=true
@@ -246,6 +246,172 @@ check_dependencies() {
         read -p "Press Enter to continue..."
     fi
 
+    return 0
+}
+
+# Check PDF export dependencies (Pandoc + LaTeX)
+check_pdf_dependencies() {
+    clear
+    echo -e "${BLUE}════════════════════════════════════════════════════${NC}"
+    echo -e "${BLUE}    PDF Export Dependencies (Optional)${NC}"
+    echo -e "${BLUE}════════════════════════════════════════════════════${NC}"
+    echo ""
+    echo "PDF export allows you to package complete documentation"
+    echo "for consultant handoffs and stakeholder reports."
+    echo ""
+    echo "This requires Pandoc and LaTeX (optional but recommended)."
+    echo ""
+
+    local pandoc_installed=false
+    local latex_installed=false
+
+    # Check for Pandoc
+    echo -e "${YELLOW}Checking Pandoc...${NC}"
+    if command -v pandoc &> /dev/null; then
+        pandoc_version=$(pandoc --version 2>&1 | head -1)
+        echo -e "${GREEN}✓${NC} ${pandoc_version}"
+        pandoc_installed=true
+    else
+        echo -e "${RED}✗${NC} Pandoc not found"
+    fi
+
+    # Check for XeLaTeX
+    echo -e "${YELLOW}Checking XeLaTeX...${NC}"
+    if command -v xelatex &> /dev/null; then
+        echo -e "${GREEN}✓${NC} XeLaTeX installed"
+        latex_installed=true
+    else
+        echo -e "${RED}✗${NC} XeLaTeX not found"
+    fi
+    echo ""
+
+    # If both are installed, we're done
+    if [ "$pandoc_installed" = true ] && [ "$latex_installed" = true ]; then
+        echo -e "${GREEN}✓ PDF export is ready to use!${NC}"
+        echo ""
+        read -p "Press Enter to continue..."
+        return 0
+    fi
+
+    # Offer to install missing dependencies
+    echo -e "${YELLOW}PDF export dependencies are missing.${NC}"
+    echo ""
+    echo "Would you like to install them now?"
+    echo ""
+
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        echo -e "${BLUE}macOS Installation:${NC}"
+        if [ "$pandoc_installed" = false ]; then
+            echo "  • Pandoc: brew install pandoc"
+        fi
+        if [ "$latex_installed" = false ]; then
+            echo "  • LaTeX: brew install --cask basictex"
+            echo "    Then: sudo tlmgr update --self"
+            echo "          sudo tlmgr install collection-fontsrecommended collection-xetex"
+        fi
+    elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        echo -e "${BLUE}Linux Installation:${NC}"
+        echo "  sudo apt-get install pandoc texlive-xetex texlive-fonts-recommended"
+    fi
+    echo ""
+    echo -e "${YELLOW}Note: Installation may take 5-10 minutes${NC}"
+    echo ""
+
+    read -p "Install PDF export dependencies? (y/n): " install_pdf
+
+    if [[ "$install_pdf" =~ ^[Yy]$ ]]; then
+        echo ""
+        echo -e "${BLUE}Installing PDF export dependencies...${NC}"
+        echo ""
+
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+            # macOS installation
+            if [ "$pandoc_installed" = false ]; then
+                echo -e "${YELLOW}Installing Pandoc...${NC}"
+                if brew install pandoc 2>&1 | tee /tmp/pandoc_install.log; then
+                    echo -e "${GREEN}✓${NC} Pandoc installed"
+                    pandoc_installed=true
+                else
+                    echo -e "${RED}✗${NC} Pandoc installation failed"
+                    echo "Check /tmp/pandoc_install.log for details"
+                fi
+                echo ""
+            fi
+
+            if [ "$latex_installed" = false ]; then
+                echo -e "${YELLOW}Installing BasicTeX (this may take a few minutes)...${NC}"
+                if brew install --cask basictex 2>&1 | tee /tmp/latex_install.log; then
+                    echo -e "${GREEN}✓${NC} BasicTeX installed"
+                    echo ""
+                    echo -e "${YELLOW}Updating LaTeX packages...${NC}"
+
+                    # Add TeX to PATH for this session
+                    export PATH="/Library/TeX/texbin:$PATH"
+
+                    # Update tlmgr and install required packages
+                    if sudo tlmgr update --self && \
+                       sudo tlmgr install collection-fontsrecommended collection-xetex tocloft titlesec enumitem lastpage amsfonts amsmath; then
+                        echo -e "${GREEN}✓${NC} LaTeX packages installed"
+                        latex_installed=true
+                    else
+                        echo -e "${YELLOW}⚠${NC} LaTeX package installation had issues"
+                        echo "You may need to run manually:"
+                        echo "  export PATH=\"/Library/TeX/texbin:\$PATH\""
+                        echo "  sudo tlmgr update --self"
+                        echo "  sudo tlmgr install collection-fontsrecommended collection-xetex tocloft titlesec enumitem lastpage amsfonts amsmath"
+                    fi
+                else
+                    echo -e "${RED}✗${NC} BasicTeX installation failed"
+                    echo "Check /tmp/latex_install.log for details"
+                fi
+                echo ""
+            fi
+        elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+            # Linux installation
+            echo -e "${YELLOW}Installing Pandoc and LaTeX...${NC}"
+            if sudo apt-get update && \
+               sudo apt-get install -y pandoc texlive-xetex texlive-fonts-recommended 2>&1 | tee /tmp/pdf_install.log; then
+                echo -e "${GREEN}✓${NC} PDF dependencies installed"
+                pandoc_installed=true
+                latex_installed=true
+            else
+                echo -e "${RED}✗${NC} Installation failed"
+                echo "Check /tmp/pdf_install.log for details"
+            fi
+            echo ""
+        fi
+
+        # Verify installation
+        if [ "$pandoc_installed" = true ] && [ "$latex_installed" = true ]; then
+            echo -e "${GREEN}════════════════════════════════════════════════════${NC}"
+            echo -e "${GREEN}✓ PDF export is now ready to use!${NC}"
+            echo -e "${GREEN}════════════════════════════════════════════════════${NC}"
+            echo ""
+            echo "Try it: ./go.sh → 'Export to PDF'"
+        else
+            echo -e "${YELLOW}════════════════════════════════════════════════════${NC}"
+            echo -e "${YELLOW}⚠ PDF export dependencies not fully installed${NC}"
+            echo -e "${YELLOW}════════════════════════════════════════════════════${NC}"
+            echo ""
+            echo "You can install manually later or use Lumina without PDF export."
+        fi
+    else
+        echo ""
+        echo -e "${YELLOW}Skipping PDF export dependencies.${NC}"
+        echo ""
+        echo "You can install them later with:"
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+            echo -e "  ${GREEN}brew install pandoc${NC}"
+            echo -e "  ${GREEN}brew install --cask basictex${NC}"
+        elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+            echo -e "  ${GREEN}sudo apt-get install pandoc texlive-xetex texlive-fonts-recommended${NC}"
+        fi
+        echo ""
+        echo "Lumina will work without PDF export (it's optional)."
+    fi
+
+    echo ""
+    read -p "Press Enter to continue..."
     return 0
 }
 
@@ -567,13 +733,16 @@ try:
 except:
     print('False')
 " 2>/dev/null)
-        
+
         if [ "$deps_status" != "True" ]; then
             check_dependencies
         fi
     else
         check_dependencies
     fi
+
+    # Check PDF export dependencies (optional feature)
+    check_pdf_dependencies
 
     # Then, prompt for project name
     prompt_project_name
