@@ -265,7 +265,7 @@ The summary should include:
 - Auto-generate from `aiDocs/DISCOVERY.md` high-priority unanswered questions
 - Organize by category (Critical, Technical, Environmental, Historical)
 - List questions concisely without full metadata
-- Add footer note: "*For complete question details including who to ask and where to check, see [aiDocs/DISCOVERY.md](aiDocs/DISCOVERY.md)*"
+- Add footer note: "*For complete question details including who to ask and where to check, see [aiDocs/DISCOVERY.md](../aiDocs/DISCOVERY.md)*"
 
 #### Next Steps
 - Immediate next actions
@@ -286,27 +286,27 @@ After updating `PROJECT.md`, generate simplified, human-readable extracts in the
 - Group by organization
 - Include: Name, Email, Role, Organization
 - Add "Last Updated" date
-- Note: "*For complete contact details, see [aiDocs/SUMMARY.md](aiDocs/SUMMARY.md)*"
+- Note: "*For complete contact details, see [aiDocs/SUMMARY.md](../aiDocs/SUMMARY.md)*"
 
 **docs/TASKS.md:**
 - Extract high-priority tasks from `aiDocs/TASKS.md`
 - Include: Task ID, Description, Owner, Status
 - Separate sections: High Priority, Current Blockers, Recently Completed
 - Add "Last Updated" date
-- Note: "*For complete task list with all metadata, see [aiDocs/TASKS.md](aiDocs/TASKS.md)*"
+- Note: "*For complete task list with all metadata, see [aiDocs/TASKS.md](../aiDocs/TASKS.md)*"
 
 **docs/DECISIONS.md:**
 - Extract decision log from `aiDocs/SUMMARY.md`
 - Table format: Date, Decision, Made By, Rationale
 - Add "Last Updated" date
-- Note: "*For complete decision log, see [aiDocs/SUMMARY.md](aiDocs/SUMMARY.md)*"
+- Note: "*For complete decision log, see [aiDocs/SUMMARY.md](../aiDocs/SUMMARY.md)*"
 
 **docs/QUESTIONS.md:**
 - Extract high-priority unanswered questions from `aiDocs/DISCOVERY.md`
 - Group by category (High Priority, Technical)
 - List questions concisely without full metadata
 - Add "Last Updated" date
-- Note: "*For complete question details including who to ask and where to check, see [aiDocs/DISCOVERY.md](aiDocs/DISCOVERY.md)*"
+- Note: "*For complete question details including who to ask and where to check, see [aiDocs/DISCOVERY.md](../aiDocs/DISCOVERY.md)*"
 
 **Update State File**: After summary generation completes:
 ```python
