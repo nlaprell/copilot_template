@@ -149,6 +149,106 @@ for cmd in python3 tput; do
     fi
 done
 
+# Check and install dependencies
+check_dependencies() {
+    clear
+    echo -e "${BLUE}════════════════════════════════════════════════════${NC}"
+    echo -e "${BLUE}    Dependency Check${NC}"
+    echo -e "${BLUE}════════════════════════════════════════════════════${NC}"
+    echo ""
+
+    local deps_installed=true
+
+    # Check Python version
+    echo -e "${YELLOW}Checking Python...${NC}"
+    if command -v python3 &> /dev/null; then
+        py_version=$(python3 --version 2>&1 | awk '{print $2}')
+        py_major=$(echo "$py_version" | cut -d. -f1)
+        py_minor=$(echo "$py_version" | cut -d. -f2)
+
+        if [ "$py_major" -ge 3 ] && [ "$py_minor" -ge 8 ]; then
+            echo -e "${GREEN}✓${NC} Python ${py_version} installed"
+        else
+            echo -e "${YELLOW}⚠${NC} Python ${py_version} installed (recommend 3.8+)"
+        fi
+    fi
+    echo ""
+
+    # Check Python packages
+    echo -e "${YELLOW}Checking Python packages...${NC}"
+    if python3 -c "import html2text" 2>/dev/null; then
+        echo -e "${GREEN}✓${NC} html2text package installed"
+    else
+        echo -e "${RED}✗${NC} html2text package not found"
+        deps_installed=false
+    fi
+    echo ""
+
+    # Check Node.js/npx
+    echo -e "${YELLOW}Checking Node.js/npx...${NC}"
+    if command -v node &> /dev/null; then
+        node_version=$(node --version 2>&1)
+        echo -e "${GREEN}✓${NC} Node.js ${node_version} installed"
+    else
+        echo -e "${YELLOW}⚠${NC} Node.js not found (required for MCP servers)"
+    fi
+
+    if command -v npx &> /dev/null; then
+        echo -e "${GREEN}✓${NC} npx available"
+    else
+        echo -e "${YELLOW}⚠${NC} npx not found (required for MCP servers)"
+    fi
+    echo ""
+
+    # Offer to install missing Python packages
+    if [ "$deps_installed" = false ]; then
+        echo -e "${YELLOW}Some Python dependencies are missing.${NC}"
+        echo ""
+        read -p "Install Python dependencies now? (y/n): " install_choice
+
+        if [[ "$install_choice" =~ ^[Yy]$ ]]; then
+            echo ""
+            echo -e "${BLUE}Installing Python dependencies...${NC}"
+
+            if python3 -m pip install -r "$PROJECT_ROOT/core/aiScripts/requirements.txt" 2>&1 | tee /tmp/pip_install.log; then
+                echo ""
+                echo -e "${GREEN}✓${NC} Python dependencies installed successfully"
+                
+                # Verify installation
+                if python3 -c "import html2text" 2>/dev/null; then
+                    deps_installed=true
+                else
+                    echo -e "${YELLOW}⚠${NC} Package installed but import failed"
+                    deps_installed=false
+                fi
+            else
+                echo ""
+                echo -e "${RED}✗${NC} Failed to install Python dependencies"
+                echo -e "${YELLOW}Error log:${NC}"
+                cat /tmp/pip_install.log
+                echo ""
+                echo -e "${YELLOW}You can install manually with:${NC}"
+                echo -e "  ${GREEN}python3 -m pip install -r core/aiScripts/requirements.txt${NC}"
+                echo ""
+                read -p "Press Enter to continue anyway..."
+            fi
+        else
+            echo ""
+            echo -e "${YELLOW}Skipping dependency installation.${NC}"
+            echo -e "${YELLOW}Install manually with:${NC}"
+            echo -e "  ${GREEN}python3 -m pip install -r core/aiScripts/requirements.txt${NC}"
+            echo ""
+            read -p "Press Enter to continue..."
+        fi
+    else
+        echo -e "${GREEN}✓${NC} All dependencies are installed"
+        echo ""
+        read -p "Press Enter to continue..."
+    fi
+
+    return 0
+}
+
 # Prompt for project name, customer name, and user name
 prompt_project_name() {
     clear
@@ -427,6 +527,12 @@ print(json.dumps(merged, indent=2))
 create_state_file() {
     echo -e "${BLUE}Creating project state file...${NC}"
 
+    # Check if Python dependencies are installed
+    local deps_installed="False"
+    if python3 -c "import html2text" 2>/dev/null; then
+        deps_installed="True"
+    fi
+
     cd "$PROJECT_ROOT" && python3 -c "
 import sys
 sys.path.insert(0, 'core/aiScripts')
@@ -437,7 +543,7 @@ create_state_file(
     customer_name='${CUSTOMER_NAME}',
     your_name='${USER_NAME}',
     git_hooks_installed=False,
-    dependencies_installed=False,
+    dependencies_installed=${deps_installed},
     directories_created=True,
     mcp_configured=True
 )
@@ -450,7 +556,26 @@ print('✓ State file created')
 
 # Main interactive loop
 interactive_menu() {
-    # First, prompt for project name
+    # First, check dependencies (skip if already installed per state file)
+    if [ -f "$PROJECT_ROOT/.lumina.state" ]; then
+        deps_status=$(python3 -c "
+import json
+try:
+    with open('.lumina.state') as f:
+        state = json.load(f)
+    print(state.get('health', {}).get('dependencies_installed', False))
+except:
+    print('False')
+" 2>/dev/null)
+        
+        if [ "$deps_status" != "True" ]; then
+            check_dependencies
+        fi
+    else
+        check_dependencies
+    fi
+
+    # Then, prompt for project name
     prompt_project_name
 
     # Then load MCP configs
