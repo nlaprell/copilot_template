@@ -13,6 +13,7 @@ Supported formats:
 - .txt - Plain text notes
 - .md - Markdown notes
 - .docx - Microsoft Word/OneNote exports
+- .textbundle - Bear note bundles
 
 Usage:
     python3 core/aiScripts/notesToMd/notes_to_md_converter.py
@@ -24,6 +25,8 @@ import shutil
 from pathlib import Path
 from datetime import datetime
 import sys
+import zipfile
+import json
 
 # Import docx for OneNote support
 try:
@@ -221,16 +224,110 @@ def parse_docx(source_path):
     return '\n'.join(content_lines)
 
 
-def detect_format(file_path):
+def parse_textbundle(source_path):
     """
-    Detect file format from extension
+    Parse Bear .textbundle format
+
+    .textbundle can be either a directory or ZIP containing:
+    - text.md (or text.txt) - main content
+    - info.json - metadata (creation date, tags, etc.)
+    - assets/ - embedded images (optional)
 
     Args:
-        file_path: Path to file
+        source_path: Path to .textbundle file or directory
 
     Returns:
-        str: File format ('txt', 'md', 'docx', 'unknown')
+        str: Extracted markdown content
     """
+    content_lines = []
+    metadata = {}
+
+    # Check if it's a ZIP file or directory
+    if source_path.is_file():
+        # It's a ZIP file
+        try:
+            with zipfile.ZipFile(source_path, 'r') as zip_ref:
+                # Look for info.json
+                if 'info.json' in zip_ref.namelist():
+                    try:
+                        info_data = json.loads(zip_ref.read('info.json'))
+                        metadata = info_data
+                    except json.JSONDecodeError:
+                        logger.warning(f"Could not parse info.json in {source_path.name}")
+
+                # Look for text content (text.md or text.txt)
+                text_file = None
+                if 'text.md' in zip_ref.namelist():
+                    text_file = 'text.md'
+                elif 'text.txt' in zip_ref.namelist():
+                    text_file = 'text.txt'
+
+                if text_file:
+                    content = zip_ref.read(text_file).decode('utf-8')
+                    content_lines.append(content)
+                else:
+                    logger.warning(f"No text.md or text.txt found in {source_path.name}")
+        except zipfile.BadZipFile:
+            logger.error(f"Invalid ZIP file: {source_path.name}")
+            return ""
+
+    elif source_path.is_dir():
+        # It's a directory
+        info_path = source_path / 'info.json'
+        if info_path.exists():
+            try:
+                with open(info_path, 'r', encoding='utf-8') as f:
+                    metadata = json.load(f)
+            except json.JSONDecodeError:
+                logger.warning(f"Could not parse info.json in {source_path.name}")
+
+        # Look for text content
+        text_md = source_path / 'text.md'
+        text_txt = source_path / 'text.txt'
+
+        if text_md.exists():
+            with open(text_md, 'r', encoding='utf-8') as f:
+                content_lines.append(f.read())
+        elif text_txt.exists():
+            with open(text_txt, 'r', encoding='utf-8') as f:
+                content_lines.append(f.read())
+        else:
+            logger.warning(f"No text.md or text.txt found in {source_path.name}")
+
+    # Add metadata as comments if available
+    if metadata:
+        meta_header = []
+        if 'creatorIdentifier' in metadata:
+            meta_header.append(f"<!-- Creator: {metadata['creatorIdentifier']} -->")
+        if 'version' in metadata:
+            meta_header.append(f"<!-- Format Version: {metadata['version']} -->")
+        if 'type' in metadata:
+            meta_header.append(f"<!-- Type: {metadata['type']} -->")
+
+        if meta_header:
+            return '\n'.join(meta_header) + '\n\n' + '\n'.join(content_lines)
+
+    return '\n'.join(content_lines)
+
+
+def detect_format(file_path):
+    """
+    Detect file format from extension or directory name
+
+    Args:
+        file_path: Path to file or directory
+
+    Returns:
+        str: File format ('txt', 'md', 'docx', 'textbundle', 'unknown')
+    """
+    # Check if it's a .textbundle (can be file or directory)
+    if file_path.suffix.lower() == '.textbundle':
+        return 'textbundle'
+    
+    # Check if it's a directory with .textbundle extension
+    if file_path.is_dir() and file_path.name.endswith('.textbundle'):
+        return 'textbundle'
+    
     suffix = file_path.suffix.lower()
     
     if suffix == '.txt':
@@ -263,7 +360,9 @@ def process_notes_file(source_path, raw_dir, ai_dir, processed_dir):
         # Detect format and read content
         file_format = detect_format(source_path)
         
-        if file_format == 'docx':
+        if file_format == 'textbundle':
+            content = parse_textbundle(source_path)
+        elif file_format == 'docx':
             if not DOCX_AVAILABLE:
                 logger.error(f"Skipping {filename}: python-docx not available. Install with: pip install python-docx")
                 return False
@@ -331,16 +430,17 @@ def main():
         directory.mkdir(parents=True, exist_ok=True)
         logger.debug(f"Ensured directory exists: {directory}")
 
-    # Find all notes files in raw directory (.txt, .md, .docx)
+# Find all notes files in raw directory (.txt, .md, .docx, .textbundle)
     notes_files = (
-        list(raw_dir.glob('*.txt')) + 
-        list(raw_dir.glob('*.md')) + 
-        list(raw_dir.glob('*.docx'))
+        list(raw_dir.glob('*.txt')) +
+        list(raw_dir.glob('*.md')) +
+        list(raw_dir.glob('*.docx')) +
+        list(raw_dir.glob('*.textbundle'))
     )
 
     if not notes_files:
         logger.info("No notes files found in notes/raw/")
-        logger.info("Place .txt, .md, or .docx files in notes/raw/ to process them")
+        logger.info("Place .txt, .md, .docx, or .textbundle files in notes/raw/ to process them")
         return 0
 
     logger.info(f"Found {len(notes_files)} notes file(s) to process")
