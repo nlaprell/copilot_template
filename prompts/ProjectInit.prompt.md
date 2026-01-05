@@ -88,3 +88,55 @@ After reading all documentation, provide a brief initialization report:
 **Ready to Proceed:**
 - Confirm you understand the project context and are ready to assist
 - Note any critical information gaps that should be addressed first
+
+---
+
+## Common Scenarios
+
+### Scenario 1: New Project Initialization
+**Situation**: Just cloned Lumina repository, need to understand project structure
+**Steps**:
+1. Run `/projectInit`
+2. Agent reads AI.md, SUMMARY.md, TASKS.md, DISCOVERY.md
+3. Agent provides initialization report
+
+**Expected Result**:
+- Context validation shows all files read successfully
+- Project overview shows template state (placeholders present)
+- Agent confirms ready to proceed with next steps
+
+**Next Action**: Add .eml files to email/raw/ and run /discoverEmail
+
+---
+
+### Scenario 2: Returning to Existing Project
+**Situation**: Working on project after break, need to refresh context
+**Steps**:
+1. Run `/projectInit`
+2. Agent reads current project state from aiDocs/
+3. Agent provides status summary
+
+**Expected Result**:
+- Context validation shows all documentation populated
+- Project overview shows current status, tasks, risks
+- Organizational context confirms stakeholders
+- Agent ready to continue work
+
+**Next Action**: Process new emails or update documentation as needed
+
+---
+
+### Scenario 3: Handoff Between Team Members
+**Situation**: Taking over project from colleague, need complete context
+**Steps**:
+1. Pull latest changes from git
+2. Run `/projectInit`
+3. Review initialization report thoroughly
+
+**Expected Result**:
+- All project documentation summarized
+- Outstanding tasks and blockers identified
+- Critical information gaps highlighted
+- Clear understanding of current project state
+
+**Next Action**: Review aiDocs/ files for detailed context, then proceed with assigned work

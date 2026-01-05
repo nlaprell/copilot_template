@@ -291,3 +291,72 @@ The authentication service migration is **on track** with 3 of 5 migration phase
 ```
 
 This report should take 5-10 minutes to read and give stakeholders complete situational awareness.
+
+---
+
+## Common Scenarios
+
+### Scenario 1: Weekly Status Report (Internal Team)
+**Situation**: Friday afternoon, need weekly status for Monday standup
+**Reporting Period**: December 4-11, 2025
+**Steps**:
+1. Run `/generateReport`
+2. Agent generates report from aiDocs/ and PROJECT.md
+3. Review for accuracy
+
+**Expected Result**:
+- Report saved to: `reports/status-2025-12-11.md`
+- Overall status: 🟡 Yellow (1 blocker)
+- Completed work: 5 tasks completed this week
+- Active blockers: 1 (database schema approval)
+- Next period plan: Focus areas identified
+
+**Report Highlights**:
+- Progress: Authentication migration 60% complete
+- Blocker: Waiting on infrastructure team (3 days)
+- Metrics: 5 tasks completed, 12 remaining high-priority
+
+---
+
+### Scenario 2: Monthly Management Review
+**Situation**: End of month, need executive summary for management
+**Reporting Period**: December 1-31, 2025
+**Steps**:
+1. Run `/generateReport`
+2. Adjust detail level for executive audience
+3. Add budget/schedule commentary
+
+**Expected Result**:
+- Report saved to: `reports/status-2025-12-31.md`
+- Overall status: 🟢 Green (on track)
+- Major milestone: Phase 1 migration completed
+- Risks: 2 medium-severity risks active
+- Budget: On target, no overruns
+
+**Report Tone**:
+- Strategic focus (business outcomes vs technical details)
+- Trend analysis (month-over-month progress)
+- Forward-looking (Q1 2026 planning)
+
+---
+
+### Scenario 3: Client Update Report
+**Situation**: Client requested status update before holiday break
+**Reporting Period**: December 15-22, 2025
+**Steps**:
+1. Run `/generateReport`
+2. Customize for client audience
+3. Emphasize deliverables and value
+
+**Expected Result**:
+- Report saved to: `reports/status-2025-12-22.md`
+- Overall status: 🟢 Green (ahead of schedule)
+- Deliverables: 3 of 4 Q4 deliverables completed
+- Client action needed: UAT access for testing
+- Holiday plan: Reduced capacity noted
+
+**Report Focus**:
+- Business value delivered
+- Tangible outcomes (not process)
+- Clear next steps for client
+- Professional, reassuring tone

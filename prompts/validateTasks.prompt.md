@@ -172,3 +172,71 @@ Provide a concise validation report:
 - Run this after manually editing TASKS.md
 - Run this before major planning sessions
 - Does not check email content or PROJECT.md
+
+---
+
+## Common Scenarios
+
+### Scenario 1: After Manual TASKS.md Edits
+**Situation**: Just manually added 5 tasks and updated 3 task statuses in aiDocs/TASKS.md
+**Steps**:
+1. Run `/validateTasks`
+2. Agent validates structure and relationships
+3. Agent reports findings
+
+**Expected Result**:
+- Task ID integrity: ✅ PASS (sequential IDs maintained)
+- Metadata completeness: 90% (2 tasks missing deadlines)
+- Cross-references: 95% valid (1 broken reference)
+- Circular dependencies: 0 found
+- Orphaned tasks: 2 identified
+
+**Report Shows**:
+- Issue: TASK-025 references TASK-099 which doesn't exist
+- Warning: TASK-018 and TASK-022 have no dependencies
+- Recommendation: Fix broken reference, review orphaned tasks
+
+---
+
+### Scenario 2: Pre-Planning Session Validation
+**Situation**: Sprint planning meeting tomorrow, want to ensure task list is clean
+**Steps**:
+1. Run `/validateTasks`
+2. Review dependency detection results
+3. Apply high-confidence suggestions
+
+**Expected Result**:
+- Total outstanding tasks: 45
+- Task ownership: 80% assigned (9 tasks need owners)
+- Dependency detection: 12 high-confidence suggestions
+- Circular dependencies: 0
+- Critical path: 8 tasks identified
+
+**Report Shows**:
+- 9 tasks with Owner: TBD (need assignment)
+- 12 suggested task relationships to add
+- No blocking issues for planning session
+
+**Next Steps**: Assign owners to TBD tasks, apply dependency suggestions
+
+---
+
+### Scenario 3: After Large Task Import
+**Situation**: Imported 30 tasks from email thread, want to validate relationships
+**Steps**:
+1. Run `/validateTasks`
+2. Run dependency detection
+3. Review circular dependency warnings
+
+**Expected Result**:
+- Task ID integrity: ❌ FAIL (duplicate ID TASK-042)
+- Circular dependencies: 1 found (TASK-015 → TASK-022 → TASK-015)
+- High confidence suggestions: 18
+- Metadata completeness: 85%
+
+**Report Shows**:
+- CRITICAL: Duplicate task ID TASK-042 (must fix immediately)
+- CRITICAL: Circular dependency between TASK-015 and TASK-022
+- 18 suggested relationships based on context analysis
+
+**Next Steps**: Fix duplicate ID, resolve circular dependency, apply suggestions

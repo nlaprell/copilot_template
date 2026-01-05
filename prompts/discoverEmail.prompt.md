@@ -353,3 +353,77 @@ Your email processing is complete and documentation updated.
 - Always run the email converter from the project root directory
 - If email content conflicts with existing documentation, update with the latest information from emails and note the conflict in your summary
 - **Optional**: After creating/updating tasks, run dependency detection: `python3 core/aiScripts/detectTaskDependencies/detectTaskDependencies.py aiDocs/TASKS.md`
+
+---
+
+## Common Scenarios
+
+### Scenario 1: First Email Import (Project Kickoff)
+**Situation**: Just set up project, have 5 emails from client about new MarkLogic migration
+**Input**: 5 .eml files exported from Outlook
+**Steps**:
+1. Place all .eml files in email/raw/
+2. Run `/discoverEmail`
+3. Agent converts emails to Markdown
+4. Agent extracts all information
+
+**Expected Result**:
+- 5 emails processed: email/raw/ → email/ai/ (converted) → email/processed/ (archived)
+- aiDocs/SUMMARY.md: 8 contacts added, background section populated, 3 risks identified
+- aiDocs/TASKS.md: 12 tasks created (TASK-001 through TASK-012), priorities assigned
+- aiDocs/DISCOVERY.md: 7 questions added about customer environment
+- All placeholders replaced with actual project data
+
+**Summary Report Shows**:
+- Total emails processed: 5
+- Contacts: 8 new (3 from Progress, 5 from Customer)
+- Tasks: 12 created (4 high-priority, 8 planning)
+- Risks: 3 identified (1 high, 2 medium)
+- Discovery questions: 7 added
+
+---
+
+### Scenario 2: Weekly Email Update (Ongoing Project)
+**Situation**: Project ongoing for 2 weeks, received 2 new status emails
+**Input**: 2 .eml files from this week
+**Steps**:
+1. Add 2 new .eml files to email/raw/
+2. Run `/discoverEmail`
+3. Agent processes new emails only
+
+**Expected Result**:
+- 2 emails processed and moved
+- aiDocs/SUMMARY.md: Current Situation updated, 1 decision added to Decision Log
+- aiDocs/TASKS.md: 3 existing tasks marked complete, 2 new tasks added (TASK-013, TASK-014)
+- aiDocs/DISCOVERY.md: 2 questions answered, 1 new question added
+- Existing data preserved, only new info added
+
+**Summary Report Shows**:
+- Total emails processed: 2
+- Tasks: 2 new created, 3 marked complete
+- Decisions: 1 new (go-live date confirmed)
+- Discovery questions: 2 answered, 1 new
+
+---
+
+### Scenario 3: Large Email Thread Import
+**Situation**: Found old email thread (15 emails) discussing architecture decisions
+**Input**: 15 .eml files from 3 months ago
+**Steps**:
+1. Export entire thread to email/raw/
+2. Run `/discoverEmail`
+3. Agent processes all chronologically
+
+**Expected Result**:
+- 15 emails processed
+- aiDocs/SUMMARY.md: Historical Context section filled with timeline, 5 decisions captured
+- Technical Details section updated with architecture info
+- Conflicting information resolved (latest email wins)
+- Email dates noted in sources
+
+**Summary Report Shows**:
+- Total emails processed: 15
+- Contacts: 2 new, 3 updated
+- Decisions: 5 added to Decision Log
+- Conflicts: 2 identified and resolved
+- Historical context: Timeline from 3 months ago populated

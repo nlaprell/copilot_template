@@ -219,3 +219,65 @@ Typical workflow with user edits:
 4. Run `/updateSummary` to regenerate PROJECT.md and docs/ from updated aiDocs/
 
 This ensures user edits are never lost and remain part of the source of truth.
+
+---
+
+## Common Scenarios
+
+### Scenario 1: User Marked Tasks Complete
+**Situation**: User reviewed PROJECT.md, marked 5 tasks as done with checkboxes
+**Steps**:
+1. Run `/syncFromProject`
+2. Agent extracts task status changes
+3. Agent updates aiDocs/TASKS.md
+
+**Expected Result**:
+- 5 tasks moved to Completed section in TASKS.md
+- Task IDs preserved (TASK-012, TASK-018, TASK-023, TASK-031, TASK-040)
+- Completion dates added
+- Status changed to "Completed"
+
+**Sync Report Shows**:
+- Tasks completed: 5
+- aiDocs/TASKS.md updated
+- Next step: Run /updateSummary to regenerate PROJECT.md
+
+---
+
+### Scenario 2: User Added Risk and Updated Contacts
+**Situation**: User edited PROJECT.md to add new risk and update contact info
+**Steps**:
+1. Run `/syncFromProject`
+2. Agent detects risk and contact changes
+3. Agent syncs to aiDocs/SUMMARY.md
+
+**Expected Result**:
+- New risk added with all 8 required fields
+- Contact phone number updated
+- Source marked as "via PROJECT.md"
+- aiDocs/SUMMARY.md updated
+
+**Sync Report Shows**:
+- Risks: 1 new (security compliance deadline)
+- Contacts: 1 updated (phone number corrected)
+- All changes preserved as authoritative
+
+---
+
+### Scenario 3: User Answered Discovery Questions
+**Situation**: User added answers to 3 questions in PROJECT.md after stakeholder meeting
+**Steps**:
+1. Run `/syncFromProject`
+2. Agent extracts answers
+3. Agent updates aiDocs/DISCOVERY.md
+
+**Expected Result**:
+- 3 questions marked as answered [x]
+- Answer field populated with user's responses
+- Source field: "Answered via PROJECT.md - [Date]"
+- Status changed to "Answered"
+
+**Sync Report Shows**:
+- Discovery questions: 3 answered
+- aiDocs/DISCOVERY.md updated
+- Questions about architecture, timeline, and access resolved

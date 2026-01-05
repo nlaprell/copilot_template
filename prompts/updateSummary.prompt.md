@@ -453,3 +453,71 @@ Your project documentation has been updated and validated.
 - Ensure all files are consistent but appropriately formatted for their audiences
 - Focus the human summary and docs/ extracts on actionable information and clear status
 - If critical blockers or risks exist, highlight them prominently in PROJECT.md
+
+---
+
+## Common Scenarios
+
+### Scenario 1: After Processing New Emails
+**Situation**: Just ran `/discoverEmail` to process 5 new emails, need to regenerate summary
+**Steps**:
+1. Run `/updateSummary`
+2. Agent checks for user edits in PROJECT.md (none)
+3. Agent reviews all aiDocs/ for consistency
+4. Agent regenerates PROJECT.md and docs/
+
+**Expected Result**:
+- PROJECT.md updated with new tasks, contacts, decisions from emails
+- docs/ extracts refreshed with latest high-priority items
+- "Last Updated" dates current
+- All cross-references validated
+- Documentation health metrics reported
+
+**Summary Shows**:
+- New contacts synced to PROJECT.md and docs/CONTACTS.md
+- New tasks visible in PROJECT.md Outstanding Tasks section
+- New decisions added to docs/DECISIONS.md
+
+---
+
+### Scenario 2: User Edited PROJECT.md Manually
+**Situation**: User marked 3 tasks complete and added 1 risk in PROJECT.md directly
+**Steps**:
+1. Run `/updateSummary`
+2. Agent detects user changes in PROJECT.md
+3. Agent syncs changes back to aiDocs/TASKS.md and aiDocs/SUMMARY.md
+4. Agent regenerates PROJECT.md and docs/ from updated aiDocs/
+
+**Expected Result**:
+- User's 3 completed tasks moved to Completed section in aiDocs/TASKS.md
+- New risk added to aiDocs/SUMMARY.md with all 8 required fields
+- PROJECT.md regenerated preserving user's changes
+- docs/ updated with current state
+
+**User Changes Sync Shows**:
+- Tasks: 3 marked complete, moved to archive
+- Risks: 1 new risk added
+- All changes preserved as authoritative
+
+---
+
+### Scenario 3: Quarterly Documentation Refresh
+**Situation**: Three months into project, want to ensure all documentation consistent
+**Steps**:
+1. Run `/updateSummary`
+2. Agent reviews all aiDocs/ files thoroughly
+3. Agent validates cross-references and metadata
+4. Agent regenerates PROJECT.md and docs/
+
+**Expected Result**:
+- Inconsistencies between files identified and resolved
+- Outdated information updated
+- Task dependencies validated
+- Quick Context character limits verified
+- Documentation health: 95%+ completeness
+
+**Health Check Shows**:
+- Contact completeness: 100%
+- Task ownership: 90% assigned (10% TBD)
+- Cross-references: 100% valid
+- Discovery metadata: 95% complete

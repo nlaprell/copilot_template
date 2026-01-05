@@ -302,3 +302,74 @@ Typical cleanup workflow:
 4. Assign owners to TBD tasks
 5. Run `/updateSummary` to regenerate PROJECT.md with clean structure
 6. Commit changes to git
+
+---
+
+## Common Scenarios
+
+### Scenario 1: Quarterly Task Cleanup
+**Situation**: Task list has grown to 60+ tasks over 3 months, many completed
+**Steps**:
+1. Run `/cleanupTasks`
+2. Agent archives old completed tasks
+3. Agent detects dependencies
+4. Agent reorganizes priorities
+
+**Expected Result**:
+- 25 tasks archived (moved to monthly sections)
+- 15 dependency relationships added (high confidence)
+- 3 tasks moved from high-priority to planning (stale items)
+- 2 orphaned tasks flagged for review
+- Outstanding task count reduced from 60 to 35
+
+**Report Shows**:
+- Tasks archived: 25 (organized by month)
+- Dependencies added: 15 high-confidence suggestions
+- Priority optimizations: 3 tasks reclassified
+- Metadata improvements: 5 owners assigned (were TBD)
+
+---
+
+### Scenario 2: Pre-Sprint Planning Cleanup
+**Situation**: Sprint planning next week, task list needs organization
+**Steps**:
+1. Run `/cleanupTasks`
+2. Review task clusters identified
+3. Apply dependency suggestions
+4. Review orphaned tasks
+
+**Expected Result**:
+- Task clusters identified: 3 related groups of work
+- High-priority count optimized: From 15 tasks to 8 critical items
+- All TBD owners flagged for assignment
+- Circular dependencies: 0 (none found)
+- Task health improved: 95% metadata complete
+
+**Report Shows**:
+- Cluster 1: Authentication work (5 tasks)
+- Cluster 2: Database migration (4 tasks)
+- Cluster 3: Testing infrastructure (3 tasks)
+- Recommendation: Coordinate cluster work for efficiency
+
+---
+
+### Scenario 3: After Large Email Import
+**Situation**: Imported 40 tasks from multiple email threads, need organization
+**Steps**:
+1. Run `/cleanupTasks`
+2. Agent detects dependencies from context
+3. Agent identifies task clusters
+4. Agent flags issues
+
+**Expected Result**:
+- 30 dependency suggestions (20 high, 10 medium confidence)
+- 2 circular dependencies found and resolved
+- 5 orphaned tasks identified
+- Tasks grouped into 4 thematic clusters
+- Priorities assigned based on deadlines
+
+**Report Shows**:
+- CRITICAL: Circular dependency resolved (TASK-022 ↔ TASK-035)
+- Dependencies added: 20 high-confidence relationships
+- Orphaned tasks: 5 need scope clarification
+- Recommendations: Coordinate related work, assign orphan owners
