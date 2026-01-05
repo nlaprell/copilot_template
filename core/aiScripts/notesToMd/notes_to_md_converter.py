@@ -1,13 +1,18 @@
 #!/usr/bin/env python3
 """
-Convert notes files (.txt, .md) to standardized Markdown format
+Convert notes files (.txt, .md, .docx) to standardized Markdown format
 
 Processes notes from notes/raw/ directory:
-- Reads .txt and .md files
+- Reads .txt, .md, and .docx files
 - Extracts metadata (timestamps, author if available)
 - Converts to standardized Markdown format
 - Saves to notes/ai/ directory
 - Moves originals to notes/processed/
+
+Supported formats:
+- .txt - Plain text notes
+- .md - Markdown notes
+- .docx - Microsoft Word/OneNote exports
 
 Usage:
     python3 core/aiScripts/notesToMd/notes_to_md_converter.py
@@ -19,6 +24,13 @@ import shutil
 from pathlib import Path
 from datetime import datetime
 import sys
+
+# Import docx for OneNote support
+try:
+    from docx import Document
+    DOCX_AVAILABLE = True
+except ImportError:
+    DOCX_AVAILABLE = False
 
 # Import logger
 try:
@@ -153,6 +165,84 @@ def convert_note_to_markdown(content, metadata):
     return '\n'.join(markdown)
 
 
+def parse_docx(source_path):
+    """
+    Parse Microsoft Word/OneNote .docx file
+
+    Args:
+        source_path: Path to .docx file
+
+    Returns:
+        str: Extracted text content with preserved structure
+    """
+    if not DOCX_AVAILABLE:
+        raise ImportError("python-docx is required for .docx support. Install with: pip install python-docx")
+
+    doc = Document(str(source_path))
+    content_lines = []
+
+    for paragraph in doc.paragraphs:
+        text = paragraph.text.strip()
+        if not text:
+            # Preserve paragraph breaks
+            if content_lines and content_lines[-1]:
+                content_lines.append('')
+            continue
+
+        # Detect heading style
+        style_name = paragraph.style.name.lower()
+        
+        if 'heading 1' in style_name or 'title' in style_name:
+            content_lines.append(f"# {text}")
+        elif 'heading 2' in style_name:
+            content_lines.append(f"## {text}")
+        elif 'heading 3' in style_name:
+            content_lines.append(f"### {text}")
+        elif 'heading 4' in style_name:
+            content_lines.append(f"#### {text}")
+        else:
+            content_lines.append(text)
+
+    # Extract text from tables
+    if doc.tables:
+        content_lines.append('')
+        content_lines.append('---')
+        content_lines.append('**Tables:**')
+        content_lines.append('')
+        
+        for table_idx, table in enumerate(doc.tables, 1):
+            content_lines.append(f'Table {table_idx}:')
+            for row in table.rows:
+                row_text = ' | '.join(cell.text.strip() for cell in row.cells)
+                if row_text.strip():
+                    content_lines.append(row_text)
+            content_lines.append('')
+
+    return '\n'.join(content_lines)
+
+
+def detect_format(file_path):
+    """
+    Detect file format from extension
+
+    Args:
+        file_path: Path to file
+
+    Returns:
+        str: File format ('txt', 'md', 'docx', 'unknown')
+    """
+    suffix = file_path.suffix.lower()
+    
+    if suffix == '.txt':
+        return 'txt'
+    elif suffix == '.md':
+        return 'md'
+    elif suffix == '.docx':
+        return 'docx'
+    else:
+        return 'unknown'
+
+
 def process_notes_file(source_path, raw_dir, ai_dir, processed_dir):
     """
     Process a single notes file
@@ -170,15 +260,27 @@ def process_notes_file(source_path, raw_dir, ai_dir, processed_dir):
         filename = source_path.name
         logger.info(f"Processing: {filename}")
 
-        # Read file content
-        try:
-            with open(source_path, 'r', encoding='utf-8') as f:
-                content = f.read()
-        except UnicodeDecodeError:
-            # Try with latin-1 encoding as fallback
-            logger.warning(f"UTF-8 decode failed for {filename}, trying latin-1")
-            with open(source_path, 'r', encoding='latin-1') as f:
-                content = f.read()
+        # Detect format and read content
+        file_format = detect_format(source_path)
+        
+        if file_format == 'docx':
+            if not DOCX_AVAILABLE:
+                logger.error(f"Skipping {filename}: python-docx not available. Install with: pip install python-docx")
+                return False
+            content = parse_docx(source_path)
+        elif file_format in ('txt', 'md'):
+            # Read text/markdown files directly
+            try:
+                with open(source_path, 'r', encoding='utf-8') as f:
+                    content = f.read()
+            except UnicodeDecodeError:
+                # Try with latin-1 encoding as fallback
+                logger.warning(f"UTF-8 decode failed for {filename}, trying latin-1")
+                with open(source_path, 'r', encoding='latin-1') as f:
+                    content = f.read()
+        else:
+            logger.warning(f"Skipping {filename}: Unsupported format {source_path.suffix}")
+            return False
 
         if not content.strip():
             logger.warning(f"Empty file: {filename}")
@@ -229,12 +331,16 @@ def main():
         directory.mkdir(parents=True, exist_ok=True)
         logger.debug(f"Ensured directory exists: {directory}")
 
-    # Find all .txt and .md files in raw directory
-    notes_files = list(raw_dir.glob('*.txt')) + list(raw_dir.glob('*.md'))
+    # Find all notes files in raw directory (.txt, .md, .docx)
+    notes_files = (
+        list(raw_dir.glob('*.txt')) + 
+        list(raw_dir.glob('*.md')) + 
+        list(raw_dir.glob('*.docx'))
+    )
 
     if not notes_files:
         logger.info("No notes files found in notes/raw/")
-        logger.info("Place .txt or .md files in notes/raw/ to process them")
+        logger.info("Place .txt, .md, or .docx files in notes/raw/ to process them")
         return 0
 
     logger.info(f"Found {len(notes_files)} notes file(s) to process")
