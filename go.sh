@@ -177,6 +177,10 @@ display_menu() {
     echo -e "${BLUE}    Lumina - Project Manager${NC}"
     echo -e "${BLUE}════════════════════════════════════════════════════${NC}"
     echo ""
+
+    # Display project state
+    display_state
+
     echo "Use arrow keys to navigate, Enter or Space to select:"
     echo ""
 
@@ -190,6 +194,15 @@ display_menu() {
         ((index++))
     done
     echo ""
+}
+
+# Function to display project state
+display_state() {
+    # Call Python state_manager to display state
+    python3 "$PROJECT_ROOT/core/aiScripts/state_manager.py" 2>/dev/null || {
+        echo -e "${YELLOW}📊 Project Status: Unable to check${NC}"
+        echo ""
+    }
 }
 
 # Function to execute selected option
