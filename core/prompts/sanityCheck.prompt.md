@@ -31,18 +31,33 @@ Check git status to decide what files to analyze:
 # See what changed
 git status --short
 
+# Check current branch
+CURRENT_BRANCH=$(git branch --show-current)
+
 # If there are uncommitted changes:
 git diff --name-only        # unstaged changes
 git diff --cached --name-only  # staged changes
 
 # If git is clean (no uncommitted changes):
-git log -1 --name-only      # files in last commit
+if [ "$CURRENT_BRANCH" != "main" ]; then
+    # On feature/defect branch: check all changes since branching from main
+    git diff --name-only main...HEAD
+else
+    # On main branch: check last commit
+    git log -1 --name-only
+fi
 ```
 
 **Scope Decision:**
 - **If unstaged changes exist**: Analyze ONLY those files (from `git diff --name-only`)
 - **If only staged changes exist**: Analyze ONLY those files (from `git diff --cached --name-only`)  
-- **If git is clean**: Analyze the last commit files (from `git log -1 --name-only`)
+- **If git is clean AND on feature/defect branch**: Analyze ALL changes in branch since created from main (from `git diff --name-only main...HEAD`)
+- **If git is clean AND on main branch**: Analyze the last commit files (from `git log -1 --name-only`)
+
+**Why this matters:**
+- When working on a feature/defect branch after committing, you want to validate ALL changes in the branch before creating PR
+- The three-dot syntax `main...HEAD` finds the merge base and shows all changes unique to your branch
+- This ensures the entire changeset is validated, not just the most recent commit
 
 ---
 
@@ -269,7 +284,7 @@ Once `core/SANITY_CHECK_REPORT.md` is created:
 1. **Speed is essential**: Complete in seconds, not minutes
 2. **Modified files only**: Don't check entire codebase (that's `/healthCheck`)
 3. **Critical issues only**: Don't report Medium/Low/Recommended issues
-4. **Git-aware**: Check staged/unstaged changes or last commit (not everything)
+4. **Git-aware**: Check staged/unstaged changes, or if clean, all branch changes since main (not just last commit)
 5. **Actionable fixes**: Every issue must have a clear, specific fix
 6. **No false positives**: Report only real problems that block commits
 7. **Brief reports**: Keep output scannable and concise
