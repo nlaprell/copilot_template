@@ -16,6 +16,12 @@ This file contains critical universal instructions for AI agents working in this
 2. **Convert**: Run `python3 "core/aiScripts/emailToMd/eml_to_md_converter.py"`
 3. **Read**: Converted emails in `email/ai/`, originals moved to `email/processed/`
 
+### Notes Workflow
+
+1. **Raw notes**: Place `.txt` or `.md` files in `notes/raw/`
+2. **Convert**: Run `python3 "core/aiScripts/notesToMd/notes_to_md_converter.py"`
+3. **Read**: Converted notes in `notes/ai/`, originals moved to `notes/processed/`
+
 ### Git Branching
 
 **Bug/Defect** (labels: `bug`, `critical`) → `defect/{number}-{description}`  
@@ -58,10 +64,12 @@ When starting work on any project in this workspace:
    - `aiDocs/TASKS.md` - Outstanding and completed tasks
    - `aiDocs/DISCOVERY.md` - Unanswered questions and information gaps
 
-2. **Process new emails** (if present):
+2. **Process new data** (if present):
    - Check `/email/raw/` for new `.eml` files
+   - Check `/notes/raw/` for new `.txt` or `.md` files
    - Run email converter if emails found
-   - Read converted Markdown files from `/email/ai/`
+   - Run notes converter if notes found
+   - Read converted Markdown files from `/email/ai/` and `/notes/ai/`
    - Extract relevant information (contacts, tasks, decisions, risks, questions)
 
 3. **Update documentation**: Keep `aiDocs/` files current with new information
@@ -250,13 +258,21 @@ This copies templates to working files, clearing all project-specific content.
 
 ---
 
-## Email Processing Best Practices
+## Email and Notes Processing Best Practices
 
+### Email Processing
 - **Always read ALL emails**: Every `.md` file in `email/ai/` must be read completely
 - **Extract comprehensively**: Get contacts, tasks, technical details, risks, questions, decisions, timeline
 - **Cite sources**: Use format "(Source: "Email Subject" - Date)" when adding facts
 - **Deduplication**: Check email domains to identify related organizations; merge duplicate contacts
 - **Verify moves**: After conversion, confirm `.eml` files moved to `email/processed/`
+
+### Notes Processing
+- **Always read ALL notes**: Every `.md` file in `notes/ai/` must be read completely
+- **Extract same information**: Contacts, tasks, decisions, technical details, risks, questions from meeting notes, status updates, architecture docs
+- **Cite sources**: Use format "(Source: "Note Title" - Date)" when adding facts
+- **Integrate with emails**: Merge information from both sources into unified documentation
+- **Verify moves**: After conversion, confirm source files moved to `notes/processed/`
 
 ### MarkLogic Ecosystem Organizations
 
@@ -271,7 +287,7 @@ When processing contacts and organizations in MarkLogic-related projects:
 ## Documentation Update Triggers
 
 Update `aiDocs/` files when:
-- New emails are processed
+- New emails or notes are processed
 - Tasks are completed
 - Decisions are made
 - Risks are identified or resolved
@@ -288,8 +304,9 @@ Update root `PROJECT.md` and `docs/` when:
 
 ## Notes for AI Agents
 
-- Email files must be converted to Markdown before AI analysis
-- Prefer reading Markdown files in `/email/ai/` over raw `.eml` files
-- Keep email organization consistent: raw → processed, converted → ai
+- Email and notes files must be converted to Markdown before AI analysis
+- Prefer reading Markdown files in `/email/ai/` and `/notes/ai/` over raw source files
+- Keep organization consistent: raw → processed, converted → ai (applies to both emails and notes)
+- Information from both emails and notes should be integrated into unified documentation
 - When uncertain, err on side of documenting more rather than less
 - Project-specific context belongs in `aiDocs/AI.md`, not this file

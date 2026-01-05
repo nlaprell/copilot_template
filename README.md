@@ -20,41 +20,43 @@ cd lumina
 **That's it!** The interactive menu will guide you through:
 1. Project configuration (name, customer, MCP servers)
 2. Git hooks installation (optional but recommended)
-3. Email processing setup
+3. Email and notes processing setup
 
 Then in GitHub Copilot chat:
 ```
 /quickStartProject
 ```
 
-This single command will process all your emails and generate complete project documentation.
+This single command will process all your emails and notes, then generate complete project documentation.
 
 ---
 
 ## 🎯 What This Does
 
 ```
-┌─────────────────────┐
-│  Export .eml files  │ → Place in email/raw/
-│  from email client  │
-└─────────────────────┘
+┌─────────────────────────────────┐
+│  Export emails & notes          │ → Place in email/raw/ and notes/raw/
+│  from email client, OneNote,    │
+│  Apple Notes, etc.              │
+└─────────────────────────────────┘
           ↓
-┌─────────────────────┐
-│  ./go.sh            │ → Initialize: project name, customer, MCP servers
-└─────────────────────┘
+┌─────────────────────────────────┐
+│  ./go.sh                        │ → Initialize: project name, customer, MCP servers
+└─────────────────────────────────┘
           ↓
-┌─────────────────────┐
-│ /quickStartProject  │ → AI processes everything automatically
-└─────────────────────┘
+┌─────────────────────────────────┐
+│ /quickStartProject              │ → AI processes everything automatically
+└─────────────────────────────────┘
           ↓
-┌──────────────────────────────────────────┐
-│ ✅ PROJECT.md     Complete project summary│
-│ ✅ aiDocs/        AI-readable context     │
-│ ✅ docs/          Quick reference files   │
-│ ✅ Task tracking  With dependencies       │
-│ ✅ Risk analysis  Automatically identified│
-│ ✅ Contact list   Extracted from emails   │
-└──────────────────────────────────────────┘
+┌─────────────────────────────────────────────┐
+│ ✅ PROJECT.md     Complete project summary  │
+│ ✅ aiDocs/        AI-readable context       │
+│ ✅ docs/          Quick reference files     │
+│ ✅ Task tracking  With dependencies         │
+│ ✅ Risk analysis  Automatically identified  │
+│ ✅ Contact list   Extracted from emails     │
+│ ✅ Decisions log  From emails and notes     │
+└─────────────────────────────────────────────┘
 ```
 
 **Result:** Comprehensive project documentation ready for stakeholder handoff.
@@ -70,19 +72,21 @@ New Project
 Run ./go.sh
     ↓
 Add emails to email/raw/
+Add notes to notes/raw/ (optional)
     ↓
 Use /quickStartProject
     ↓
 ✅ Done! Review PROJECT.md
 ```
 
-### Adding More Emails
+### Adding More Emails or Notes
 ```
-Have new emails?
+Have new emails or notes?
     ↓
-Add to email/raw/
+Add emails to email/raw/
+Add notes to notes/raw/
     ↓
-Use /discoverEmail
+Use /discoverEmail and/or /discoverNotes
     ↓
 Use /updateSummary
     ↓
@@ -116,8 +120,9 @@ Use /projectInit
 | **Set up new project** | `./go.sh` | Initialize project, select MCP servers |
 | **Check system health** | `./go.sh` → Health Check | Validate Python, Git, directories, files |
 | **Validate project output** | `./go.sh` → Validate Project | Check documentation structure and content |
-| **Process emails for first time** | `/quickStartProject` | Complete workflow: init → process → generate docs |
+| **Process emails and notes for first time** | `/quickStartProject` | Complete workflow: init → process → generate docs |
 | **Add new emails to existing project** | `/discoverEmail` then `/updateSummary` | Process new emails and regenerate summary |
+| **Add new notes to existing project** | `/discoverNotes` then `/updateSummary` | Process new notes and regenerate summary |
 | **Update documentation after changes** | `/updateSummary` | Regenerate PROJECT.md and docs/ from aiDocs/ |
 | **Generate status report** | `/generateReport` | Create executive summary for stakeholders |
 | **Reload AI context** | `/projectInit` | Re-initialize AI with project knowledge |
@@ -132,8 +137,8 @@ Use /projectInit
 ## 🎯 Common Workflows
 
 **Weekly Status Update:**
-1. Add any new emails to `email/raw/`
-2. Run `/discoverEmail` to process them
+1. Add any new emails to `email/raw/` and/or notes to `notes/raw/`
+2. Run `/discoverEmail` and/or `/discoverNotes` to process them
 3. Run `/generateReport` for stakeholder update
 4. Review `reports/status-YYYY-MM-DD.md`
 
@@ -143,7 +148,7 @@ Use /projectInit
 3. Review PROJECT.md with team
 
 **Handoff to New Team Member:**
-1. Ensure all emails processed (`/discoverEmail`)
+1. Ensure all emails and notes processed (`/discoverEmail`, `/discoverNotes`)
 2. Ensure documentation current (`/updateSummary`)
 3. Share PROJECT.md and docs/ folder
 4. New team member runs `/projectInit` to load context
