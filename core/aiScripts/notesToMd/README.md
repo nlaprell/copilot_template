@@ -1,16 +1,27 @@
 # Notes to Markdown Converter
 
-Converts notes files (.txt, .md) to standardized Markdown format for AI processing.
+Converts notes files (.txt, .md, .docx) to standardized Markdown format for AI processing.
 
 ## Features
 
-- Processes `.txt` and `.md` files
+- Processes `.txt`, `.md`, and `.docx` files
+- **OneNote support**: Extracts text from `.docx` exports with heading preservation
 - Extracts metadata:
   - Title (from first line or filename)
   - Author (if present in content)
   - Date (from content or file modification time)
 - Converts to standardized Markdown format
 - Moves processed files to archive
+
+## Dependencies
+
+```bash
+pip install -r core/aiScripts/requirements.txt
+```
+
+Required packages:
+- `html2text==2024.2.26` - HTML to Markdown conversion
+- `python-docx==1.1.0` - OneNote .docx parsing
 
 ## Usage
 
@@ -23,14 +34,24 @@ python3 core/aiScripts/notesToMd/notes_to_md_converter.py
 
 ```
 notes/
-├── raw/         # Place notes files here (.txt, .md)
+├── raw/         # Place notes files here (.txt, .md, .docx)
 ├── ai/          # Converted Markdown files (AI-readable)
 └── processed/   # Original files after conversion
 ```
 
 ## Workflow
 
-1. Export notes from your note-taking app (OneNote, Apple Notes, etc.)
+### OneNote Export
+
+1. In OneNote, select **File → Export → Export as Word Document (.docx)**
+2. Save the `.docx` file to `notes/raw/`
+3. Run the converter script
+4. Converted notes appear in `notes/ai/`
+5. Original files moved to `notes/processed/`
+
+### Plain Text/Markdown Notes
+
+1. Export notes from your note-taking app
 2. Save as `.txt` or `.md` files in `notes/raw/`
 3. Run the converter script
 4. Converted notes appear in `notes/ai/`
