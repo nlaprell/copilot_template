@@ -1,0 +1,98 @@
+# Notes to Markdown Converter
+
+Converts notes files (.txt, .md) to standardized Markdown format for AI processing.
+
+## Features
+
+- Processes `.txt` and `.md` files
+- Extracts metadata:
+  - Title (from first line or filename)
+  - Author (if present in content)
+  - Date (from content or file modification time)
+- Converts to standardized Markdown format
+- Moves processed files to archive
+
+## Usage
+
+```bash
+# From project root
+python3 core/aiScripts/notesToMd/notes_to_md_converter.py
+```
+
+## Directory Structure
+
+```
+notes/
+├── raw/         # Place notes files here (.txt, .md)
+├── ai/          # Converted Markdown files (AI-readable)
+└── processed/   # Original files after conversion
+```
+
+## Workflow
+
+1. Export notes from your note-taking app (OneNote, Apple Notes, etc.)
+2. Save as `.txt` or `.md` files in `notes/raw/`
+3. Run the converter script
+4. Converted notes appear in `notes/ai/`
+5. Original files moved to `notes/processed/`
+
+## Metadata Extraction
+
+The converter looks for:
+
+### Author
+- `Author: Name`
+- `By: Name`
+- `From: Name`
+- `Written by: Name`
+
+### Date
+- `YYYY-MM-DD` format
+- `MM/DD/YYYY` format
+- `Month DD, YYYY` format
+- Falls back to file modification time
+
+### Title
+- First non-empty line of file
+- Falls back to filename (without extension)
+
+## Output Format
+
+```markdown
+---
+# Note: [Title]
+
+**Author**: [Author Name] (if found)
+**Date**: [Date]
+**Source**: [Original filename]
+---
+
+[Note content with cleaned formatting]
+```
+
+## Error Handling
+
+- Handles UTF-8 and Latin-1 encodings
+- Skips empty files with warning
+- Logs errors with full stack traces
+- Continues processing even if individual files fail
+
+## Logging
+
+Logs are written to `logs/notes_converter.log` with:
+- File processing status
+- Metadata extraction results
+- Conversion errors
+- Summary statistics
+
+Set `LUMINA_DEBUG=1` for verbose console output.
+
+## Dependencies
+
+Uses standard Python libraries only:
+- `pathlib` - File path handling
+- `re` - Regular expressions for metadata extraction
+- `shutil` - File operations
+- `datetime` - Timestamp handling
+
+No external dependencies required.
