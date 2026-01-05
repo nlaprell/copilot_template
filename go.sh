@@ -93,7 +93,7 @@ process_emails() {
 
     # Check if email/raw/ has files
     local email_count=$(find "$PROJECT_ROOT/email/raw" -type f -name "*.eml" 2>/dev/null | wc -l | tr -d ' ')
-    
+
     if [ "$email_count" -eq 0 ]; then
         echo -e "${YELLOW}No .eml files found in email/raw/${NC}"
         echo ""
@@ -137,7 +137,7 @@ process_notes() {
 
     # Check if notes/raw/ has files
     local notes_count=$(find "$PROJECT_ROOT/notes/raw" -type f \( -name "*.txt" -o -name "*.md" \) ! -name ".gitkeep" 2>/dev/null | wc -l | tr -d ' ')
-    
+
     if [ "$notes_count" -eq 0 ]; then
         echo -e "${YELLOW}No .txt or .md files found in notes/raw/${NC}"
         echo ""
