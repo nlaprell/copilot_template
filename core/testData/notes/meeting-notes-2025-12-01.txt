@@ -1,0 +1,46 @@
+MarkLogic Project Kickoff Meeting
+
+Date: December 1, 2025
+Author: John Doe
+Attendees: Jane Smith (Progress Federal), Bob Wilson (Customer X), Sarah Lee (Customer X)
+
+## Meeting Overview
+
+Initial kickoff meeting for the MarkLogic cluster upgrade project. Customer X currently running MarkLogic 9.x and needs to upgrade to version 11.x for enhanced security features and performance improvements.
+
+## Current State
+
+- 3-node MarkLogic cluster in production
+- Processing ~500K documents per day
+- Database size: 2.5TB
+- Critical for customer's document management system
+
+## Key Decisions
+
+1. Agreed to perform upgrade during maintenance window (weekends only)
+2. Will set up parallel test environment before touching production
+3. Go-live target: February 15, 2026
+
+## Action Items
+
+- Jane to provide detailed upgrade runbook by December 10
+- Bob to arrange test environment access by December 5
+- Sarah to document all custom modules and extensions
+- John to create project timeline and risk assessment
+
+## Technical Requirements
+
+- MarkLogic 11.0.6 or later
+- Maintain current SSL/TLS configuration
+- Preserve all custom REST endpoints
+- Zero data loss requirement
+
+## Risks Identified
+
+- Limited downtime window (4 hours max)
+- Custom XQuery modules need compatibility testing
+- SSL certificate renewal required during upgrade
+
+## Next Meeting
+
+December 8, 2025 at 2:00 PM EST - Review test environment setup
