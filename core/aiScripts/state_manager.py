@@ -52,7 +52,9 @@ def create_state_file(
         "operations": {
             "last_email_processed": None,
             "last_summary_generated": None,
+            "last_notes_processed": None,
             "emails_processed_count": 0,
+            "notes_processed_count": 0,
             "git_hooks_installed": git_hooks_installed
         },
         "health": {
@@ -164,6 +166,27 @@ def update_summary_timestamp() -> bool:
     })
 
 
+def increment_notes_count() -> bool:
+    """
+    Increment the notes_processed_count and update last_notes_processed timestamp.
+
+    Returns:
+        True if successful, False otherwise
+    """
+    state = read_state()
+
+    if state is None:
+        return False
+
+    now = datetime.now(timezone.utc).isoformat()
+    current_count = state.get("operations", {}).get("notes_processed_count", 0)
+
+    return update_state({
+        "operations.notes_processed_count": current_count + 1,
+        "operations.last_notes_processed": now
+    })
+
+
 def display_state() -> None:
     """
     Display the current project state in a human-readable format.
@@ -200,8 +223,11 @@ def display_state() -> None:
     # Display operations stats
     ops = state.get('operations', {})
     email_count = ops.get('emails_processed_count', 0)
+    notes_count = ops.get('notes_processed_count', 0)
     if email_count > 0:
         print(f"   Emails Processed: {email_count}")
+    if notes_count > 0:
+        print(f"   Notes Processed: {notes_count}")
 
     # Display last updated (humanized)
     last_updated = state.get('last_updated')

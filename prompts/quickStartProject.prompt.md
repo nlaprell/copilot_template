@@ -1,5 +1,5 @@
 ---
-description: Quick start workflow - Initialize project, process emails, and generate summary in one flow
+description: Quick start workflow - Initialize project, process emails and notes, and generate summary in one flow
 ---
 
 You are an AI agent performing a complete project initialization workflow.
@@ -10,26 +10,31 @@ Follow these steps in sequence:
 
 First, run the `/projectInit` prompt to:
 - Read AI agent instructions from `aiDocs/AI.md`
-- Understand the project structure and email processing workflow
+- Understand the project structure and data processing workflows
 - Review project documentation in `aiDocs/`
 - Get familiar with available tools and scripts
 
-## Step 2: Check for Email Files
+## Step 2: Check for Email and Notes Files
 
-Check if there are any `.eml` files in the `email/raw/` directory:
+Check if there are any data files to process:
 
-- If `.eml` files exist, proceed to Step 3
-- If NO `.eml` files exist, inform the user:
+### Check for Emails
+- Check if any `.eml` files exist in the `email/raw/` directory
+
+### Check for Notes
+- Check if any `.txt` or `.md` files exist in the `notes/raw/` directory
+
+**If NO files exist in either directory**, inform the user:
 
 ```
-No email files found in `email/raw/`
+No email or notes files found in email/raw/ or notes/raw/
 
-To add project context from emails:
-1. Export email threads to .eml format from your email client
-2. Place them in the `email/raw/` directory
-3. Re-run /quickStartProject or run /discoverEmail
+To add project context:
+1. Export email threads to .eml format from your email client → place in email/raw/
+2. Export notes from OneNote/Apple Notes as .txt or .md → place in notes/raw/
+3. Re-run /quickStartProject or run /discoverEmail and /discoverNotes
 
-For now, I'll skip email processing and continue with available context.
+For now, I'll skip data processing and continue with available context.
 ```
 
 ## Step 3: Process Email Files (if present)
@@ -72,6 +77,46 @@ increment_email_count()
 "
 ```
 
+## Step 3b: Process Notes Files (if present)
+
+If `.txt` or `.md` files were found in `notes/raw/`, run the `/discoverNotes` workflow:
+
+Execute the notes converter script from the **project root** directory:
+
+```bash
+python3 "core/aiScripts/notesToMd/notes_to_md_converter.py"
+```
+
+The script will:
+1. Convert all `.txt` and `.md` files from `notes/raw/` to standardized Markdown
+2. Save converted files to `notes/ai/`
+3. Move processed files to `notes/processed/`
+
+**Verify the move**: After running the script, check that:
+- Original files have been moved from `notes/raw/` to `notes/processed/`
+- Corresponding `.md` files exist in `notes/ai/`
+- If files were not moved, report the error and check file permissions
+
+Then:
+- Read all converted Markdown files in `notes/ai/`
+- Extract relevant information (contacts, tasks, decisions, technical details, etc.)
+- Update all files in `aiDocs/` based on notes content (merge with email data if both exist):
+  - `aiDocs/SUMMARY.md` - Add/update contacts, decisions, risks from notes
+  - `aiDocs/TASKS.md` - Add tasks from action items in notes
+  - `aiDocs/DISCOVERY.md` - Add questions from notes
+  - `aiDocs/AI.md` - Add project-specific guidance from notes
+- Update "Last Updated" dates to current date in all modified `aiDocs/` files
+
+**Update State File**: After notes processing completes:
+```python
+python3 -c "
+import sys
+sys.path.insert(0, 'core/aiScripts')
+from state_manager import increment_notes_count
+increment_notes_count()
+"
+```
+
 ## Step 4: Generate Project Summary and Documentation
 
 Run the `/updateSummary` workflow:
@@ -105,7 +150,7 @@ update_summary_timestamp()
 
 **Optional: Run Task Dependency Detection**
 
-If tasks were created or updated during email processing:
+If tasks were created or updated during email or notes processing:
 - Run: `python3 core/aiScripts/detectTaskDependencies/detectTaskDependencies.py aiDocs/TASKS.md`
 - Review generated `TASK_DEPENDENCY_REPORT.md` for suggested relationships
 - Update task Blocks/Related fields based on high-confidence detections
@@ -133,6 +178,7 @@ After completing all steps, provide a comprehensive report:
 **Project Setup Summary:**
 - ✓ AI agent initialized with project context
 - ✓ Email processing: [X emails processed / No emails found]
+- ✓ Notes processing: [X notes processed / No notes found]
 - ✓ Documentation updated: [list files updated]
 - ✓ Project summary generated: PROJECT.md
 - ✓ Human-readable docs created: docs/ folder
@@ -164,14 +210,14 @@ After completing all steps, provide a comprehensive report:
 3. Check `aiDocs/TASKS.md` for complete task details
 4. Review `aiDocs/DISCOVERY.md` for unanswered questions
 
-**To add more email context later:**
-- Export emails to `email/raw/`
-- Run `/discoverEmail` to process them
+**To add more context later:**
+- Export emails to `email/raw/` and run `/discoverEmail` to process them
+- Export notes to `notes/raw/` and run `/discoverNotes` to process them
 - Run `/updateSummary` to regenerate the summary
 
 **Optional: Run Task Dependency Detection**
 
-If tasks were created during email processing:
+If tasks were created during email or notes processing:
 - Run: `python3 core/aiScripts/detectTaskDependencies/detectTaskDependencies.py aiDocs/TASKS.md`
 - Review generated `aiDocs/TASK_DEPENDENCY_REPORT.md` for suggested relationships
 - Update task Blocks/Related fields based on high-confidence detections
@@ -227,12 +273,12 @@ Your project documentation is ready.
 1. Review PROJECT.md for project overview
 2. Check docs/ folder for quick reference
 3. Review aiDocs/TASKS.md for outstanding work
-4. Add more emails to email/raw/ as project progresses
+4. Add more emails to email/raw/ or notes to notes/raw/ as project progresses
 5. Run /updateSummary when you need to refresh documentation
 
 **If any items are unchecked:**
 - Review error messages above
-- Check that email files were in correct format
+- Check that email/notes files were in correct format
 - Verify prerequisites (Python 3.x installed)
 - Run /projectInit to reload context
 - Try /quickStartProject again
