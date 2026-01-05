@@ -1,11 +1,12 @@
 # Notes to Markdown Converter
 
-Converts notes files (.txt, .md, .docx) to standardized Markdown format for AI processing.
+Converts notes files (.txt, .md, .docx, .textbundle) to standardized Markdown format for AI processing.
 
 ## Features
 
-- Processes `.txt`, `.md`, and `.docx` files
+- Processes `.txt`, `.md`, `.docx`, and `.textbundle` files
 - **OneNote support**: Extracts text from `.docx` exports with heading preservation
+- **Bear support**: Parses `.textbundle` format with metadata preservation
 - Extracts metadata:
   - Title (from first line or filename)
   - Author (if present in content)
@@ -34,12 +35,21 @@ python3 core/aiScripts/notesToMd/notes_to_md_converter.py
 
 ```
 notes/
-├── raw/         # Place notes files here (.txt, .md, .docx)
+├── raw/         # Place notes files here (.txt, .md, .docx, .textbundle)
 ├── ai/          # Converted Markdown files (AI-readable)
 └── processed/   # Original files after conversion
 ```
 
 ## Workflow
+
+### Bear Export
+
+1. In Bear, select a note and choose **File → Export Notes**
+2. Choose **TextBundle** format
+3. Save the `.textbundle` file to `notes/raw/`
+4. Run the converter script
+5. Converted notes appear in `notes/ai/` with metadata preserved
+6. Original files moved to `notes/processed/`
 
 ### OneNote Export
 
