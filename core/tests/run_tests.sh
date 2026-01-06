@@ -3,7 +3,8 @@
 # Smoke Test Suite
 # Runs all smoke tests for the Lumina project
 #
-# Usage: ./run_tests.sh
+# Usage: ./run_tests.sh [--extended]
+#   --extended: Include integration tests (slower)
 #
 
 set -e
@@ -32,12 +33,12 @@ FAILED_SUITES=0
 run_suite() {
     local suite_name="$1"
     local suite_command="$2"
-    
+
     TOTAL_SUITES=$((TOTAL_SUITES + 1))
-    
+
     echo -e "${YELLOW}Running: $suite_name${NC}"
     echo "---------------------------------------------------"
-    
+
     if eval "$suite_command"; then
         echo -e "${GREEN}✓ $suite_name PASSED${NC}"
         echo ""
@@ -54,7 +55,18 @@ run_suite() {
 # Run test suites
 run_suite "Shell Script Tests" "bash '$SCRIPT_DIR/test_scripts.sh'"
 run_suite "Email Converter Tests" "python3 '$SCRIPT_DIR/test_email_converter.py'"
+run_suite "Notes Converter Tests" "python3 '$SCRIPT_DIR/test_notes_converter.py'"
 run_suite "Task Detector Tests" "python3 '$SCRIPT_DIR/test_task_detector.py'"
+
+# Extended tests (if requested)
+if [[ "$1" == "--extended" ]]; then
+    echo ""
+    echo -e "${BLUE}═══════════════════════════════════════════════════${NC}"
+    echo -e "${BLUE}  Extended Integration Tests${NC}"
+    echo -e "${BLUE}═══════════════════════════════════════════════════${NC}"
+    echo ""
+    run_suite "Notes Converter Integration" "python3 '$SCRIPT_DIR/test_notes_integration.py'"
+fi
 
 # Summary
 echo -e "${BLUE}═══════════════════════════════════════════════════${NC}"

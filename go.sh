@@ -36,14 +36,14 @@ PROJECT_ROOT="$SCRIPT_DIR"
 # Menu options
 declare -a MENU_OPTIONS=(
     "Initialize Project"
+    "Lumina Prompts"
     "Process Emails"
     "Process Notes"
-    "Reset Project"
     "Backup Project State"
     "Restore from Backup"
     "List Backups"
-    "Lumina Prompts"
     "Export to PDF"
+    "Reset Project"
     "Quit"
 )
 

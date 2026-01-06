@@ -202,7 +202,7 @@ def parse_docx(source_path):
 
         # Detect heading style
         style_name = paragraph.style.name.lower()
-        
+
         if 'heading 1' in style_name or 'title' in style_name:
             content_lines.append(f"# {text}")
         elif 'heading 2' in style_name:
@@ -220,7 +220,7 @@ def parse_docx(source_path):
         content_lines.append('---')
         content_lines.append('**Tables:**')
         content_lines.append('')
-        
+
         for table_idx, table in enumerate(doc.tables, 1):
             content_lines.append(f'Table {table_idx}:')
             for row in table.rows:

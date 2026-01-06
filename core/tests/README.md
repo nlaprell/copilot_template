@@ -25,6 +25,12 @@ core/tests/
 ./core/tests/run_tests.sh
 ```
 
+### Run All Tests + Integration Tests
+
+```bash
+./core/tests/run_tests.sh --extended
+```
+
 ### Run Individual Test Suites
 
 **Shell Script Tests:**
@@ -37,9 +43,19 @@ core/tests/
 python3 core/tests/test_email_converter.py
 ```
 
+**Notes Converter Tests:**
+```bash
+python3 core/tests/test_notes_converter.py
+```
+
 **Task Detector Tests:**
 ```bash
 python3 core/tests/test_task_detector.py
+```
+
+**Notes Integration Tests:**
+```bash
+python3 core/tests/test_notes_integration.py
 ```
 
 ## Test Coverage
@@ -54,6 +70,23 @@ python3 core/tests/test_task_detector.py
 - Module import verification
 - File processing capabilities
 - Error handling for malformed input
+
+### Notes Converter Tests (18 tests)
+- Notes converter script validation
+- Multi-format support verification (.txt, .md, .docx, .textbundle, .html)
+- OneNote, Bear, Apple Notes sample data validation
+- Parser functionality for each format
+- Optional dependency checks (python-docx, html2text)
+- File operations and directory handling
+
+### Notes Converter Integration Tests (6 tests)
+- End-to-end conversion workflow
+- Multi-file processing validation
+- Real sample data conversion (.txt, .md, .html)
+- Directory creation and file management
+- Empty directory handling
+
+**Total: 57 tests** (52 fast smoke tests + 6 integration tests)
 
 ### Task Detector Tests (7 tests)
 - Task file structure validation
